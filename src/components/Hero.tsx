@@ -60,21 +60,6 @@ const Hero = () => {
             </Button>
           </div>
 
-          {/* Key Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-12 pt-8 border-t border-white/20 animate-fade-up">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary-glow mb-2">25+</div>
-              <div className="text-sm text-white/80">Years Experience</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary-glow mb-2">5000+</div>
-              <div className="text-sm text-white/80">Cars Serviced</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary-glow mb-2">98%</div>
-              <div className="text-sm text-white/80">Customer Satisfaction</div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
