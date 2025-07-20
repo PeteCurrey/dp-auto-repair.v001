@@ -18,7 +18,7 @@ const ServicesOverview = () => {
       title: "General Repairs",
       description: "Complete automotive repair services for all makes and models",
       features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"],
-      price: "From $89",
+      price: "From £89",
       href: "/services/general-repairs"
     },
     {
@@ -26,7 +26,7 @@ const ServicesOverview = () => {
       title: "Diagnostics",
       description: "Advanced computer diagnostics to identify issues quickly",
       features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"],
-      price: "From $119",
+      price: "From £119",
       href: "/services/diagnostics"
     },
     {
@@ -34,7 +34,7 @@ const ServicesOverview = () => {
       title: "Preventive Maintenance",
       description: "Keep your vehicle running smoothly with regular maintenance",
       features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"],
-      price: "From $49",
+      price: "From £49",
       href: "/services/maintenance"
     },
     {
@@ -42,7 +42,7 @@ const ServicesOverview = () => {
       title: "Electrical Services",
       description: "Complete electrical system diagnosis and repair",
       features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"],
-      price: "From $99",
+      price: "From £99",
       href: "/services/electrical"
     },
     {
@@ -50,7 +50,7 @@ const ServicesOverview = () => {
       title: "Performance Tuning",
       description: "Optimize your vehicle's performance and efficiency",
       features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"],
-      price: "From $199",
+      price: "From £199",
       href: "/services/performance"
     },
     {
