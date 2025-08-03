@@ -14,7 +14,7 @@ const Footer = () => {
   const services = [
     "General Repairs",
     "Diagnostics", 
-    "Preventive Maintenance",
+    "Routine Servicing",
     "Electrical Services",
     "Performance Tuning",
     "Collision Repair"
@@ -103,8 +103,8 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm">123 Main Street</p>
-                  <p className="text-sm opacity-80">Your City, ST 12345</p>
+                  <p className="text-sm">Unit 5 Vanguard Trading Estate</p>
+                  <p className="text-sm opacity-80">Chesterfield S40 2TZ</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -122,9 +122,8 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                 <div className="text-sm">
-                  <p>Mon-Fri: 8:00 AM - 6:00 PM</p>
-                  <p className="opacity-80">Sat: 8:00 AM - 4:00 PM</p>
-                  <p className="opacity-80">Sun: Closed</p>
+                  <p>Mon-Fri: 9:00 AM - 5:00 PM</p>
+                  <p className="opacity-80">Closed Sat & Sun</p>
                 </div>
               </div>
             </div>
@@ -137,7 +136,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm opacity-80">
-              © 2024 DP Automotive Repair & Diagnostics. All rights reserved.
+              © 2025 DP Automotive Repair & Diagnostics. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link to="/privacy" className="text-sm opacity-80 hover:opacity-100 transition-colors">

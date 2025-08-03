@@ -25,7 +25,7 @@ const Header = () => {
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>Mon-Fri: 8AM-6PM | Sat: 8AM-4PM</span>
+                <span>Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
               </div>
             </div>
             <div className="flex items-center gap-2">

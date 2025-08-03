@@ -34,7 +34,7 @@ const Hero = () => {
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-up">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-extralight mb-6 animate-fade-up">
             Expert Auto
             <span className="block text-primary-glow">Repair & Diagnostics</span>
           </h1>

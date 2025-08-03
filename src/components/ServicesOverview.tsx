@@ -31,7 +31,7 @@ const ServicesOverview = () => {
     },
     {
       icon: Shield,
-      title: "Preventive Maintenance",
+      title: "Routine Servicing",
       description: "Keep your vehicle running smoothly with regular maintenance",
       features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"],
       price: "From £49",
