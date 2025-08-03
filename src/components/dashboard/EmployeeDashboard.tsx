@@ -252,6 +252,30 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         </Card>
       </div>
 
+      {/* Quick Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>Manage your business operations</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-3">
+            <Button className="h-16 flex flex-col gap-2">
+              <Calendar className="h-5 w-5" />
+              Schedule Appointment
+            </Button>
+            <Button variant="outline" className="h-16 flex flex-col gap-2">
+              <Plus className="h-5 w-5" />
+              Add Service Record
+            </Button>
+            <Button variant="outline" className="h-16 flex flex-col gap-2">
+              <Users className="h-5 w-5" />
+              Add New Client
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Main Content Tabs */}
       <Tabs defaultValue="today" className="space-y-4">
         <TabsList>
@@ -469,6 +493,10 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="clients" className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Client Management</h2>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Add New Client
+            </Button>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -501,6 +529,10 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="vehicles" className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Vehicle Management</h2>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Add New Vehicle
+            </Button>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
