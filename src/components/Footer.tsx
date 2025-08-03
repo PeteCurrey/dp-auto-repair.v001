@@ -36,18 +36,13 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">DP</span>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg">DP Automotive</h3>
-                <p className="text-sm opacity-80">Repair & Diagnostics</p>
-              </div>
+            <div className="mb-6">
+              <h3 className="font-bold text-lg">DP Automotive</h3>
+              <p className="text-sm opacity-80">Repair & Diagnostics</p>
             </div>
             <p className="text-sm opacity-80 mb-6">
               Professional automotive service you can trust. Serving our community 
-              with honest, reliable repairs and maintenance since 1998.
+              with honest, reliable repairs and maintenance since 2010.
             </p>
             <div className="flex gap-3">
               <Button variant="outline" size="icon" className="border-white/20 hover:bg-white/10">
