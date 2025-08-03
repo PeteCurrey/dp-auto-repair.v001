@@ -15,4 +15,4 @@ User-agent: facebookexternalhit
 Allow: /
 
 # Sitemap
-Sitemap: https://dpautomotive.co.uk/sitemap.xml
+Sitemap: https://dpautorepair.co.uk/sitemap.xml
