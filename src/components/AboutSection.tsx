@@ -14,7 +14,7 @@ const AboutSection = () => {
 
   const stats = [
     { number: "15+", label: "Years Experience" },
-    { number: "5000+", label: "Satisfied Customers" },
+    { number: "500+", label: "Satisfied Customers" },
     { number: "98%", label: "Customer Retention" },
     { number: "24hr", label: "Emergency Service" }
   ];
@@ -28,13 +28,13 @@ const AboutSection = () => {
             <div className="mb-8">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 Trusted Automotive
-                <span className="block text-primary">Excellence Since 1998</span>
+                <span className="block text-primary">Excellence Since 2010</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-6">
                 DP Automotive Repair & Diagnostics has been serving our community with 
-                honest, reliable automotive service for over two decades. Our commitment 
+                honest, reliable automotive service for fifteen years. Our commitment 
                 to quality workmanship and customer satisfaction has made us the trusted 
-                choice for thousands of vehicle owners.
+                choice for hundreds of vehicle owners.
               </p>
               <p className="text-muted-foreground">
                 We combine old-school values with cutting-edge technology to provide 

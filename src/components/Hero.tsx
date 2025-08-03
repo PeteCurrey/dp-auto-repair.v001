@@ -16,18 +16,18 @@ const Hero = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl text-white">
+        <div className="max-w-3xl text-foreground">
           {/* Trust Badges */}
           <div className="flex flex-wrap gap-3 mb-6 animate-fade-up">
-            <Badge variant="secondary" className="bg-white/10 text-white border-white/20">
-              <Star className="w-4 h-4 mr-1 text-yellow-400" />
+            <Badge variant="secondary" className="bg-white/90 text-foreground border-white/20">
+              <Star className="w-4 h-4 mr-1 text-yellow-500" />
               5-Star Service
             </Badge>
-            <Badge variant="secondary" className="bg-white/10 text-white border-white/20">
+            <Badge variant="secondary" className="bg-white/90 text-foreground border-white/20">
               <Award className="w-4 h-4 mr-1" />
               Certified Mechanics
             </Badge>
-            <Badge variant="secondary" className="bg-white/10 text-white border-white/20">
+            <Badge variant="secondary" className="bg-white/90 text-foreground border-white/20">
               <Users className="w-4 h-4 mr-1" />
               15+ Years Experience
             </Badge>
@@ -40,7 +40,7 @@ const Hero = () => {
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl animate-fade-up">
+          <p className="text-xl md:text-2xl mb-8 text-foreground/90 max-w-2xl animate-fade-up">
             Professional automotive service you can trust. From routine maintenance to complex repairs, 
             we keep your vehicle running at its best.
           </p>
@@ -54,7 +54,7 @@ const Hero = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
+              className="bg-white/90 text-foreground border-white/30 hover:bg-white"
             >
               View Our Services
             </Button>
