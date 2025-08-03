@@ -81,17 +81,17 @@ const AboutSection = () => {
                   />
                 </CardContent>
               </Card>
-              <div className="bg-secondary text-foreground p-6 rounded-lg">
+              <div className="bg-secondary text-secondary-foreground p-6 rounded-lg">
                 <h3 className="font-bold text-lg mb-2">Professional Diagnostics</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm opacity-90">
                   Advanced computer diagnostics ensure accurate problem identification
                 </p>
               </div>
             </div>
             <div className="space-y-6 mt-8">
-              <div className="bg-primary text-foreground p-6 rounded-lg">
+              <div className="bg-primary text-primary-foreground p-6 rounded-lg">
                 <h3 className="font-bold text-lg mb-2">Quality Guarantee</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm opacity-90">
                   All work backed by our comprehensive warranty program
                 </p>
               </div>
