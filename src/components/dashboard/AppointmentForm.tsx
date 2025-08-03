@@ -1,0 +1,289 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
+
+interface Vehicle {
+  id: string;
+  make: string;
+  model: string;
+  registration: string;
+}
+
+interface AppointmentFormProps {
+  profileId: string;
+  vehicles: Vehicle[];
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+const serviceTypes = [
+  'Full Service',
+  'Basic Service',
+  'MOT Test',
+  'Brake Service',
+  'Oil Change',
+  'Tyre Replacement',
+  'Diagnostics',
+  'Air Conditioning Service',
+  'Clutch Replacement',
+  'Suspension Repair',
+  'Electrical Repair',
+  'General Repair',
+  'Performance Tuning',
+  'Other'
+];
+
+const timeSlots = [
+  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
+  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+  '17:00', '17:30'
+];
+
+const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: AppointmentFormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    vehicle_id: '',
+    service_type: '',
+    appointment_date: '',
+    appointment_time: '',
+    duration_minutes: '60',
+    notes: '',
+    estimated_cost: ''
+  });
+  
+  const { toast } = useToast();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSelectChange = (value: string, name: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const checkAppointmentConflict = async (date: string, time: string, duration: number) => {
+    const { data, error } = await supabase
+      .rpc('check_appointment_conflict', {
+        appointment_date: date,
+        appointment_time: time,
+        duration_minutes: duration
+      });
+
+    if (error) {
+      console.error('Error checking conflicts:', error);
+      return false;
+    }
+
+    return data;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      // Check for appointment conflicts
+      const isAvailable = await checkAppointmentConflict(
+        formData.appointment_date,
+        formData.appointment_time,
+        parseInt(formData.duration_minutes)
+      );
+
+      if (!isAvailable) {
+        toast({
+          title: "Time Slot Unavailable",
+          description: "This time slot is already booked. Please choose a different time.",
+          variant: "destructive"
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const appointmentData = {
+        client_id: profileId,
+        vehicle_id: formData.vehicle_id || null,
+        service_type: formData.service_type,
+        appointment_date: formData.appointment_date,
+        appointment_time: formData.appointment_time,
+        duration_minutes: parseInt(formData.duration_minutes),
+        notes: formData.notes || null,
+        estimated_cost: formData.estimated_cost ? parseFloat(formData.estimated_cost) : null,
+        status: 'scheduled'
+      };
+
+      const { error } = await supabase
+        .from('appointments')
+        .insert(appointmentData);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Success",
+        description: "Appointment booked successfully!"
+      });
+
+      onSuccess();
+    } catch (error: any) {
+      console.error('Error booking appointment:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to book appointment. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Get minimum date (today)
+  const today = new Date().toISOString().split('T')[0];
+
+  return (
+    <Dialog open onOpenChange={onClose}>
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Book Appointment</DialogTitle>
+          <DialogDescription>
+            Schedule a service appointment for your vehicle.
+          </DialogDescription>
+        </DialogHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="vehicle_id">Vehicle</Label>
+            <Select value={formData.vehicle_id} onValueChange={(value) => handleSelectChange(value, 'vehicle_id')}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a vehicle" />
+              </SelectTrigger>
+              <SelectContent>
+                {vehicles.map((vehicle) => (
+                  <SelectItem key={vehicle.id} value={vehicle.id}>
+                    {vehicle.make} {vehicle.model} ({vehicle.registration})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="service_type">Service Type *</Label>
+            <Select value={formData.service_type} onValueChange={(value) => handleSelectChange(value, 'service_type')} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Select service type" />
+              </SelectTrigger>
+              <SelectContent>
+                {serviceTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="appointment_date">Date *</Label>
+              <Input
+                id="appointment_date"
+                name="appointment_date"
+                type="date"
+                min={today}
+                value={formData.appointment_date}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="appointment_time">Time *</Label>
+              <Select value={formData.appointment_time} onValueChange={(value) => handleSelectChange(value, 'appointment_time')} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select time" />
+                </SelectTrigger>
+                <SelectContent>
+                  {timeSlots.map((time) => (
+                    <SelectItem key={time} value={time}>
+                      {time}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="duration_minutes">Duration (minutes)</Label>
+              <Select value={formData.duration_minutes} onValueChange={(value) => handleSelectChange(value, 'duration_minutes')}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="30">30 minutes</SelectItem>
+                  <SelectItem value="60">1 hour</SelectItem>
+                  <SelectItem value="90">1.5 hours</SelectItem>
+                  <SelectItem value="120">2 hours</SelectItem>
+                  <SelectItem value="180">3 hours</SelectItem>
+                  <SelectItem value="240">4 hours</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="estimated_cost">Estimated Cost (£)</Label>
+              <Input
+                id="estimated_cost"
+                name="estimated_cost"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                value={formData.estimated_cost}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="notes">Notes (Optional)</Label>
+            <Textarea
+              id="notes"
+              name="notes"
+              placeholder="Any specific requirements or issues to note..."
+              value={formData.notes}
+              onChange={handleInputChange}
+              rows={3}
+            />
+          </div>
+
+          <div className="flex gap-2 pt-4">
+            <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isLoading} className="flex-1">
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Book Appointment
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default AppointmentForm;
