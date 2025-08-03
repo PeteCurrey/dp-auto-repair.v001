@@ -45,14 +45,15 @@ const Footer = () => {
               with honest, reliable repairs and maintenance since 2010.
             </p>
             <div className="flex gap-3">
-              <Button variant="outline" size="icon" className="border-white/20 hover:bg-white/10">
-                <Facebook className="w-4 h-4" />
+              <Button variant="outline" size="icon" className="border-primary bg-primary/10 hover:bg-primary hover:text-primary-foreground text-primary" asChild>
+                <a href="https://www.facebook.com/dpautorepairanddiagnostics1/" target="_blank" rel="noopener noreferrer">
+                  <Facebook className="w-4 h-4" />
+                </a>
               </Button>
-              <Button variant="outline" size="icon" className="border-white/20 hover:bg-white/10">
-                <Instagram className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="border-white/20 hover:bg-white/10">
-                <Twitter className="w-4 h-4" />
+              <Button variant="outline" size="icon" className="border-primary bg-primary/10 hover:bg-primary hover:text-primary-foreground text-primary" asChild>
+                <a href="https://www.instagram.com/dpautorepairdiagnostics" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="w-4 h-4" />
+                </a>
               </Button>
             </div>
           </div>
@@ -181,7 +182,7 @@ const Footer = () => {
                 </Link>
               </div>
               <p className="text-xs opacity-60">
-                by Avorria - www.avorria.com
+                by <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Avorria - www.avorria.com</a>
               </p>
             </div>
           </div>

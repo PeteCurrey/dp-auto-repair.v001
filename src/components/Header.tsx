@@ -92,7 +92,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-12">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -177,7 +177,6 @@ const Header = () => {
               <div className="flex items-center gap-4">
                 <Button 
                   asChild
-                  size="lg" 
                   variant="outline" 
                   className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20"
                 >
@@ -262,7 +261,6 @@ const Header = () => {
                 <div className="flex flex-col gap-4">
                   <Button 
                     asChild
-                    size="lg" 
                     variant="outline" 
                     className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20 w-fit"
                     onClick={() => setIsMenuOpen(false)}
