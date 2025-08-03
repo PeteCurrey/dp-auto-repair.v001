@@ -14,13 +14,333 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          appointment_date: string
+          appointment_time: string
+          client_id: string
+          created_at: string
+          duration_minutes: number
+          estimated_cost: number | null
+          id: string
+          notes: string | null
+          service_type: string
+          status: string
+          updated_at: string
+          vehicle_id: string | null
+        }
+        Insert: {
+          appointment_date: string
+          appointment_time: string
+          client_id: string
+          created_at?: string
+          duration_minutes?: number
+          estimated_cost?: number | null
+          id?: string
+          notes?: string | null
+          service_type: string
+          status?: string
+          updated_at?: string
+          vehicle_id?: string | null
+        }
+        Update: {
+          appointment_date?: string
+          appointment_time?: string
+          client_id?: string
+          created_at?: string
+          duration_minutes?: number
+          estimated_cost?: number | null
+          id?: string
+          notes?: string | null
+          service_type?: string
+          status?: string
+          updated_at?: string
+          vehicle_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          appointment_id: string | null
+          client_id: string
+          created_at: string
+          id: string
+          payment_date: string | null
+          payment_method: string | null
+          payment_status: string
+          service_id: string | null
+          stripe_payment_id: string | null
+        }
+        Insert: {
+          amount: number
+          appointment_id?: string | null
+          client_id: string
+          created_at?: string
+          id?: string
+          payment_date?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          service_id?: string | null
+          stripe_payment_id?: string | null
+        }
+        Update: {
+          amount?: number
+          appointment_id?: string | null
+          client_id?: string
+          created_at?: string
+          id?: string
+          payment_date?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          service_id?: string | null
+          stripe_payment_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+          user_type: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+          user_type?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+          user_type?: string
+        }
+        Relationships: []
+      }
+      reminders: {
+        Row: {
+          created_at: string
+          description: string | null
+          due_date: string
+          due_mileage: number | null
+          id: string
+          is_sent: boolean
+          reminder_type: string
+          title: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          due_date: string
+          due_mileage?: number | null
+          id?: string
+          is_sent?: boolean
+          reminder_type: string
+          title: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          due_date?: string
+          due_mileage?: number | null
+          id?: string
+          is_sent?: boolean
+          reminder_type?: string
+          title?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          cost: number | null
+          created_at: string
+          description: string | null
+          id: string
+          mileage_at_service: number | null
+          next_service_due: string | null
+          next_service_mileage: number | null
+          service_date: string
+          service_type: string
+          status: string
+          technician_notes: string | null
+          updated_at: string
+          vehicle_id: string
+        }
+        Insert: {
+          cost?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          mileage_at_service?: number | null
+          next_service_due?: string | null
+          next_service_mileage?: number | null
+          service_date: string
+          service_type: string
+          status?: string
+          technician_notes?: string | null
+          updated_at?: string
+          vehicle_id: string
+        }
+        Update: {
+          cost?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          mileage_at_service?: number | null
+          next_service_due?: string | null
+          next_service_mileage?: number | null
+          service_date?: string
+          service_type?: string
+          status?: string
+          technician_notes?: string | null
+          updated_at?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vehicles: {
+        Row: {
+          created_at: string
+          fuel_type: string | null
+          id: string
+          make: string
+          mileage: number | null
+          model: string
+          mot_expiry: string | null
+          owner_id: string
+          registration: string
+          service_due_date: string | null
+          service_due_mileage: number | null
+          updated_at: string
+          vin: string | null
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          fuel_type?: string | null
+          id?: string
+          make: string
+          mileage?: number | null
+          model: string
+          mot_expiry?: string | null
+          owner_id: string
+          registration: string
+          service_due_date?: string | null
+          service_due_mileage?: number | null
+          updated_at?: string
+          vin?: string | null
+          year: number
+        }
+        Update: {
+          created_at?: string
+          fuel_type?: string | null
+          id?: string
+          make?: string
+          mileage?: number | null
+          model?: string
+          mot_expiry?: string | null
+          owner_id?: string
+          registration?: string
+          service_due_date?: string | null
+          service_due_mileage?: number | null
+          updated_at?: string
+          vin?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vehicles_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_appointment_conflict: {
+        Args: {
+          appointment_date: string
+          appointment_time: string
+          duration_minutes: number
+          exclude_appointment_id?: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
