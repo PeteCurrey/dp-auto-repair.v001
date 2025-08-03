@@ -21,8 +21,6 @@ const Header = () => {
   const navItems = [
     { name: "MOT", href: "/mot" },
     { name: "Fleet Support", href: "/fleet-support" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
   ];
 
   const tuningItems = [
@@ -177,12 +175,16 @@ const Header = () => {
               </div>
             ) : (
               <div className="flex items-center gap-4">
-                <Link 
-                  to="/auth"
-                  className="text-sm font-medium transition-colors hover:text-primary text-foreground"
+                <Button 
+                  asChild
+                  size="lg" 
+                  variant="outline" 
+                  className="bg-white/10 text-foreground border-border/30 hover:bg-accent/20"
                 >
-                  Client Login
-                </Link>
+                  <Link to="/auth">
+                    Client Login
+                  </Link>
+                </Button>
                 <Button 
                   onClick={handleBookService}
                   className="gradient-primary text-primary-foreground shadow-elegant"
@@ -258,13 +260,17 @@ const Header = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  <Link 
-                    to="/auth"
-                    className="text-sm font-medium transition-colors hover:text-primary text-foreground"
+                  <Button 
+                    asChild
+                    size="lg" 
+                    variant="outline" 
+                    className="bg-white/10 text-foreground border-border/30 hover:bg-accent/20 w-fit"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Client Login
-                  </Link>
+                    <Link to="/auth">
+                      Client Login
+                    </Link>
+                  </Button>
                   <Button 
                     onClick={handleBookService}
                     className="gradient-primary text-primary-foreground w-fit"
