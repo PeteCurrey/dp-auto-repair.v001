@@ -33,8 +33,8 @@ const SuspensionRepairs = () => {
     },
     {
       icon: AlertTriangle,
-      title: "Uneven Tire Wear",
-      description: "Premature or irregular tire wear patterns caused by poor wheel alignment or suspension issues."
+      title: "Uneven Tyre Wear",
+      description: "Premature or irregular tyre wear patterns caused by poor wheel alignment or suspension issues."
     },
     {
       icon: AlertTriangle,
@@ -91,7 +91,7 @@ const SuspensionRepairs = () => {
     },
     {
       title: "Suspension Alignment",
-      description: "Precise wheel alignment to prevent tire wear and improve handling"
+      description: "Precise wheel alignment to prevent tyre wear and improve handling"
     },
     {
       title: "Bushing Replacement",
@@ -122,8 +122,8 @@ const SuspensionRepairs = () => {
       description: "New suspension components eliminate harsh rides and provide smooth, comfortable driving experience."
     },
     {
-      title: "Tire Life Extension",
-      description: "Correct suspension alignment prevents premature tire wear, saving money on frequent tire replacements."
+      title: "Tyre Life Extension",
+      description: "Correct suspension alignment prevents premature tyre wear, saving money on frequent tyre replacements."
     },
     {
       title: "Better Handling",
@@ -168,7 +168,7 @@ const SuspensionRepairs = () => {
               Signs Your Suspension Needs Repair
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Your suspension system affects ride quality, safety, and tire wear. Recognizing these 
+              Your suspension system affects ride quality, safety, and tyre wear. Recognising these 
               warning signs early can prevent more expensive repairs and ensure your safety.
             </p>
           </div>

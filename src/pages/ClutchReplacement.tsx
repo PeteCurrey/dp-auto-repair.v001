@@ -77,7 +77,7 @@ const ClutchReplacement = () => {
     "Comprehensive clutch system diagnostics",
     "Competitive pricing with transparent quotes",
     "Fast turnaround times to get you back on the road",
-    "12-month warranty on parts and labor"
+    "12-month warranty on parts and labour"
   ];
 
   return (
@@ -190,7 +190,7 @@ const ClutchReplacement = () => {
                     </li>
                     <li className="flex gap-3">
                       <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
-                      <span>Transparent quote with parts and labor breakdown</span>
+                      <span>Transparent quote with parts and labour breakdown</span>
                     </li>
                     <li className="flex gap-3">
                       <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0">3</span>
@@ -211,7 +211,7 @@ const ClutchReplacement = () => {
                 <CardContent className="p-6 text-center">
                   <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-foreground mb-2">12-Month Warranty</h3>
-                  <p className="text-muted-foreground">All clutch replacements come with comprehensive parts and labor warranty</p>
+                  <p className="text-muted-foreground">All clutch replacements come with comprehensive parts and labour warranty</p>
                 </CardContent>
               </Card>
             </div>

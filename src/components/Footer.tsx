@@ -133,13 +133,18 @@ const Footer = () => {
             <p className="text-sm opacity-80">
               © 2025 DP Automotive Repair & Diagnostics. All rights reserved.
             </p>
-            <div className="flex gap-6">
-              <Link to="/privacy" className="text-sm opacity-80 hover:opacity-100 transition-colors">
-                Privacy Policy
-              </Link>
-              <Link to="/terms" className="text-sm opacity-80 hover:opacity-100 transition-colors">
-                Terms of Service
-              </Link>
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center">
+              <div className="flex gap-6">
+                <Link to="/privacy" className="text-sm opacity-80 hover:opacity-100 transition-colors">
+                  Privacy Policy
+                </Link>
+                <Link to="/terms" className="text-sm opacity-80 hover:opacity-100 transition-colors">
+                  Terms of Service
+                </Link>
+              </div>
+              <p className="text-xs opacity-60">
+                by Avorria - www.avorria.com
+              </p>
             </div>
           </div>
         </div>
