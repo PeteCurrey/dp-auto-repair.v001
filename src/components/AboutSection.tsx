@@ -7,13 +7,13 @@ import workshopImage from "@/assets/workshop-tools.jpg";
 const AboutSection = () => {
   const credentials = [
     { icon: Award, text: "ASE Certified Technicians" },
-    { icon: Shield, text: "Licensed & Insured" },
+    { icon: Shield, text: "Licenced & Insured" },
     { icon: Users, text: "Family Owned & Operated" },
-    { icon: Clock, text: "25+ Years in Business" }
+    { icon: Clock, text: "15+ Years in Business" }
   ];
 
   const stats = [
-    { number: "25+", label: "Years Experience" },
+    { number: "15+", label: "Years Experience" },
     { number: "5000+", label: "Satisfied Customers" },
     { number: "98%", label: "Customer Retention" },
     { number: "24hr", label: "Emergency Service" }

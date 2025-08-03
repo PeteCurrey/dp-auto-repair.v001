@@ -12,7 +12,8 @@ import {
   Car,
   ArrowRight,
   Clock,
-  CheckCircle 
+  CheckCircle,
+  Star 
 } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
 
@@ -38,9 +39,7 @@ const Services = () => {
         "Suspension and steering work",
         "Cooling system repairs",
         "Exhaust system service"
-      ],
-      price: "From £89",
-      duration: "2-5 hours"
+      ]
     },
     {
       icon: Gauge,
@@ -53,9 +52,7 @@ const Services = () => {
         "Error code reading and clearing",
         "Pre-purchase inspections",
         "Emissions testing"
-      ],
-      price: "From £119",
-      duration: "1-2 hours"
+      ]
     },
     {
       icon: Shield,
@@ -64,13 +61,11 @@ const Services = () => {
       features: [
         "Oil and filter changes",
         "Fluid level checks and top-ups",
-        "Tire pressure and tread inspection",
+        "Tyre pressure and tread inspection",
         "Battery testing and replacement",
         "Light and signal checks",
         "Safety inspections"
-      ],
-      price: "From £49",
-      duration: "30-60 minutes"
+      ]
     },
     {
       icon: Zap,
@@ -83,24 +78,20 @@ const Services = () => {
         "Wiring repairs and upgrades",
         "Lighting system repairs",
         "Electronic component diagnosis"
-      ],
-      price: "From £99",
-      duration: "1-3 hours"
+      ]
     },
     {
       icon: Settings,
       title: "Performance Tuning",
-      description: "Optimize your vehicle's performance, efficiency, and driving experience with our tuning services.",
+      description: "Optimise your vehicle's performance, efficiency, and driving experience with our tuning services.",
       features: [
-        "Engine tuning and optimization",
-        "Performance chip installation",
+        "Engine tuning and optimisation",
+        "Performance parts installation",
         "Exhaust system upgrades",
         "Air intake improvements",
         "Suspension tuning",
         "ECU remapping"
-      ],
-      price: "From £199",
-      duration: "2-4 hours"
+      ]
     },
     {
       icon: Car,
@@ -113,9 +104,7 @@ const Services = () => {
         "Insurance claim assistance",
         "Parts replacement",
         "Quality assurance inspections"
-      ],
-      price: "Quote Required",
-      duration: "1-7 days"
+      ]
     }
   ];
 
@@ -168,14 +157,8 @@ const Services = () => {
                         ))}
                       </ul>
                       
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="w-4 h-4" />
-                        {service.duration}
-                      </div>
-                      
                       <div className="flex items-center justify-between pt-4 border-t border-border">
-                        <span className="text-2xl font-bold text-primary">{service.price}</span>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className="ml-auto">
                           Book Now
                           <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
@@ -188,20 +171,55 @@ const Services = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* Customer Reviews */}
         <section className="py-20 bg-muted/30">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Need a Custom Solution?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Don't see what you're looking for? Contact us for custom automotive 
-              solutions tailored to your specific needs.
-            </p>
-            <Button size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
-              Get Custom Quote
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                What Our Customers Say
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Don't just take our word for it. Here's what our satisfied customers have to say about our service.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  name: "Sarah Johnson",
+                  review: "Excellent service! The team diagnosed my car's problem quickly and fixed it at a fair price. Highly recommend DP Automotive.",
+                  rating: 5,
+                  service: "Engine Diagnostics"
+                },
+                {
+                  name: "Mike Thompson", 
+                  review: "Professional and reliable. They've been servicing my family's cars for years. Always honest about what needs doing.",
+                  rating: 5,
+                  service: "Routine Servicing"
+                },
+                {
+                  name: "Emma Davies",
+                  review: "Great experience from start to finish. Clear communication, quality work, and no hidden charges. Will definitely return.",
+                  rating: 5,
+                  service: "Brake Repair"
+                }
+              ].map((review, index) => (
+                <Card key={review.name} className="shadow-card border-0 bg-card/80 backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    <div className="flex mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-muted-foreground mb-4 italic">"{review.review}"</p>
+                    <div>
+                      <p className="font-semibold">{review.name}</p>
+                      <p className="text-sm text-muted-foreground">{review.service}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
       </main>

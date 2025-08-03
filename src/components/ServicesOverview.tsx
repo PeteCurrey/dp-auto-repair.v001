@@ -17,49 +17,37 @@ const ServicesOverview = () => {
       icon: Wrench,
       title: "General Repairs",
       description: "Complete automotive repair services for all makes and models",
-      features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"],
-      price: "From £89",
-      href: "/services/general-repairs"
+      features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"]
     },
     {
       icon: Gauge,
       title: "Diagnostics",
       description: "Advanced computer diagnostics to identify issues quickly",
-      features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"],
-      price: "From £119",
-      href: "/services/diagnostics"
+      features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"]
     },
     {
       icon: Shield,
       title: "Routine Servicing",
       description: "Keep your vehicle running smoothly with regular maintenance",
-      features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"],
-      price: "From £49",
-      href: "/services/maintenance"
+      features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"]
     },
     {
       icon: Zap,
       title: "Electrical Services",
       description: "Complete electrical system diagnosis and repair",
-      features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"],
-      price: "From £99",
-      href: "/services/electrical"
+      features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"]
     },
     {
       icon: Settings,
       title: "Performance Tuning",
-      description: "Optimize your vehicle's performance and efficiency",
-      features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"],
-      price: "From £199",
-      href: "/services/performance"
+      description: "Optimise your vehicle's performance and efficiency",
+      features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"]
     },
     {
       icon: Car,
       title: "Collision Repair",
       description: "Professional body work and collision repair services",
-      features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"],
-      price: "Quote Required",
-      href: "/services/collision"
+      features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"]
     }
   ];
 
@@ -102,10 +90,9 @@ const ServicesOverview = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-primary">{service.price}</span>
-                  <Button asChild variant="outline" size="sm">
-                    <Link to={service.href}>
+                <div className="pt-4 border-t border-border">
+                  <Button asChild variant="outline" size="sm" className="w-full">
+                    <Link to="/services">
                       Learn More
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
