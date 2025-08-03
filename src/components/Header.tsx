@@ -62,15 +62,13 @@ const Header = () => {
       {/* Top Info Bar */}
       <div className="bg-secondary text-secondary-foreground">
         <div className="container mx-auto px-4 py-2">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
-              </div>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-sm">
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 flex-shrink-0" />
+              <span className="text-center sm:text-left">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
             </div>
             <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4" />
+              <Phone className="h-4 w-4 flex-shrink-0" />
               <a href="tel:+01246233483" className="hover:text-primary transition-colors">
                 (01246) 233483
               </a>
@@ -87,12 +85,12 @@ const Header = () => {
             <img 
               src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
               alt="DP Auto Repair & Diagnostics Logo" 
-              className="h-12 w-auto"
+              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-12">
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-12">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -198,7 +196,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -207,7 +205,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="lg:hidden py-4 border-t border-border">
             <nav className="flex flex-col gap-4">
               <div>
                 <div className="text-sm font-medium text-foreground mb-2">Services</div>

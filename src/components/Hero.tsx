@@ -18,7 +18,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl text-white">
           {/* Trust Badges */}
-          <div className="flex flex-wrap gap-3 mb-6 animate-fade-up">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 animate-fade-up justify-center sm:justify-start">
             <Badge variant="secondary" className="bg-white/10 text-white border-white/20">
               <Star className="w-4 h-4 mr-1 text-yellow-400" />
               5-Star Service
@@ -34,13 +34,13 @@ const Hero = () => {
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-montserrat font-extralight mb-6 animate-fade-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-extralight mb-6 animate-fade-up leading-tight">
             Expert Auto
             <span className="block text-primary-glow">Repair & Diagnostics</span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl animate-fade-up">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90 max-w-2xl animate-fade-up leading-relaxed">
             Professional automotive service you can trust. From routine maintenance to complex repairs, 
             we keep your vehicle running at its best.
           </p>

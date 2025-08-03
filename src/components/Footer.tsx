@@ -33,7 +33,7 @@ const Footer = () => {
     <footer className="bg-secondary text-secondary-foreground">
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="mb-6">
@@ -168,11 +168,11 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <p className="text-sm opacity-80">
               © 2025 DP Automotive Repair & Diagnostics. All rights reserved.
             </p>
-            <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
               <div className="flex gap-6">
                 <Link to="/privacy" className="text-sm opacity-80 hover:opacity-100 transition-colors">
                   Privacy Policy

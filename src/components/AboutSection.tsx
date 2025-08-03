@@ -45,7 +45,7 @@ const AboutSection = () => {
             </div>
 
             {/* Credentials */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               {credentials.map((credential) => (
                 <Badge 
                   key={credential.text}
@@ -59,7 +59,7 @@ const AboutSection = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className="text-3xl font-bold text-primary mb-1">{stat.number}</div>
@@ -70,7 +70,7 @@ const AboutSection = () => {
           </div>
 
           {/* Images */}
-          <div className="grid grid-cols-2 gap-6 animate-fade-up">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-fade-up">
             <div className="space-y-6">
               <Card className="overflow-hidden shadow-card border-0">
                 <CardContent className="p-0">
@@ -88,7 +88,7 @@ const AboutSection = () => {
                 </p>
               </div>
             </div>
-            <div className="space-y-6 mt-8">
+            <div className="space-y-6 sm:mt-8">
               <div className="bg-primary text-primary-foreground p-6 rounded-lg">
                 <h4 className="font-bold text-lg mb-2">Quality Guarantee</h4>
                 <p className="text-sm opacity-90">
