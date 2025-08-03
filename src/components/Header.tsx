@@ -1,21 +1,38 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, Clock } from "lucide-react";
+import { Menu, X, Phone, Clock, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
-    { name: "Services", href: "/services" },
     { name: "Tuning", href: "/tuning" },
-    { name: "DPF", href: "/dpf" },
+    { name: "MOT", href: "/mot" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
 
+  const serviceItems = [
+    { name: "All Services", href: "/services" },
+    { name: "Routine Servicing", href: "/routine-servicing" },
+    { name: "Air Conditioning Regas", href: "/air-conditioning" },
+    { name: "Tyre Installation", href: "/tyre-installation" },
+    { name: "Recovery & Breakdown", href: "/recovery-breakdown" },
+    { name: "DPF", href: "/dpf" },
+  ];
+
   const isActive = (href: string) => location.pathname === href;
+  const isServiceActive = () => serviceItems.some(item => location.pathname === item.href);
 
   return (
     <header className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
@@ -53,6 +70,33 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-primary ${
+                    isServiceActive() ? "text-primary" : "text-foreground"
+                  }`}>
+                    Services
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="grid w-[400px] gap-3 p-4">
+                      {serviceItems.map((item) => (
+                        <NavigationMenuLink key={item.name} asChild>
+                          <Link
+                            to={item.href}
+                            className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${
+                              isActive(item.href) ? "bg-accent text-accent-foreground" : ""
+                            }`}
+                          >
+                            <div className="text-sm font-medium leading-none">{item.name}</div>
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -84,6 +128,23 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
             <nav className="flex flex-col gap-4">
+              <div>
+                <div className="text-sm font-medium text-foreground mb-2">Services</div>
+                <div className="flex flex-col gap-2 pl-4">
+                  {serviceItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={`text-sm transition-colors hover:text-primary ${
+                        isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
               {navItems.map((item) => (
                 <Link
                   key={item.name}

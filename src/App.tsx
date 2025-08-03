@@ -13,6 +13,10 @@ import RoutineServicing from "./pages/RoutineServicing";
 import ElectricalServices from "./pages/ElectricalServices";
 import PerformanceTuning from "./pages/PerformanceTuning";
 import CollisionRepair from "./pages/CollisionRepair";
+import AirConditioning from "./pages/AirConditioning";
+import TyreInstallation from "./pages/TyreInstallation";
+import MOT from "./pages/MOT";
+import RecoveryBreakdown from "./pages/RecoveryBreakdown";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -36,6 +40,10 @@ const App = () => (
           <Route path="/electrical-services" element={<ElectricalServices />} />
           <Route path="/performance-tuning" element={<PerformanceTuning />} />
           <Route path="/collision-repair" element={<CollisionRepair />} />
+          <Route path="/air-conditioning" element={<AirConditioning />} />
+          <Route path="/tyre-installation" element={<TyreInstallation />} />
+          <Route path="/mot" element={<MOT />} />
+          <Route path="/recovery-breakdown" element={<RecoveryBreakdown />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
