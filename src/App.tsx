@@ -33,6 +33,35 @@ import BMWServicingChesterfield from "./pages/BMWServicingChesterfield";
 import AudiServicingChesterfield from "./pages/AudiServicingChesterfield";
 import VolkswagenServicingChesterfield from "./pages/VolkswagenServicingChesterfield";
 import MercedesServicingChesterfield from "./pages/MercedesServicingChesterfield";
+import AlfaRomeoServicingChesterfield from "./pages/AlfaRomeoServicingChesterfield";
+import BentleyServicingChesterfield from "./pages/BentleyServicingChesterfield";
+import CitroenServicingChesterfield from "./pages/CitroenServicingChesterfield";
+import ChryslerServicingChesterfield from "./pages/ChryslerServicingChesterfield";
+import DodgeServicingChesterfield from "./pages/DodgeServicingChesterfield";
+import AbarthServicingChesterfield from "./pages/AbarthServicingChesterfield";
+import AstonMartinServicingChesterfield from "./pages/AstonMartinServicingChesterfield";
+import ChevroletServicingChesterfield from "./pages/ChevroletServicingChesterfield";
+import CupraServicingChesterfield from "./pages/CupraServicingChesterfield";
+import FerrariServicingChesterfield from "./pages/FerrariServicingChesterfield";
+import FiatServicingChesterfield from "./pages/FiatServicingChesterfield";
+import HondaServicingChesterfield from "./pages/HondaServicingChesterfield";
+import HyundaiServicingChesterfield from "./pages/HyundaiServicingChesterfield";
+import IsuzuServicingChesterfield from "./pages/IsuzuServicingChesterfield";
+import JaguarServicingChesterfield from "./pages/JaguarServicingChesterfield";
+import JeepServicingChesterfield from "./pages/JeepServicingChesterfield";
+import KiaServicingChesterfield from "./pages/KiaServicingChesterfield";
+import LamborghiniServicingChesterfield from "./pages/LamborghiniServicingChesterfield";
+import LandRoverServicingChesterfield from "./pages/LandRoverServicingChesterfield";
+import LexusServicingChesterfield from "./pages/LexusServicingChesterfield";
+import LotusServicingChesterfield from "./pages/LotusServicingChesterfield";
+import MazdaServicingChesterfield from "./pages/MazdaServicingChesterfield";
+import MitsubishiServicingChesterfield from "./pages/MitsubishiServicingChesterfield";
+import MiniServicingChesterfield from "./pages/MiniServicingChesterfield";
+import PeugeotServicingChesterfield from "./pages/PeugeotServicingChesterfield";
+import PorscheServicingChesterfield from "./pages/PorscheServicingChesterfield";
+import RenaultServicingChesterfield from "./pages/RenaultServicingChesterfield";
+import RollsRoyceServicingChesterfield from "./pages/RollsRoyceServicingChesterfield";
+import SeatServicingChesterfield from "./pages/SeatServicingChesterfield";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -75,6 +104,35 @@ const App = () => (
           <Route path="/audi-servicing-chesterfield" element={<AudiServicingChesterfield />} />
           <Route path="/volkswagen-servicing-chesterfield" element={<VolkswagenServicingChesterfield />} />
           <Route path="/mercedes-servicing-chesterfield" element={<MercedesServicingChesterfield />} />
+          <Route path="/alfa-romeo-servicing-chesterfield" element={<AlfaRomeoServicingChesterfield />} />
+          <Route path="/bentley-servicing-chesterfield" element={<BentleyServicingChesterfield />} />
+          <Route path="/citroen-servicing-chesterfield" element={<CitroenServicingChesterfield />} />
+          <Route path="/chrysler-servicing-chesterfield" element={<ChryslerServicingChesterfield />} />
+          <Route path="/dodge-servicing-chesterfield" element={<DodgeServicingChesterfield />} />
+          <Route path="/abarth-servicing-chesterfield" element={<AbarthServicingChesterfield />} />
+          <Route path="/aston-martin-servicing-chesterfield" element={<AstonMartinServicingChesterfield />} />
+          <Route path="/chevrolet-servicing-chesterfield" element={<ChevroletServicingChesterfield />} />
+          <Route path="/cupra-servicing-chesterfield" element={<CupraServicingChesterfield />} />
+          <Route path="/ferrari-servicing-chesterfield" element={<FerrariServicingChesterfield />} />
+          <Route path="/fiat-servicing-chesterfield" element={<FiatServicingChesterfield />} />
+          <Route path="/honda-servicing-chesterfield" element={<HondaServicingChesterfield />} />
+          <Route path="/hyundai-servicing-chesterfield" element={<HyundaiServicingChesterfield />} />
+          <Route path="/isuzu-servicing-chesterfield" element={<IsuzuServicingChesterfield />} />
+          <Route path="/jaguar-servicing-chesterfield" element={<JaguarServicingChesterfield />} />
+          <Route path="/jeep-servicing-chesterfield" element={<JeepServicingChesterfield />} />
+          <Route path="/kia-servicing-chesterfield" element={<KiaServicingChesterfield />} />
+          <Route path="/lamborghini-servicing-chesterfield" element={<LamborghiniServicingChesterfield />} />
+          <Route path="/land-rover-servicing-chesterfield" element={<LandRoverServicingChesterfield />} />
+          <Route path="/lexus-servicing-chesterfield" element={<LexusServicingChesterfield />} />
+          <Route path="/lotus-servicing-chesterfield" element={<LotusServicingChesterfield />} />
+          <Route path="/mazda-servicing-chesterfield" element={<MazdaServicingChesterfield />} />
+          <Route path="/mitsubishi-servicing-chesterfield" element={<MitsubishiServicingChesterfield />} />
+          <Route path="/mini-servicing-chesterfield" element={<MiniServicingChesterfield />} />
+          <Route path="/peugeot-servicing-chesterfield" element={<PeugeotServicingChesterfield />} />
+          <Route path="/porsche-servicing-chesterfield" element={<PorscheServicingChesterfield />} />
+          <Route path="/renault-servicing-chesterfield" element={<RenaultServicingChesterfield />} />
+          <Route path="/rolls-royce-servicing-chesterfield" element={<RollsRoyceServicingChesterfield />} />
+          <Route path="/seat-servicing-chesterfield" element={<SeatServicingChesterfield />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
