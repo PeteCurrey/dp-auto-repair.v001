@@ -16,10 +16,16 @@ const Header = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: "Tuning", href: "/tuning" },
     { name: "MOT", href: "/mot" },
+    { name: "Fleet Support", href: "/fleet-support" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
+  ];
+
+  const tuningItems = [
+    { name: "ECU Remapping", href: "/tuning" },
+    { name: "Exhaust Fabrication", href: "/tuning" },
+    { name: "Performance Parts Installation", href: "/tuning" },
   ];
 
   const serviceItems = [
@@ -27,8 +33,11 @@ const Header = () => {
     { name: "Routine Servicing", href: "/routine-servicing" },
     { name: "Air Conditioning Regas", href: "/air-conditioning" },
     { name: "Tyre Installation", href: "/tyre-installation" },
-    { name: "Recovery & Breakdown", href: "/recovery-breakdown" },
     { name: "DPF", href: "/dpf" },
+    { name: "Clutch Replacement", href: "/clutch-replacement" },
+    { name: "Timing Chain & Belt", href: "/timing-chain-belt" },
+    { name: "Brake Service", href: "/brake-service" },
+    { name: "Suspension Repairs", href: "/suspension-repairs" },
   ];
 
   const isActive = (href: string) => location.pathname === href;
@@ -81,6 +90,29 @@ const Header = () => {
                   <NavigationMenuContent>
                     <div className="grid w-[400px] gap-3 p-4">
                       {serviceItems.map((item) => (
+                        <NavigationMenuLink key={item.name} asChild>
+                          <Link
+                            to={item.href}
+                            className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${
+                              isActive(item.href) ? "bg-accent text-accent-foreground" : ""
+                            }`}
+                          >
+                            <div className="text-sm font-medium leading-none">{item.name}</div>
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-primary ${
+                    isActive("/tuning") ? "text-primary" : "text-foreground"
+                  }`}>
+                    Tuning
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="grid w-[300px] gap-3 p-4">
+                      {tuningItems.map((item) => (
                         <NavigationMenuLink key={item.name} asChild>
                           <Link
                             to={item.href}

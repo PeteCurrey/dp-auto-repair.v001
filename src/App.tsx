@@ -17,6 +17,11 @@ import AirConditioning from "./pages/AirConditioning";
 import TyreInstallation from "./pages/TyreInstallation";
 import MOT from "./pages/MOT";
 import RecoveryBreakdown from "./pages/RecoveryBreakdown";
+import ClutchReplacement from "./pages/ClutchReplacement";
+import TimingChainBelt from "./pages/TimingChainBelt";
+import BrakeService from "./pages/BrakeService";
+import SuspensionRepairs from "./pages/SuspensionRepairs";
+import FleetSupport from "./pages/FleetSupport";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -44,6 +49,11 @@ const App = () => (
           <Route path="/tyre-installation" element={<TyreInstallation />} />
           <Route path="/mot" element={<MOT />} />
           <Route path="/recovery-breakdown" element={<RecoveryBreakdown />} />
+          <Route path="/clutch-replacement" element={<ClutchReplacement />} />
+          <Route path="/timing-chain-belt" element={<TimingChainBelt />} />
+          <Route path="/brake-service" element={<BrakeService />} />
+          <Route path="/suspension-repairs" element={<SuspensionRepairs />} />
+          <Route path="/fleet-support" element={<FleetSupport />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -186,9 +186,10 @@ const MOT = () => {
                   for vehicles over 3 years old. It ensures your vehicle meets road safety and environmental standards.
                 </p>
                 <p>
-                  Our comprehensive Class 4 MOT tests cover cars, light commercial vehicles, and ambulances 
-                  up to 3,000kg gross vehicle weight. The test examines safety-critical components to ensure 
-                  your vehicle is roadworthy.
+                Our comprehensive Class 4 MOT tests cover cars, light commercial vehicles, and ambulances 
+                up to 3,000kg gross vehicle weight. We also provide Class 7 MOT testing for goods vehicles 
+                between 3,000kg and 3,500kg. The test examines safety-critical components to ensure 
+                your vehicle is roadworthy.
                 </p>
                 <p>
                   Without a valid MOT certificate, it's illegal to drive your vehicle on public roads, 
