@@ -14,8 +14,18 @@ import {
 } from "lucide-react";
 import mechanicImage from "@/assets/mechanic-diagnostics.jpg";
 import workshopImage from "@/assets/professional-garage-snapon.jpg";
+import { useSEO } from "@/hooks/useSEO";
 
 const About = () => {
+  useSEO({
+    title: "About DP Automotive | 15+ Years Auto Repair Experience Chesterfield",
+    description: "Learn about DP Automotive's 15+ years of professional automotive repair experience in Chesterfield. ASE certified technicians, quality workmanship, and customer satisfaction guaranteed.",
+    keywords: "about DP Automotive, automotive repair experience, ASE certified technicians Chesterfield, auto repair history, professional mechanics",
+    canonical: "https://dpautomotive.co.uk/about",
+    ogTitle: "About DP Automotive | 15+ Years Auto Repair Experience Chesterfield",
+    ogDescription: "Learn about DP Automotive's 15+ years of professional automotive repair experience in Chesterfield."
+  });
+
   const stats = [
     { icon: Users, value: "500+", label: "Happy Customers" },
     { icon: Clock, value: "15+", label: "Years Experience" },

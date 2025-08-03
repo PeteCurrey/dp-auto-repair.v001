@@ -14,8 +14,18 @@ import {
   Clock,
   CheckCircle 
 } from "lucide-react";
+import { useSEO } from "@/hooks/useSEO";
 
 const Services = () => {
+  useSEO({
+    title: "Auto Repair Services Chesterfield | DP Automotive Services",
+    description: "Complete automotive repair services in Chesterfield. Engine diagnostics, brake repair, MOT testing, routine servicing, and performance tuning by ASE certified technicians.",
+    keywords: "engine diagnostics Chesterfield, brake repair, MOT testing, routine servicing, performance tuning, automotive repair services, car maintenance",
+    canonical: "https://dpautomotive.co.uk/services",
+    ogTitle: "Auto Repair Services Chesterfield | DP Automotive Services", 
+    ogDescription: "Complete automotive repair services in Chesterfield. Engine diagnostics, brake repair, MOT testing, routine servicing, and performance tuning."
+  });
+
   const services = [
     {
       icon: Wrench,
@@ -120,8 +130,8 @@ const Services = () => {
               Professional Services
             </Badge>
             <h1 className="text-4xl md:text-6xl font-montserrat font-extralight mb-6">
-              Our Complete
-              <span className="block text-primary-glow">Service Portfolio</span>
+              Professional Auto
+              <span className="block text-primary-glow">Repair Services</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               From routine maintenance to complex repairs, our certified technicians 
