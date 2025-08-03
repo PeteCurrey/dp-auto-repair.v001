@@ -104,7 +104,7 @@ const Contact = () => {
                     <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mx-auto mb-4">
                       <info.icon className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">{info.title}</h3>
+                    <h2 className="text-xl font-semibold mb-2">{info.title}</h2>
                     {info.action ? (
                       <a 
                         href={info.action}

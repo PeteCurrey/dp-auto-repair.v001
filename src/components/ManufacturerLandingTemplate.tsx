@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import FAQSection from '@/components/FAQSection';
+import Breadcrumb from '@/components/Breadcrumb';
 import { useSEO } from '@/hooks/useSEO';
 import { 
   CheckCircle, 
@@ -54,6 +56,29 @@ export const ManufacturerLandingTemplate = ({
     'Full service history documentation'
   ];
 
+  const faqs = [
+    {
+      question: `How often should I service my ${manufacturer}?`,
+      answer: `We recommend following ${manufacturer}'s service schedule, typically every 6-12 months or 10,000-15,000 miles depending on your model and driving conditions. Regular servicing helps maintain your warranty and ensures optimal performance.`
+    },
+    {
+      question: `Do you use genuine ${manufacturer} parts?`,
+      answer: `We use a combination of genuine ${manufacturer} parts and high-quality OEM equivalent parts. We'll always discuss part options with you and use genuine parts where they provide the best value and performance for your vehicle.`
+    },
+    {
+      question: `What does a ${manufacturer} service include?`,
+      answer: `Our ${manufacturer} service includes oil and filter changes, multi-point inspection, fluid checks, brake inspection, and diagnostic scan using ${manufacturer}-specific equipment. We follow manufacturer guidelines to maintain your warranty.`
+    },
+    {
+      question: `How much does ${manufacturer} servicing cost?`,
+      answer: `Our ${manufacturer} servicing starts from competitive rates with transparent pricing. The exact cost depends on your vehicle model, service requirements, and any additional work needed. We always provide a detailed quote before starting work.`
+    },
+    {
+      question: `Can you maintain my ${manufacturer} warranty?`,
+      answer: `Yes, our services are designed to maintain your manufacturer warranty. We follow all ${manufacturer} service requirements and use approved procedures and parts where necessary.`
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -61,6 +86,14 @@ export const ManufacturerLandingTemplate = ({
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-16">
         <div className="container mx-auto px-4">
+          <Breadcrumb 
+            className="mb-8"
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Services', href: '/services' },
+              { label: `${manufacturer} Servicing` }
+            ]}
+          />
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center gap-4 mb-6">
               {manufacturerLogo && (
@@ -71,7 +104,7 @@ export const ManufacturerLandingTemplate = ({
               </Badge>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Expert {manufacturer} Routine Servicing in Chesterfield
+              Expert {manufacturer} Servicing in Chesterfield
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Keep your {manufacturer} running at its best with our specialist servicing. 
@@ -160,7 +193,7 @@ export const ManufacturerLandingTemplate = ({
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3">
                       <Wrench className="h-6 w-6 text-primary" />
-                      <h3 className="font-semibold">{service}</h3>
+                      <h4 className="font-semibold">{service}</h4>
                     </div>
                   </CardContent>
                 </Card>
@@ -201,28 +234,36 @@ export const ManufacturerLandingTemplate = ({
             <div className="grid md:grid-cols-4 gap-8">
               <div className="flex flex-col items-center">
                 <Award className="h-12 w-12 text-primary mb-4" />
-                <h3 className="font-semibold mb-2">15+ Years Experience</h3>
+                <h4 className="font-semibold mb-2">15+ Years Experience</h4>
                 <p className="text-muted-foreground">Serving Chesterfield since 2008</p>
               </div>
               <div className="flex flex-col items-center">
                 <Clock className="h-12 w-12 text-primary mb-4" />
-                <h3 className="font-semibold mb-2">Same Day Service</h3>
+                <h4 className="font-semibold mb-2">Same Day Service</h4>
                 <p className="text-muted-foreground">Quick turnaround times</p>
               </div>
               <div className="flex flex-col items-center">
                 <Shield className="h-12 w-12 text-primary mb-4" />
-                <h3 className="font-semibold mb-2">12 Month Warranty</h3>
+                <h4 className="font-semibold mb-2">12 Month Warranty</h4>
                 <p className="text-muted-foreground">On all parts and labour</p>
               </div>
               <div className="flex flex-col items-center">
                 <MapPin className="h-12 w-12 text-primary mb-4" />
-                <h3 className="font-semibold mb-2">Central Location</h3>
+                <h4 className="font-semibold mb-2">Central Location</h4>
                 <p className="text-muted-foreground">Easy to find in Chesterfield</p>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQSection 
+        title={`${manufacturer} Servicing FAQs`}
+        subtitle={`Common questions about ${manufacturer} servicing and maintenance`}
+        faqs={faqs}
+        className="bg-muted/30"
+      />
 
       {/* CTA Section */}
       <section className="py-16 bg-primary text-primary-foreground">

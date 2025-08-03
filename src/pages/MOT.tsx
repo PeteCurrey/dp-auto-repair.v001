@@ -200,14 +200,14 @@ const MOT = () => {
                 <Card className="border-border">
                   <CardContent className="p-4 text-center">
                     <Shield className="h-8 w-8 text-primary mx-auto mb-2" />
-                    <h3 className="font-semibold text-foreground">DVSA Approved</h3>
+                    <h4 className="font-semibold text-foreground">DVSA Approved</h4>
                     <p className="text-sm text-muted-foreground">Authorised testing facility</p>
                   </CardContent>
                 </Card>
                 <Card className="border-border">
                   <CardContent className="p-4 text-center">
                     <Clock className="h-8 w-8 text-primary mx-auto mb-2" />
-                    <h3 className="font-semibold text-foreground">Same Day Results</h3>
+                    <h4 className="font-semibold text-foreground">Same Day Results</h4>
                     <p className="text-sm text-muted-foreground">Quick turnaround time</p>
                   </CardContent>
                 </Card>
@@ -225,7 +225,7 @@ const MOT = () => {
                   <div className="grid gap-4">
                     {motChecks.slice(0, 3).map((check, index) => (
                       <div key={index} className="border-l-4 border-primary pl-4">
-                        <h4 className="font-semibold text-foreground mb-2">{check.category}</h4>
+                        <h3 className="font-semibold text-foreground mb-2">{check.category}</h3>
                         <ul className="space-y-1">
                           {check.items.slice(0, 3).map((item, i) => (
                             <li key={i} className="text-sm text-muted-foreground">• {item}</li>

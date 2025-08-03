@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -114,7 +115,9 @@ const Services = () => {
       <main>
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-background to-muted/50">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto px-4">
+            <Breadcrumb className="mb-8" />
+            <div className="text-center">
             <Badge variant="outline" className="mb-6">
               Professional Services
             </Badge>
@@ -126,6 +129,7 @@ const Services = () => {
               From routine maintenance to complex repairs, our certified technicians 
               provide comprehensive automotive services with precision and care.
             </p>
+            </div>
           </div>
         </section>
 
@@ -143,7 +147,9 @@ const Services = () => {
                     <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
                       <service.icon className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <CardTitle className="text-xl">{service.title}</CardTitle>
+                     <CardTitle className="text-xl">
+                       <h3>{service.title}</h3>
+                     </CardTitle>
                     <p className="text-muted-foreground">{service.description}</p>
                   </CardHeader>
                   <CardContent className="pt-0">

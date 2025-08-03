@@ -74,15 +74,15 @@ const AboutSection = () => {
             <div className="space-y-6">
               <Card className="overflow-hidden shadow-card border-0">
                 <CardContent className="p-0">
-                  <img 
-                    src={mechanicImage} 
-                    alt="Professional mechanic performing diagnostics"
-                    className="w-full h-64 object-cover"
-                  />
+                   <img 
+                     src={mechanicImage} 
+                     alt="Professional automotive technician performing advanced computer diagnostics on a vehicle engine at DP Automotive workshop in Chesterfield"
+                     className="w-full h-64 object-cover"
+                   />
                 </CardContent>
               </Card>
               <div className="bg-secondary text-secondary-foreground p-6 rounded-lg">
-                <h3 className="font-bold text-lg mb-2">Professional Diagnostics</h3>
+                <h4 className="font-bold text-lg mb-2">Professional Diagnostics</h4>
                 <p className="text-sm opacity-90">
                   Advanced computer diagnostics ensure accurate problem identification
                 </p>
@@ -90,18 +90,18 @@ const AboutSection = () => {
             </div>
             <div className="space-y-6 mt-8">
               <div className="bg-primary text-primary-foreground p-6 rounded-lg">
-                <h3 className="font-bold text-lg mb-2">Quality Guarantee</h3>
+                <h4 className="font-bold text-lg mb-2">Quality Guarantee</h4>
                 <p className="text-sm opacity-90">
                   All work backed by our comprehensive warranty program
                 </p>
               </div>
               <Card className="overflow-hidden shadow-card border-0">
                 <CardContent className="p-0">
-                  <img 
-                    src={workshopImage} 
-                    alt="Modern automotive workshop with professional tools"
-                    className="w-full h-64 object-cover"
-                  />
+                   <img 
+                     src={workshopImage} 
+                     alt="Modern automotive workshop at DP Automotive featuring professional diagnostic equipment, tools, and service bays in Chesterfield"
+                     className="w-full h-64 object-cover"
+                   />
                 </CardContent>
               </Card>
             </div>

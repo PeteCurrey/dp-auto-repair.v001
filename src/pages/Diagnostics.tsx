@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Gauge, CheckCircle, ArrowRight, Monitor, Cpu, Zap } from "lucide-react";
@@ -144,6 +145,14 @@ const Diagnostics = () => {
         {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
           <div className="container mx-auto px-4">
+            <Breadcrumb 
+              className="mb-8"
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Services', href: '/services' },
+                { label: 'Diagnostics' }
+              ]}
+            />
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
                 Vehicle
@@ -195,7 +204,7 @@ const Diagnostics = () => {
                     <p className="text-muted-foreground text-lg mb-6">{service.description}</p>
                     
                     <div className="space-y-4">
-                      <h4 className="font-semibold text-lg">Services Include:</h4>
+                      <h3 className="font-semibold text-lg">Services Include:</h3>
                       <ul className="space-y-2">
                         {service.services.map((item) => (
                           <li key={item} className="flex items-start">
@@ -208,7 +217,7 @@ const Diagnostics = () => {
                   </CardHeader>
                   
                   <CardContent className="px-8 pb-8">
-                    <h4 className="font-semibold text-lg mb-4">Benefits:</h4>
+                    <h3 className="font-semibold text-lg mb-4">Benefits:</h3>
                     <ul className="space-y-2 mb-6">
                       {service.benefits.map((benefit) => (
                         <li key={benefit} className="flex items-center">
@@ -263,7 +272,7 @@ const Diagnostics = () => {
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="font-semibold text-lg mb-4">Accurate Problem Identification:</h4>
+                      <h3 className="font-semibold text-lg mb-4">Accurate Problem Identification:</h3>
                       <p className="text-muted-foreground mb-4">
                         Modern vehicles have complex computer systems that require specialised 
                         equipment to diagnose properly. Our professional-grade tools provide 
@@ -271,7 +280,7 @@ const Diagnostics = () => {
                       </p>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-lg mb-4">Cost-Effective Solutions:</h4>
+                      <h3 className="font-semibold text-lg mb-4">Cost-Effective Solutions:</h3>
                       <p className="text-muted-foreground">
                         Accurate diagnostics prevent unnecessary repairs and part replacements. 
                         By identifying the root cause of issues, we save you time and money 
