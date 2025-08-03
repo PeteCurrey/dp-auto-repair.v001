@@ -62,6 +62,14 @@ import PorscheServicingChesterfield from "./pages/PorscheServicingChesterfield";
 import RenaultServicingChesterfield from "./pages/RenaultServicingChesterfield";
 import RollsRoyceServicingChesterfield from "./pages/RollsRoyceServicingChesterfield";
 import SeatServicingChesterfield from "./pages/SeatServicingChesterfield";
+import SkodaServicingChesterfield from "./pages/SkodaServicingChesterfield";
+import SubaruServicingChesterfield from "./pages/SubaruServicingChesterfield";
+import SuzukiServicingChesterfield from "./pages/SuzukiServicingChesterfield";
+import ToyotaServicingChesterfield from "./pages/ToyotaServicingChesterfield";
+import VauxhallServicingChesterfield from "./pages/VauxhallServicingChesterfield";
+import TVRServicingChesterfield from "./pages/TVRServicingChesterfield";
+import WestfieldServicingChesterfield from "./pages/WestfieldServicingChesterfield";
+import VolvoServicingChesterfield from "./pages/VolvoServicingChesterfield";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -131,8 +139,16 @@ const App = () => (
           <Route path="/peugeot-servicing-chesterfield" element={<PeugeotServicingChesterfield />} />
           <Route path="/porsche-servicing-chesterfield" element={<PorscheServicingChesterfield />} />
           <Route path="/renault-servicing-chesterfield" element={<RenaultServicingChesterfield />} />
-          <Route path="/rolls-royce-servicing-chesterfield" element={<RollsRoyceServicingChesterfield />} />
-          <Route path="/seat-servicing-chesterfield" element={<SeatServicingChesterfield />} />
+        <Route path="/rolls-royce-servicing-chesterfield" element={<RollsRoyceServicingChesterfield />} />
+        <Route path="/seat-servicing-chesterfield" element={<SeatServicingChesterfield />} />
+        <Route path="/skoda-servicing-chesterfield" element={<SkodaServicingChesterfield />} />
+        <Route path="/subaru-servicing-chesterfield" element={<SubaruServicingChesterfield />} />
+        <Route path="/suzuki-servicing-chesterfield" element={<SuzukiServicingChesterfield />} />
+        <Route path="/toyota-servicing-chesterfield" element={<ToyotaServicingChesterfield />} />
+        <Route path="/vauxhall-servicing-chesterfield" element={<VauxhallServicingChesterfield />} />
+        <Route path="/tvr-servicing-chesterfield" element={<TVRServicingChesterfield />} />
+        <Route path="/westfield-servicing-chesterfield" element={<WestfieldServicingChesterfield />} />
+        <Route path="/volvo-servicing-chesterfield" element={<VolvoServicingChesterfield />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
