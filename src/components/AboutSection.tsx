@@ -7,8 +7,8 @@ import workshopImage from "@/assets/workshop-tools.jpg";
 const AboutSection = () => {
   const credentials = [
     { icon: Award, text: "ASE Certified Technicians" },
-    { icon: Shield, text: "Licenced & Insured" },
-    { icon: Users, text: "Family Owned & Operated" },
+    { icon: Shield, text: "Qualified & Insured" },
+    { icon: Users, text: "Independently Owned & Operated" },
     { icon: Clock, text: "15+ Years in Business" }
   ];
 
@@ -53,7 +53,7 @@ const AboutSection = () => {
                   className="p-3 justify-start bg-card border-border hover:bg-muted/50 transition-colors"
                 >
                   <credential.icon className="w-4 h-4 mr-2 text-primary" />
-                  <span className="text-sm">{credential.text}</span>
+                  <span className="text-sm text-foreground">{credential.text}</span>
                 </Badge>
               ))}
             </div>
