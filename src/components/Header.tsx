@@ -8,8 +8,9 @@ const Header = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
+    { name: "Tuning", href: "/tuning" },
+    { name: "DPF", href: "/dpf" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
