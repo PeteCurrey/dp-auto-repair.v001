@@ -70,6 +70,7 @@ import VauxhallServicingChesterfield from "./pages/VauxhallServicingChesterfield
 import TVRServicingChesterfield from "./pages/TVRServicingChesterfield";
 import WestfieldServicingChesterfield from "./pages/WestfieldServicingChesterfield";
 import VolvoServicingChesterfield from "./pages/VolvoServicingChesterfield";
+import { SitemapComponent, RobotsComponent } from "@/components/StaticFileServers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -149,6 +150,9 @@ const App = () => (
         <Route path="/tvr-servicing-chesterfield" element={<TVRServicingChesterfield />} />
         <Route path="/westfield-servicing-chesterfield" element={<WestfieldServicingChesterfield />} />
         <Route path="/volvo-servicing-chesterfield" element={<VolvoServicingChesterfield />} />
+          {/* Static file routes for SEO */}
+          <Route path="/sitemap.xml" element={<SitemapComponent />} />
+          <Route path="/robots.txt" element={<RobotsComponent />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
