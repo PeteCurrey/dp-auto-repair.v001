@@ -28,6 +28,11 @@ import SuspensionRepairs from "./pages/SuspensionRepairs";
 import FleetSupport from "./pages/FleetSupport";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import FordServicingChesterfield from "./pages/FordServicingChesterfield";
+import BMWServicingChesterfield from "./pages/BMWServicingChesterfield";
+import AudiServicingChesterfield from "./pages/AudiServicingChesterfield";
+import VolkswagenServicingChesterfield from "./pages/VolkswagenServicingChesterfield";
+import MercedesServicingChesterfield from "./pages/MercedesServicingChesterfield";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +69,12 @@ const App = () => (
           <Route path="/fleet-support" element={<FleetSupport />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          {/* SEO Landing Pages - Not in main menu */}
+          <Route path="/ford-servicing-chesterfield" element={<FordServicingChesterfield />} />
+          <Route path="/bmw-servicing-chesterfield" element={<BMWServicingChesterfield />} />
+          <Route path="/audi-servicing-chesterfield" element={<AudiServicingChesterfield />} />
+          <Route path="/volkswagen-servicing-chesterfield" element={<VolkswagenServicingChesterfield />} />
+          <Route path="/mercedes-servicing-chesterfield" element={<MercedesServicingChesterfield />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
