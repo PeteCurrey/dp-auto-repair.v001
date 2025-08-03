@@ -179,7 +179,7 @@ const Header = () => {
                   asChild
                   size="lg" 
                   variant="outline" 
-                  className="bg-white/10 text-foreground border-border/30 hover:bg-accent/20"
+                  className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20"
                 >
                   <Link to="/auth">
                     Client Login
@@ -264,7 +264,7 @@ const Header = () => {
                     asChild
                     size="lg" 
                     variant="outline" 
-                    className="bg-white/10 text-foreground border-border/30 hover:bg-accent/20 w-fit"
+                    className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20 w-fit"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Link to="/auth">
