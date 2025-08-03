@@ -38,9 +38,9 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      details: "info@dpautomotive.co.uk",
+      details: "hello@dpautorepair.co.uk",
       description: "Send us a message and we'll respond within 24 hours",
-      action: "mailto:info@dpautomotive.co.uk"
+      action: "mailto:hello@dpautorepair.co.uk"
     },
     {
       icon: MapPin,
