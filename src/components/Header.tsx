@@ -43,13 +43,11 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">DP</span>
-            </div>
-            <div>
-              <h1 className="font-bold text-xl text-foreground">DP Automotive</h1>
-              <p className="text-xs text-muted-foreground">Repair & Diagnostics</p>
-            </div>
+            <img 
+              src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
+              alt="DP Auto Repair & Diagnostics Logo" 
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

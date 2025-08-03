@@ -13,7 +13,7 @@ import {
   CheckCircle 
 } from "lucide-react";
 import mechanicImage from "@/assets/mechanic-diagnostics.jpg";
-import workshopImage from "@/assets/workshop-tools.jpg";
+import workshopImage from "@/assets/professional-garage-snapon.jpg";
 
 const About = () => {
   const stats = [
@@ -116,7 +116,7 @@ const About = () => {
               <div className="relative">
                 <img 
                   src={workshopImage} 
-                  alt="Modern automotive workshop with professional tools"
+                  alt="Professional automotive garage with quality Snap On tools"
                   className="rounded-lg shadow-elegant w-full"
                 />
               </div>
