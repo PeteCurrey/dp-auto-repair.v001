@@ -24,9 +24,9 @@ const Footer = () => {
     { name: "About Us", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Contact", href: "/contact" },
-    { name: "Book Service", href: "/book" },
-    { name: "Emergency Service", href: "/emergency" },
-    { name: "Reviews", href: "/reviews" }
+    { name: "Client Login", href: "/auth" },
+    { name: "MOT Testing", href: "/mot" },
+    { name: "Fleet Support", href: "/fleet-support" }
   ];
 
   return (
@@ -61,16 +61,54 @@ const Footer = () => {
           <div>
             <h3 className="font-bold text-lg mb-6">Our Services</h3>
             <ul className="space-y-3">
-              {services.map((service) => (
-                <li key={service}>
-                  <Link 
-                    to={`/services/${service.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
-                  >
-                    {service}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link 
+                  to="/general-repairs"
+                  className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
+                >
+                  General Repairs
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/diagnostics"
+                  className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
+                >
+                  Diagnostics
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/routine-servicing"
+                  className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
+                >
+                  Routine Servicing
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/electrical-services"
+                  className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
+                >
+                  Electrical Services
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/performance-tuning"
+                  className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
+                >
+                  Performance Tuning
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/collision-repair"
+                  className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
+                >
+                  Collision Repair
+                </Link>
+              </li>
             </ul>
           </div>
 

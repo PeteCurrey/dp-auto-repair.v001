@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, Clock, ChevronDown } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Phone, Clock, ChevronDown, LogOut, User } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +15,8 @@ import {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { name: "MOT", href: "/mot" },
@@ -42,6 +45,19 @@ const Header = () => {
 
   const isActive = (href: string) => location.pathname === href;
   const isServiceActive = () => serviceItems.some(item => location.pathname === item.href);
+
+  const handleBookService = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/auth');
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <header className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
@@ -140,9 +156,41 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <Button className="gradient-primary text-primary-foreground shadow-elegant">
-              Book Service
-            </Button>
+            
+            {user ? (
+              <div className="flex items-center gap-4">
+                <Button 
+                  onClick={handleBookService}
+                  className="gradient-primary text-primary-foreground shadow-elegant"
+                >
+                  Dashboard
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link 
+                  to="/auth"
+                  className="text-sm font-medium transition-colors hover:text-primary text-foreground"
+                >
+                  Client Login
+                </Link>
+                <Button 
+                  onClick={handleBookService}
+                  className="gradient-primary text-primary-foreground shadow-elegant"
+                >
+                  Book Service
+                </Button>
+              </div>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -189,9 +237,42 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
-              <Button className="gradient-primary text-primary-foreground w-fit">
-                Book Service
-              </Button>
+              
+              {user ? (
+                <div className="flex flex-col gap-4">
+                  <Button 
+                    onClick={handleBookService}
+                    className="gradient-primary text-primary-foreground w-fit"
+                  >
+                    Dashboard
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={handleSignOut}
+                    className="flex items-center gap-2 w-fit"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  <Link 
+                    to="/auth"
+                    className="text-sm font-medium transition-colors hover:text-primary text-foreground"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Client Login
+                  </Link>
+                  <Button 
+                    onClick={handleBookService}
+                    className="gradient-primary text-primary-foreground w-fit"
+                  >
+                    Book Service
+                  </Button>
+                </div>
+              )}
             </nav>
           </div>
         )}
