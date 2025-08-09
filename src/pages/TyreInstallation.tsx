@@ -145,7 +145,7 @@ const TyreInstallation = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-background via-background to-muted/30 py-20">
+      <section className="bg-gradient-to-b from-background via-background to-muted/40 py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">

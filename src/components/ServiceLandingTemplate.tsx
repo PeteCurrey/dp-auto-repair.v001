@@ -85,7 +85,7 @@ const ServiceLandingTemplate = ({
       <Header />
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-16">
+      <section className="relative bg-gradient-to-b from-background via-background to-muted/40 py-16">
         <div className="container mx-auto px-4">
           <Breadcrumb
             className="mb-8"

@@ -117,9 +117,12 @@ const Header = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isActive("/tuning") ? "text-primary" : "text-foreground"
-                  }`}>
+                  <NavigationMenuTrigger
+                    onClick={() => navigate('/tuning')}
+                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                      isActive("/tuning") ? "text-primary" : "text-foreground"
+                    }`}
+                  >
                     Tuning
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
