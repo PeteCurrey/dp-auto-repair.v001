@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -16,6 +16,7 @@ import {
   CheckCircle,
   Star 
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useSEO } from "@/hooks/useSEO";
 
 const Services = () => {
@@ -225,6 +226,40 @@ const Services = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Popular in Chesterfield - Internal links for SEO landing pages */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular in Chesterfield</h2>
+              <p className="text-lg text-muted-foreground">Looking for something specific? These quick links might help.</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <Card className="border-border">
+                <CardHeader>
+                  <CardTitle>Mechanic in Chesterfield</CardTitle>
+                  <CardDescription>Honest advice, clear pricing, and quality repairs.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link to="/mechanic-chesterfield">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+              <Card className="border-border">
+                <CardHeader>
+                  <CardTitle>Oil Change in Chesterfield</CardTitle>
+                  <CardDescription>Fast oil & filter changes using correct spec oil.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link to="/oil-change-chesterfield">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

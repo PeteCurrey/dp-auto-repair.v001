@@ -70,6 +70,8 @@ import VauxhallServicingChesterfield from "./pages/VauxhallServicingChesterfield
 import TVRServicingChesterfield from "./pages/TVRServicingChesterfield";
 import WestfieldServicingChesterfield from "./pages/WestfieldServicingChesterfield";
 import VolvoServicingChesterfield from "./pages/VolvoServicingChesterfield";
+import MechanicChesterfield from "./pages/MechanicChesterfield";
+import OilChangeChesterfield from "./pages/OilChangeChesterfield";
 
 import NotFound from "./pages/NotFound";
 
@@ -150,6 +152,9 @@ const App = () => (
         <Route path="/tvr-servicing-chesterfield" element={<TVRServicingChesterfield />} />
         <Route path="/westfield-servicing-chesterfield" element={<WestfieldServicingChesterfield />} />
         <Route path="/volvo-servicing-chesterfield" element={<VolvoServicingChesterfield />} />
+        {/* Generic SEO Landing Pages */}
+        <Route path="/mechanic-chesterfield" element={<MechanicChesterfield />} />
+        <Route path="/oil-change-chesterfield" element={<OilChangeChesterfield />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

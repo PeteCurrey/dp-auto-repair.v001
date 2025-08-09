@@ -10,9 +10,12 @@ import { useSEO } from "@/hooks/useSEO";
 
 const BrakeService = () => {
   useSEO({
-    title: "Brake Service & Replacement | DP Auto Repair & Diagnostics",
-    description: "Professional brake service and replacement for all vehicles. Brake pads, discs, calipers, and complete brake system maintenance with safety guaranteed.",
-    keywords: "brake service, brake replacement, brake pads, brake discs, brake repair, brake system, automotive brakes, brake maintenance"
+    title: "Brake Repair & Service in Chesterfield | DP Automotive",
+    description: "Expert brake repair and replacement in Chesterfield. Pads, discs, calipers and brake fluid service with safety checks and 12‑month warranty.",
+    keywords: "brake repair chesterfield, brake service, brake pads, brake discs, brake fluid, brake calipers",
+    canonical: "https://dpautorepair.co.uk/brake-service",
+    ogTitle: "Brake Repair & Service in Chesterfield | DP Automotive",
+    ogDescription: "Expert brake repair and replacement in Chesterfield. Transparent pricing and fast turnaround."
   });
 
   const brakeSymptoms = [
