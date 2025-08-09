@@ -84,8 +84,7 @@ const ServiceLandingTemplate = ({
       <SchemaMarkup schema={faqSchema} />
       <Header />
 
-      {/* Hero */}
-      <section className="relative bg-gradient-to-b from-background via-background to-muted/40 py-16">
+      <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
         <div className="container mx-auto px-4">
           <Breadcrumb
             className="mb-8"

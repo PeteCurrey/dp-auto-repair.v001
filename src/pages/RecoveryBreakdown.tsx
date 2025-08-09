@@ -149,10 +149,10 @@ const RecoveryBreakdown = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-background via-background to-muted/30 py-20">
+      <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+            <h1 className="text-4xl md:text-5xl font-montserrat font-extralight mb-6 text-foreground">
               24/7 Vehicle Recovery & Breakdown Service
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
@@ -160,13 +160,17 @@ const RecoveryBreakdown = () => {
               available 24/7 with rapid response times and competitive pricing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
-                <Phone className="mr-2 h-5 w-5" />
-                Call (01246) 233483
+              <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
+                <a href="tel:01246233483">
+                  <Phone className="mr-2 h-5 w-5" />
+                  Call (01246) 233483
+                </a>
               </Button>
-              <Button size="lg" variant="outline">
-                <Calendar className="mr-2 h-5 w-5" />
-                Request Callback
+              <Button asChild size="lg" variant="outline">
+                <Link to="/contact">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Request Callback
+                </Link>
               </Button>
             </div>
             <div className="mt-8 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
@@ -357,13 +361,17 @@ const RecoveryBreakdown = () => {
             is standing by 24/7 to help get you back on the road safely.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-destructive hover:bg-white/90 text-xl py-6 px-8">
-              <Phone className="mr-2 h-6 w-6" />
-              Call (01246) 233483
+            <Button asChild size="lg" variant="secondary" className="bg-white text-destructive hover:bg-white/90 text-xl py-6 px-8">
+              <a href="tel:01246233483">
+                <Phone className="mr-2 h-6 w-6" />
+                Call (01246) 233483
+              </a>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-destructive">
-              <MapPin className="mr-2 h-5 w-5" />
-              Request Location
+            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-destructive">
+              <Link to="/contact">
+                <MapPin className="mr-2 h-5 w-5" />
+                Request Location
+              </Link>
             </Button>
           </div>
           <div className="mt-8 text-destructive-foreground/80">

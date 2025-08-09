@@ -100,10 +100,10 @@ const TimingChainBelt = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-background via-background to-muted/30 py-20">
+      <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+            <h1 className="text-4xl md:text-5xl font-montserrat font-extralight mb-6 text-foreground">
               Timing Chain & Belt Replacement
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
@@ -111,13 +111,17 @@ const TimingChainBelt = () => {
               Our expert technicians ensure precise timing system maintenance to prevent costly engine damage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Timing Service
+              <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
+                <Link to="/contact">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book Timing Service
+                </Link>
               </Button>
-              <Button size="lg" variant="outline">
-                <Phone className="mr-2 h-5 w-5" />
-                Call (01246) 233483
+              <Button asChild size="lg" variant="outline">
+                <a href="tel:01246233483">
+                  <Phone className="mr-2 h-5 w-5" />
+                  Call (01246) 233483
+                </a>
               </Button>
             </div>
           </div>
@@ -305,13 +309,17 @@ const TimingChainBelt = () => {
             and ensure your engine's long-term reliability.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              <Calendar className="mr-2 h-5 w-5" />
-              Book Service
+            <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+              <Link to="/contact">
+                <Calendar className="mr-2 h-5 w-5" />
+                Book Service
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-              <Phone className="mr-2 h-5 w-5" />
-              Call Now
+            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <a href="tel:01246233483">
+                <Phone className="mr-2 h-5 w-5" />
+                Call Now
+              </a>
             </Button>
           </div>
         </div>

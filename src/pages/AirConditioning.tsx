@@ -101,10 +101,10 @@ const AirConditioning = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-background via-background to-muted/40 py-20">
+      <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+            <h1 className="text-4xl md:text-5xl font-montserrat font-extralight mb-6 text-foreground">
               Air Conditioning Regas & Repair
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
@@ -112,13 +112,17 @@ const AirConditioning = () => {
               From regas to complete system repairs, we ensure optimal performance year-round.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
-                <Calendar className="mr-2 h-5 w-5" />
-                Book AC Service
+              <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
+                <Link to="/contact">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book AC Service
+                </Link>
               </Button>
-              <Button size="lg" variant="outline">
-                <Phone className="mr-2 h-5 w-5" />
-                Call (01246) 233483
+              <Button asChild size="lg" variant="outline">
+                <a href="tel:01246233483">
+                  <Phone className="mr-2 h-5 w-5" />
+                  Call (01246) 233483
+                </a>
               </Button>
             </div>
           </div>
@@ -267,13 +271,17 @@ const AirConditioning = () => {
             and enjoy comfortable driving all year round.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              <Calendar className="mr-2 h-5 w-5" />
-              Book AC Service
+            <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+              <Link to="/contact">
+                <Calendar className="mr-2 h-5 w-5" />
+                Book AC Service
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-              <Phone className="mr-2 h-5 w-5" />
-              Call Now
+            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <a href="tel:01246233483">
+                <Phone className="mr-2 h-5 w-5" />
+                Call Now
+              </a>
             </Button>
           </div>
         </div>

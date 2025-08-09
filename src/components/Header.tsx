@@ -30,7 +30,6 @@ const Header = () => {
   ];
 
   const serviceItems = [
-    { name: "All Services", href: "/services" },
     { name: "Routine Servicing", href: "/routine-servicing" },
     { name: "Air Conditioning Regas", href: "/air-conditioning" },
     { name: "Tyre Installation", href: "/tyre-installation" },
@@ -94,9 +93,12 @@ const Header = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isServiceActive() ? "text-primary" : "text-foreground"
-                  }`}>
+                  <NavigationMenuTrigger
+                    onClick={() => navigate('/services')}
+                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                      isServiceActive() ? "text-primary" : "text-foreground"
+                    }`}
+                  >
                     Services
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
