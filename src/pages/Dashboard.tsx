@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,6 +11,7 @@ import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings } from 
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
+import EnquiriesInbox from '@/components/dashboard/EnquiriesInbox';
 
 interface Profile {
   id: string;
@@ -139,9 +141,12 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-4 py-6 space-y-6">
         {isEmployee ? (
-          <EmployeeDashboard profile={profile} />
+          <>
+            <EmployeeDashboard profile={profile} />
+            <EnquiriesInbox profile={profile} />
+          </>
         ) : (
           <ClientDashboard profile={profile} />
         )}

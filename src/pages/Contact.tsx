@@ -1,3 +1,4 @@
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +17,10 @@ import {
   ArrowRight 
 } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   useSEO({
@@ -26,6 +31,9 @@ const Contact = () => {
     ogTitle: "Contact DP Automotive | Book Auto Repair Service Chesterfield",
     ogDescription: "Contact DP Automotive for professional auto repair services in Chesterfield. Call (01246) 233483 to book your service today."
   });
+
+  const { toast } = useToast();
+  const location = useLocation();
 
   const contactInfo = [
     {
@@ -68,6 +76,70 @@ const Contact = () => {
     "Emergency Service",
     "Other"
   ];
+
+  // Form state
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneValue, setPhoneValue] = useState("");
+  const [serviceNeeded, setServiceNeeded] = useState(services[0]);
+  const [vehicleInfo, setVehicleInfo] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const fullName = `${firstName} ${lastName}`.trim();
+    if (!fullName || !email) {
+      toast({
+        title: "Missing information",
+        description: "Please provide your name and email so we can get back to you.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    console.log("Submitting contact form...", { fullName, email, phoneValue, serviceNeeded, vehicleInfo, message });
+
+    const { error } = await supabase
+      .from("contact_submissions")
+      .insert([
+        {
+          full_name: fullName,
+          email,
+          phone: phoneValue || null,
+          service_needed: serviceNeeded || null,
+          vehicle_info: vehicleInfo || null,
+          message: message || null,
+          source_page: location?.pathname || "/contact",
+        },
+      ]);
+
+    if (error) {
+      console.error("Contact form submission error:", error);
+      toast({
+        title: "Submission failed",
+        description: "We couldn't send your message. Please try again in a moment.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Message sent",
+        description: "Thanks for contacting us — we’ll be in touch shortly.",
+      });
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhoneValue("");
+      setServiceNeeded(services[0]);
+      setVehicleInfo("");
+      setMessage("");
+    }
+
+    setSubmitting(false);
+  };
 
   return (
     <div className="min-h-screen">
@@ -139,53 +211,90 @@ const Contact = () => {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">First Name</label>
-                      <Input placeholder="John" />
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">First Name</label>
+                        <Input 
+                          placeholder="John" 
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Last Name</label>
+                        <Input 
+                          placeholder="Doe" 
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          required
+                        />
+                      </div>
                     </div>
+                    
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Last Name</label>
-                      <Input placeholder="Doe" />
+                      <label className="text-sm font-medium">Email</label>
+                      <Input 
+                        type="email" 
+                        placeholder="john.doe@example.com" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Email</label>
-                    <Input type="email" placeholder="john.doe@example.com" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Phone</label>
-                    <Input type="tel" placeholder="(01246) 123-456" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Service Needed</label>
-                    <select className="w-full p-2 border border-input rounded-md bg-background">
-                      {services.map((service) => (
-                        <option key={service} value={service}>{service}</option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Vehicle Information</label>
-                    <Input placeholder="Year, Make, Model (e.g., 2020 Honda Civic)" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Message</label>
-                    <Textarea 
-                      placeholder="Please describe your vehicle's issues or the service you need..."
-                      className="min-h-[120px]"
-                    />
-                  </div>
-                  
-                  <Button className="w-full gradient-primary text-primary-foreground shadow-elegant">
-                    Send Message
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
+                    
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Phone</label>
+                      <Input 
+                        type="tel" 
+                        placeholder="(01246) 123-456" 
+                        value={phoneValue}
+                        onChange={(e) => setPhoneValue(e.target.value)}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Service Needed</label>
+                      <select 
+                        className="w-full p-2 border border-input rounded-md bg-background"
+                        value={serviceNeeded}
+                        onChange={(e) => setServiceNeeded(e.target.value)}
+                      >
+                        {services.map((service) => (
+                          <option key={service} value={service}>{service}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Vehicle Information</label>
+                      <Input 
+                        placeholder="Year, Make, Model (e.g., 2020 Honda Civic)" 
+                        value={vehicleInfo}
+                        onChange={(e) => setVehicleInfo(e.target.value)}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Message</label>
+                      <Textarea 
+                        placeholder="Please describe your vehicle's issues or the service you need..."
+                        className="min-h-[120px]"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                    </div>
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full gradient-primary text-primary-foreground shadow-elegant"
+                      disabled={submitting}
+                    >
+                      {submitting ? "Sending..." : "Send Message"}
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </form>
                 </CardContent>
               </Card>
 

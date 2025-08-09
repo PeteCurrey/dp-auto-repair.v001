@@ -74,6 +74,62 @@ export type Database = {
           },
         ]
       }
+      contact_submissions: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          internal_notes: string | null
+          message: string | null
+          phone: string | null
+          service_needed: string | null
+          source_page: string | null
+          status: string
+          updated_at: string
+          vehicle_info: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          internal_notes?: string | null
+          message?: string | null
+          phone?: string | null
+          service_needed?: string | null
+          source_page?: string | null
+          status?: string
+          updated_at?: string
+          vehicle_info?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          internal_notes?: string | null
+          message?: string | null
+          phone?: string | null
+          service_needed?: string | null
+          source_page?: string | null
+          status?: string
+          updated_at?: string
+          vehicle_info?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_submissions_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
