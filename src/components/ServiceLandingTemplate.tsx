@@ -97,7 +97,7 @@ const ServiceLandingTemplate = ({
 
           <div className="max-w-3xl mx-auto text-center">
             <Badge variant="secondary" className="mb-4">Chesterfield Specialists</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{h1}</h1>
+            <h1 className="text-4xl md:text-5xl font-extralight text-foreground mb-6">{h1}</h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8">{intro}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="px-8">
@@ -215,9 +215,11 @@ const ServiceLandingTemplate = ({
             <Button asChild size="lg" variant="secondary" className="px-8">
               <Link to="/contact">Book Online</Link>
             </Button>
-            <Button variant="outline" size="lg" className="px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Phone className="h-5 w-5 mr-2" />
-              01246 123456
+            <Button asChild variant="outline" size="lg" className="px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+              <a href="tel:01246123456" className="flex items-center">
+                <Phone className="h-5 w-5 mr-2" />
+                01246 123456
+              </a>
             </Button>
           </div>
         </div>

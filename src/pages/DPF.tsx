@@ -134,7 +134,7 @@ const DPF = () => {
         <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <h1 className="text-4xl md:text-6xl font-extralight mb-6">
                 DPF Problems
                 <span className="block text-primary">& Solutions</span>
               </h1>

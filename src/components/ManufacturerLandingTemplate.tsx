@@ -100,7 +100,7 @@ export const ManufacturerLandingTemplate = ({
       <Header />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-16">
+      <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-32">
         <div className="container mx-auto px-4">
           <Breadcrumb 
             className="mb-8"
@@ -119,7 +119,7 @@ export const ManufacturerLandingTemplate = ({
                 {manufacturer} Specialists
               </Badge>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl font-extralight text-foreground mb-6">
               Expert {manufacturer} Servicing in Chesterfield
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
