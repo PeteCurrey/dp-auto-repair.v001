@@ -11,7 +11,7 @@ const CollisionRepair = () => {
     title: "Collision Repair Services | Professional Body Work & Paint | DP Automotive",
     description: "Expert collision repair and bodywork services in Chesterfield. Dent repair, paint restoration, frame alignment, and insurance work. Professional body shop services.",
     keywords: "collision repair Chesterfield, bodywork, paint restoration, dent repair, frame alignment, insurance claims, body shop, accident repair",
-    canonical: "https://dpautomotive.co.uk/collision-repair",
+    canonical: "https://dpautorepair.co.uk/collision-repair",
     ogTitle: "Collision Repair Services | Professional Body Work & Paint",
     ogDescription: "Expert collision repair and bodywork services in Chesterfield. Professional body shop services for all insurance claims."
   });

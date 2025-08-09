@@ -12,7 +12,7 @@ const Diagnostics = () => {
     title: "Vehicle Diagnostics Services | Advanced Computer Diagnostics | DP Automotive",
     description: "Professional vehicle diagnostics in Chesterfield. Advanced computer diagnostics, engine analysis, electrical testing, and error code reading. Expert fault finding for all makes and models.",
     keywords: "vehicle diagnostics Chesterfield, computer diagnostics, engine diagnostics, electrical testing, fault finding, error codes, OBD diagnostics",
-    canonical: "https://dpautomotive.co.uk/diagnostics",
+    canonical: "https://dpautorepair.co.uk/diagnostics",
     ogTitle: "Vehicle Diagnostics Services | Advanced Computer Diagnostics",
     ogDescription: "Professional vehicle diagnostics in Chesterfield. Advanced computer diagnostics and expert fault finding."
   });

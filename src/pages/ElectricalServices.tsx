@@ -11,7 +11,7 @@ const ElectricalServices = () => {
     title: "Electrical Services | Vehicle Electrical Repair & Diagnostics | DP Automotive",
     description: "Complete electrical system diagnosis and repair in Chesterfield. Battery testing, alternator repair, starter service, and wiring repairs for all vehicle makes and models.",
     keywords: "electrical services Chesterfield, battery testing, alternator repair, starter motor, wiring repairs, electrical diagnostics, vehicle electrical",
-    canonical: "https://dpautomotive.co.uk/electrical-services",
+    canonical: "https://dpautorepair.co.uk/electrical-services",
     ogTitle: "Electrical Services | Vehicle Electrical Repair & Diagnostics",
     ogDescription: "Complete electrical system diagnosis and repair in Chesterfield. Expert electrical services for all vehicles."
   });

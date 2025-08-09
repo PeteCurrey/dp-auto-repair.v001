@@ -11,7 +11,7 @@ const Tuning = () => {
     title: "Performance Tuning Services | ECU Remapping & Exhaust Fabrication | DP Automotive",
     description: "Professional ECU remapping, performance exhaust fabrication, and intercooler services in Chesterfield. Unlock your vehicle's potential with our expert tuning solutions.",
     keywords: "ECU remapping, performance tuning, exhaust fabrication, intercooler installation, performance upgrades, engine tuning, Chesterfield",
-    canonical: "https://dpautomotive.co.uk/tuning",
+    canonical: "https://dpautorepair.co.uk/tuning",
     ogTitle: "Performance Tuning Services | ECU Remapping & Exhaust Fabrication",
     ogDescription: "Professional ECU remapping, performance exhaust fabrication, and intercooler services in Chesterfield."
   });

@@ -11,7 +11,7 @@ const DPF = () => {
     title: "DPF Problems & Solutions | Diesel Particulate Filter Services | DP Automotive",
     description: "Expert DPF diagnosis, cleaning, and repair services in Chesterfield. Solve DPF problems including clogging, regeneration failure, and warning lights. Professional diesel particulate filter solutions.",
     keywords: "DPF problems, diesel particulate filter, DPF cleaning, DPF repair, regeneration failure, DPF warning light, Chesterfield diesel service",
-    canonical: "https://dpautomotive.co.uk/dpf",
+    canonical: "https://dpautorepair.co.uk/dpf",
     ogTitle: "DPF Problems & Solutions | Diesel Particulate Filter Services",
     ogDescription: "Expert DPF diagnosis, cleaning, and repair services in Chesterfield. Professional diesel particulate filter solutions."
   });

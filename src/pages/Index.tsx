@@ -12,7 +12,7 @@ const Index = () => {
     title: "DP Automotive Repair & Diagnostics | Expert Auto Service Chesterfield",
     description: "Professional automotive repair and diagnostics in Chesterfield. ASE certified technicians with 15+ years experience. Engine diagnostics, brake repair, MOT testing, and routine servicing. Book your service today.",
     keywords: "auto repair Chesterfield, car diagnostics, brake repair, MOT testing, engine diagnostics, automotive service, ASE certified mechanics, routine servicing, car maintenance",
-    canonical: "https://dpautomotive.co.uk",
+    canonical: "https://dpautorepair.co.uk",
     ogTitle: "DP Automotive Repair & Diagnostics | Expert Auto Service Chesterfield",
     ogDescription: "Professional automotive repair and diagnostics in Chesterfield. ASE certified technicians with 15+ years experience."
   });
@@ -49,7 +49,7 @@ const Index = () => {
     "@type": "AutomotiveRepairShop",
     "name": "DP Automotive Repair & Diagnostics",
     "description": "Professional automotive repair and diagnostics in Chesterfield with 15+ years experience",
-    "url": "https://dpautomotive.co.uk",
+    "url": "https://dpautorepair.co.uk",
     "telephone": "+44-1246-233483",
     "address": {
       "@type": "PostalAddress",

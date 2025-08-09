@@ -11,7 +11,7 @@ const PerformanceTuning = () => {
     title: "Performance Tuning Services | Engine Tuning & Upgrades | DP Automotive",
     description: "Professional performance tuning services in Chesterfield. Engine tuning, performance upgrades, exhaust systems, and air intake modifications for enhanced vehicle performance.",
     keywords: "performance tuning Chesterfield, engine tuning, performance upgrades, exhaust systems, air intake, vehicle performance, power enhancement",
-    canonical: "https://dpautomotive.co.uk/performance-tuning",
+    canonical: "https://dpautorepair.co.uk/performance-tuning",
     ogTitle: "Performance Tuning Services | Engine Tuning & Upgrades",
     ogDescription: "Professional performance tuning services in Chesterfield. Engine tuning and performance upgrades for enhanced vehicle performance."
   });

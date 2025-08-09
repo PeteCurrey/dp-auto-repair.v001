@@ -11,7 +11,7 @@ const RoutineServicing = () => {
     title: "Routine Vehicle Servicing | Regular Maintenance Services | DP Automotive",
     description: "Professional routine servicing in Chesterfield. Oil changes, filter replacements, fluid checks, and safety inspections. Keep your vehicle running smoothly with regular maintenance.",
     keywords: "routine servicing Chesterfield, vehicle maintenance, oil change, filter replacement, vehicle service, regular maintenance, safety inspection",
-    canonical: "https://dpautomotive.co.uk/routine-servicing",
+    canonical: "https://dpautorepair.co.uk/routine-servicing",
     ogTitle: "Routine Vehicle Servicing | Regular Maintenance Services",
     ogDescription: "Professional routine servicing in Chesterfield. Keep your vehicle running smoothly with regular maintenance."
   });

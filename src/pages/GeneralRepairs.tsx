@@ -11,7 +11,7 @@ const GeneralRepairs = () => {
     title: "General Auto Repairs | Complete Vehicle Repair Services | DP Automotive Chesterfield",
     description: "Comprehensive automotive repair services in Chesterfield. Expert engine, transmission, brake, and suspension repairs for all makes and models. ASE certified technicians.",
     keywords: "auto repair Chesterfield, engine repair, transmission service, brake repair, suspension work, vehicle repairs, automotive service",
-    canonical: "https://dpautomotive.co.uk/general-repairs",
+    canonical: "https://dpautorepair.co.uk/general-repairs",
     ogTitle: "General Auto Repairs | Complete Vehicle Repair Services",
     ogDescription: "Comprehensive automotive repair services in Chesterfield. Expert repairs for all makes and models."
   });

@@ -23,7 +23,7 @@ const Services = () => {
     title: "Auto Repair Services Chesterfield | DP Automotive Services",
     description: "Complete automotive repair services in Chesterfield. Engine diagnostics, brake repair, MOT testing, routine servicing, and performance tuning by ASE certified technicians.",
     keywords: "engine diagnostics Chesterfield, brake repair, MOT testing, routine servicing, performance tuning, automotive repair services, car maintenance",
-    canonical: "https://dpautomotive.co.uk/services",
+    canonical: "https://dpautorepair.co.uk/services",
     ogTitle: "Auto Repair Services Chesterfield | DP Automotive Services", 
     ogDescription: "Complete automotive repair services in Chesterfield. Engine diagnostics, brake repair, MOT testing, routine servicing, and performance tuning."
   });

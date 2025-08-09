@@ -22,7 +22,7 @@ const Contact = () => {
     title: "Contact DP Automotive | Book Auto Repair Service Chesterfield",
     description: "Contact DP Automotive for professional auto repair services in Chesterfield. Located at Unit 5 Vanguard Trading Estate. Call (01246) 233483 to book your service today.",
     keywords: "contact DP Automotive, book auto repair Chesterfield, automotive service booking, car repair contact",
-    canonical: "https://dpautomotive.co.uk/contact",
+    canonical: "https://dpautorepair.co.uk/contact",
     ogTitle: "Contact DP Automotive | Book Auto Repair Service Chesterfield",
     ogDescription: "Contact DP Automotive for professional auto repair services in Chesterfield. Call (01246) 233483 to book your service today."
   });

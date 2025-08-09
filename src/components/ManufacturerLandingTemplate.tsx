@@ -17,6 +17,7 @@ import {
   MapPin
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SchemaMarkup from '@/components/SchemaMarkup';
 
 interface ManufacturerLandingProps {
   manufacturer: string;
@@ -42,7 +43,7 @@ export const ManufacturerLandingTemplate = ({
     title: `${manufacturer} Routine Servicing in Chesterfield | DP Automotive`,
     description: `Expert ${manufacturer} routine servicing in Chesterfield. Specialist knowledge, genuine parts, competitive prices. Book your ${manufacturer} service today.`,
     keywords: `${manufacturer} service, ${manufacturer} servicing Chesterfield, ${manufacturer} garage, ${manufacturer} specialist, routine service ${manufacturer.toLowerCase()}`,
-    canonical: `https://dpautomotive.co.uk/${manufacturer.toLowerCase()}-servicing-chesterfield`,
+    canonical: `https://dpautorepair.co.uk/${manufacturer.toLowerCase()}-servicing-chesterfield`,
     ogTitle: `${manufacturer} Servicing Specialists in Chesterfield`,
     ogDescription: `Trust DP Automotive for your ${manufacturer} routine servicing in Chesterfield. Expert technicians, genuine parts, competitive prices.`
   });
@@ -79,8 +80,23 @@ export const ManufacturerLandingTemplate = ({
     }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer
+      }
+    }))
+  };
+
+
   return (
     <div className="min-h-screen bg-background">
+      <SchemaMarkup schema={faqSchema} />
       <Header />
       
       {/* Hero Section */}
