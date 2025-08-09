@@ -154,7 +154,7 @@ const Diagnostics = () => {
               ]}
             />
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <h1 className="text-4xl md:text-6xl font-extralight mb-6">
                 Vehicle
                 <span className="block text-primary">Diagnostics</span>
               </h1>

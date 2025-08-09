@@ -12,7 +12,10 @@ const TyreInstallation = () => {
   useSEO({
     title: "Professional Tyre Installation & Fitting Services | DP Auto Repair & Diagnostics",
     description: "Expert tyre installation, fitting and balancing services. Quality tyres from leading brands with professional fitting. Book your tyre installation today.",
-    keywords: "tyre installation, tyre fitting, wheel balancing, tyre replacement, car tyres, automotive tyres, tyre mounting"
+    keywords: "tyre installation, tyre fitting, wheel balancing, tyre replacement, car tyres, automotive tyres, tyre mounting",
+    canonical: "https://dpautorepair.co.uk/tyre-installation",
+    ogTitle: "Professional Tyre Installation & Fitting Services | DP Auto Repair & Diagnostics",
+    ogDescription: "Expert tyre installation, fitting and balancing services. Quality tyres from leading brands with professional fitting. Book your tyre installation today."
   });
 
   const tyreServices = [

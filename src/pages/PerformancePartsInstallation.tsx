@@ -30,7 +30,7 @@ const PerformancePartsInstallation = () => {
       <main>
         <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-24">
           <div className="container mx-auto px-4 text-center max-w-4xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Performance Parts Installation</h1>
+            <h1 className="text-4xl md:text-6xl font-extralight mb-6">Performance Parts Installation</h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
               From intercoolers to suspension, we install and set up your performance parts correctly for results you can feel.
             </p>

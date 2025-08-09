@@ -12,7 +12,10 @@ const AirConditioning = () => {
   useSEO({
     title: "Air Conditioning Regas & Repair Services | DP Auto Repair & Diagnostics",
     description: "Professional air conditioning regas, repair and maintenance services. Keep your car cool with our expert A/C services. Book your air con service today.",
-    keywords: "air conditioning regas, car AC repair, air con service, automotive air conditioning, AC gas top up, climate control repair"
+    keywords: "air conditioning regas, car AC repair, air con service, automotive air conditioning, AC gas top up, climate control repair",
+    canonical: "https://dpautorepair.co.uk/air-conditioning",
+    ogTitle: "Air Conditioning Regas & Repair Services | DP Auto Repair & Diagnostics",
+    ogDescription: "Professional air conditioning regas, repair and maintenance services. Keep your car cool with our expert A/C services. Book your air con service today."
   });
 
   const acServices = [

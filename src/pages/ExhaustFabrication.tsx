@@ -29,7 +29,7 @@ const ExhaustFabrication = () => {
       <main>
         <section className="relative bg-gradient-to-br from-background via-muted/50 to-secondary/20 pt-20 pb-24">
           <div className="container mx-auto px-4 text-center max-w-4xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Exhaust Fabrication</h1>
+            <h1 className="text-4xl md:text-6xl font-extralight mb-6">Exhaust Fabrication</h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
               Hand-built exhaust systems tailored to your vehicle and goals. Improve flow, sound and durability.
             </p>
