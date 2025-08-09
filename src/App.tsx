@@ -72,6 +72,10 @@ import WestfieldServicingChesterfield from "./pages/WestfieldServicingChesterfie
 import VolvoServicingChesterfield from "./pages/VolvoServicingChesterfield";
 import MechanicChesterfield from "./pages/MechanicChesterfield";
 import OilChangeChesterfield from "./pages/OilChangeChesterfield";
+import BrakeRepairChesterfield from "./pages/BrakeRepairChesterfield";
+import ClutchReplacementChesterfield from "./pages/ClutchReplacementChesterfield";
+import ExhaustReplacementChesterfield from "./pages/ExhaustReplacementChesterfield";
+import TimingChainReplacementChesterfield from "./pages/TimingChainReplacementChesterfield";
 
 import NotFound from "./pages/NotFound";
 
@@ -155,6 +159,10 @@ const App = () => (
         {/* Generic SEO Landing Pages */}
         <Route path="/mechanic-chesterfield" element={<MechanicChesterfield />} />
         <Route path="/oil-change-chesterfield" element={<OilChangeChesterfield />} />
+        <Route path="/brake-repair-chesterfield" element={<BrakeRepairChesterfield />} />
+        <Route path="/clutch-replacement-chesterfield" element={<ClutchReplacementChesterfield />} />
+        <Route path="/exhaust-replacement-chesterfield" element={<ExhaustReplacementChesterfield />} />
+        <Route path="/timing-chain-replacement-chesterfield" element={<TimingChainReplacementChesterfield />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

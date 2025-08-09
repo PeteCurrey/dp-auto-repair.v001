@@ -260,6 +260,50 @@ const Services = () => {
                   </Button>
                 </CardContent>
               </Card>
+              <Card className="border-border">
+                <CardHeader>
+                  <CardTitle>Brake Repair in Chesterfield</CardTitle>
+                  <CardDescription>Pads, discs, fluid and ABS diagnostics.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link to="/brake-repair-chesterfield">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+              <Card className="border-border">
+                <CardHeader>
+                  <CardTitle>Clutch Replacement in Chesterfield</CardTitle>
+                  <CardDescription>Fixed quotes on quality clutch replacements.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link to="/clutch-replacement-chesterfield">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+              <Card className="border-border">
+                <CardHeader>
+                  <CardTitle>Exhaust Repair & Replacement</CardTitle>
+                  <CardDescription>Leaks, flexi pipes, boxes and catalysts.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link to="/exhaust-replacement-chesterfield">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+              <Card className="border-border">
+                <CardHeader>
+                  <CardTitle>Timing Chain Replacement</CardTitle>
+                  <CardDescription>Full kits with guides and tensioners.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild>
+                    <Link to="/timing-chain-replacement-chesterfield">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
