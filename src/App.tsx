@@ -10,6 +10,9 @@ import Dashboard from "@/pages/Dashboard";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import Tuning from "./pages/Tuning";
+import EcuRemapping from "./pages/EcuRemapping";
+import ExhaustFabrication from "./pages/ExhaustFabrication";
+import PerformancePartsInstallation from "./pages/PerformancePartsInstallation";
 import DPF from "./pages/DPF";
 import GeneralRepairs from "./pages/GeneralRepairs";
 import Diagnostics from "./pages/Diagnostics";
@@ -95,6 +98,9 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/services" element={<Services />} />
           <Route path="/tuning" element={<Tuning />} />
+          <Route path="/tuning/ecu-remapping" element={<EcuRemapping />} />
+          <Route path="/tuning/exhaust-fabrication" element={<ExhaustFabrication />} />
+          <Route path="/tuning/performance-parts" element={<PerformancePartsInstallation />} />
           <Route path="/dpf" element={<DPF />} />
           <Route path="/general-repairs" element={<GeneralRepairs />} />
           <Route path="/diagnostics" element={<Diagnostics />} />

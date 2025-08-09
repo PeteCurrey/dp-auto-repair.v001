@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Award, Users, Wrench } from "lucide-react";
 import heroImage from "@/assets/hero-garage.jpg";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -47,16 +48,19 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up">
-            <Button size="lg" className="gradient-primary text-primary-foreground shadow-glow hover-lift">
-              <Wrench className="w-5 h-5 mr-2" />
-              Book Service Now
+            <Button size="lg" className="gradient-primary text-primary-foreground shadow-glow hover-lift" asChild>
+              <Link to="/contact">
+                <Wrench className="w-5 h-5 mr-2" />
+                Book Service Now
+              </Link>
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
               className="bg-white/10 text-white border-white/30 hover:bg-white/20"
+              asChild
             >
-              View Our Services
+              <Link to="/services">View Our Services</Link>
             </Button>
           </div>
 

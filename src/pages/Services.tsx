@@ -71,7 +71,7 @@ const Services = () => {
     },
     {
       icon: Zap,
-      title: "Electrical Services",
+      title: "Auto Electrical Services",
       description: "Complete electrical system diagnosis and repair for all vehicle electrical components and systems.",
       features: [
         "Battery testing and replacement",
@@ -165,9 +165,11 @@ const Services = () => {
                       </ul>
                       
                       <div className="flex items-center justify-between pt-4 border-t border-border">
-                        <Button variant="outline" size="sm" className="ml-auto">
-                          Book Now
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                        <Button asChild variant="outline" size="sm" className="ml-auto">
+                          <Link to="/contact">
+                            Book Now
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Link>
                         </Button>
                       </div>
                     </div>

@@ -149,16 +149,18 @@ const TyreInstallation = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-              Professional Tyre Installation & Fitting
+              Professional Tyre Fitting
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Expert tyre installation services with precision fitting and balancing. Choose from 
               leading tyre brands with professional installation for optimal safety and performance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Installation
+              <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
+                <Link to="/contact">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book Installation
+                </Link>
               </Button>
               <Button size="lg" variant="outline">
                 <Phone className="mr-2 h-5 w-5" />
@@ -335,16 +337,20 @@ const TyreInstallation = () => {
             Get professional tyre installation with expert fitting and balancing. Contact us today 
             for a quote or to book your tyre installation service.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              <Calendar className="mr-2 h-5 w-5" />
-              Book Installation
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-              <Phone className="mr-2 h-5 w-5" />
-              Get Quote
-            </Button>
-          </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                <Link to="/contact">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Book Installation
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                <Link to="/contact">
+                  <Phone className="mr-2 h-5 w-5" />
+                  Get Quote
+                </Link>
+              </Button>
+            </div>
         </div>
       </section>
 

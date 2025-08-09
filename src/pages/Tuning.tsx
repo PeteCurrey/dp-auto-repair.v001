@@ -20,6 +20,7 @@ const Tuning = () => {
     {
       icon: Zap,
       title: "ECU Remapping",
+      slug: "ecu-remapping",
       description: "Optimise your engine's performance with professional ECU remapping services",
       features: [
         "Increased power and torque output",
@@ -38,6 +39,7 @@ const Tuning = () => {
     {
       icon: Gauge,
       title: "Performance Exhaust Fabrication",
+      slug: "exhaust-fabrication",
       description: "Custom performance exhaust systems designed and fabricated to your specifications",
       features: [
         "Stainless steel construction",
@@ -56,6 +58,7 @@ const Tuning = () => {
     {
       icon: Thermometer,
       title: "Intercooler Services",
+      slug: "performance-parts",
       description: "Professional intercooler installation and upgrades for enhanced performance",
       features: [
         "Front-mount intercooler installation",
@@ -157,7 +160,7 @@ const Tuning = () => {
                       
                       <div className="space-y-4">
                         <Button asChild className="w-full gradient-primary text-primary-foreground">
-                          <Link to="/contact">
+                          <Link to={`/contact`}>
                             Book {service.title}
                             <ArrowRight className="w-4 h-4 ml-2" />
                           </Link>
@@ -165,6 +168,12 @@ const Tuning = () => {
                         <Button asChild variant="outline" className="w-full">
                           <Link to="/contact">
                             Request Quote
+                          </Link>
+                        </Button>
+                        <Button asChild variant="ghost" className="w-full">
+                          <Link to={`/tuning/${service.slug}`}>
+                            Learn more
+                            <ArrowRight className="w-4 h-4 ml-2" />
                           </Link>
                         </Button>
                       </div>

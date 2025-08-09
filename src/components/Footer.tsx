@@ -15,7 +15,7 @@ const Footer = () => {
     "General Repairs",
     "Diagnostics", 
     "Routine Servicing",
-    "Electrical Services",
+    "Auto Electrical Services",
     "Performance Tuning",
     "Collision Repair"
   ];
@@ -91,7 +91,7 @@ const Footer = () => {
                   to="/electrical-services"
                   className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors"
                 >
-                  Electrical Services
+                  Auto Electrical Services
                 </Link>
               </li>
               <li>

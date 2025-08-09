@@ -8,12 +8,12 @@ import { useSEO } from "@/hooks/useSEO";
 
 const ElectricalServices = () => {
   useSEO({
-    title: "Electrical Services | Vehicle Electrical Repair & Diagnostics | DP Automotive",
-    description: "Complete electrical system diagnosis and repair in Chesterfield. Battery testing, alternator repair, starter service, and wiring repairs for all vehicle makes and models.",
-    keywords: "electrical services Chesterfield, battery testing, alternator repair, starter motor, wiring repairs, electrical diagnostics, vehicle electrical",
+    title: "Auto Electrical Services | Vehicle Electrical Repair & Diagnostics | DP Automotive",
+    description: "Complete auto electrical diagnosis and repair in Chesterfield. Battery testing, alternator repair, starter service, and wiring repairs for all vehicle makes and models.",
+    keywords: "auto electrical services Chesterfield, battery testing, alternator repair, starter motor, wiring repairs, electrical diagnostics, vehicle electrical",
     canonical: "https://dpautorepair.co.uk/electrical-services",
-    ogTitle: "Electrical Services | Vehicle Electrical Repair & Diagnostics",
-    ogDescription: "Complete electrical system diagnosis and repair in Chesterfield. Expert electrical services for all vehicles."
+    ogTitle: "Auto Electrical Services | Vehicle Electrical Repair & Diagnostics",
+    ogDescription: "Complete auto electrical diagnosis and repair in Chesterfield. Expert electrical services for all vehicles."
   });
 
   const electricalServices = [
@@ -154,7 +154,7 @@ const ElectricalServices = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Electrical
+                Auto Electrical
                 <span className="block text-primary">Services</span>
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
@@ -170,9 +170,9 @@ const ElectricalServices = () => {
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <a href="tel:01246233483">
+                  <Link to="/contact">
                     Emergency Electrical Help
-                  </a>
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -184,7 +184,7 @@ const ElectricalServices = () => {
           <div className="container mx-auto px-4">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Comprehensive Electrical Solutions
+                Comprehensive Auto Electrical Services
               </h2>
               <p className="text-lg text-muted-foreground">
                 From basic battery replacement to complex electrical fault finding, 

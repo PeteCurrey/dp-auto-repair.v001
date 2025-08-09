@@ -24,9 +24,9 @@ const Header = () => {
   ];
 
   const tuningItems = [
-    { name: "ECU Remapping", href: "/tuning" },
-    { name: "Exhaust Fabrication", href: "/tuning" },
-    { name: "Performance Parts Installation", href: "/tuning" },
+    { name: "ECU Remapping", href: "/tuning/ecu-remapping" },
+    { name: "Exhaust Fabrication", href: "/tuning/exhaust-fabrication" },
+    { name: "Performance Parts Installation", href: "/tuning/performance-parts" },
   ];
 
   const serviceItems = [
@@ -183,10 +183,12 @@ const Header = () => {
                   </Link>
                 </Button>
                 <Button 
-                  onClick={handleBookService}
+                  asChild
                   className="gradient-primary text-primary-foreground shadow-elegant"
                 >
-                  Book Service
+                  <Link to="/contact">
+                    Book Service
+                  </Link>
                 </Button>
               </div>
             )}
@@ -268,10 +270,12 @@ const Header = () => {
                     </Link>
                   </Button>
                   <Button 
-                    onClick={handleBookService}
+                    asChild
                     className="gradient-primary text-primary-foreground w-fit"
                   >
-                    Book Service
+                    <Link to="/contact">
+                      Book Service
+                    </Link>
                   </Button>
                 </div>
               )}
