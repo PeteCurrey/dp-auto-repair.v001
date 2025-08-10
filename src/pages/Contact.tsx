@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import Map from "@/components/Map";
 
 const Contact = () => {
   useSEO({
@@ -55,7 +56,7 @@ const Contact = () => {
       title: "Location",
       details: "Unit 5 Vanguard Trading Estate, Chesterfield S40 2TZ",
       description: "Easy parking available on-site",
-      action: "https://maps.google.com"
+      action: "https://www.google.com/maps/dir/?api=1&destination=53.2307,-1.4659"
     },
     {
       icon: Clock,
@@ -339,20 +340,17 @@ const Contact = () => {
                     <CardTitle className="text-xl">Visit Our Workshop</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="aspect-video bg-muted rounded-lg flex items-center justify-center mb-4">
-                      <div className="text-center">
-                        <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
-                        <p className="text-sm text-muted-foreground">Interactive Map</p>
-                      </div>
-                    </div>
+                    <Map lat={53.2307} lng={-1.4659} markerLabel="DP Automotive Repair & Diagnostics" />
                     <div className="space-y-2 text-sm">
                       <p className="font-medium">Unit 5 Vanguard Trading Estate</p>
                       <p className="text-muted-foreground">Chesterfield S40 2TZ</p>
                       <p className="text-muted-foreground">Free on-site parking available</p>
                     </div>
-                    <Button className="w-full mt-4" variant="outline">
-                      Get Directions
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                    <Button className="w-full mt-4" variant="outline" asChild>
+                      <a href="https://www.google.com/maps/dir/?api=1&destination=53.2307,-1.4659" target="_blank" rel="noopener noreferrer">
+                        Get Directions
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </a>
                     </Button>
                   </CardContent>
                 </Card>

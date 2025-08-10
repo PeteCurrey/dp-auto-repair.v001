@@ -42,8 +42,7 @@ const Hero = () => {
 
           {/* Subheading */}
           <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90 max-w-2xl animate-fade-up leading-relaxed">
-            Professional automotive service you can trust. From routine maintenance to complex repairs, 
-            we keep your vehicle running at its best.
+            Professional automotive repair, diagnostics and service. From routine servicing to performance tuning, DP Auto Repair & Diagnostics. Your trusted mechanic.
           </p>
 
           {/* CTA Buttons */}

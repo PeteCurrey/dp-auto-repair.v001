@@ -88,6 +88,19 @@ const Index = () => {
         <Hero />
         <ServicesOverview />
         <AboutSection />
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <article className="max-w-4xl">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Your local Chesterfield mechanic & garage</h2>
+              <p className="text-muted-foreground mb-4">
+                Looking for a trusted local mechanic and independent garage in Chesterfield? DP Automotive Repair & Diagnostics provides expert car servicing, MOT preparation, brake repair, clutch replacement, engine diagnostics, exhaust work and performance tuning. As a full-service garage, we maintain all makes and models with transparent pricing and honest advice.
+              </p>
+              <p className="text-muted-foreground">
+                Whether you need routine servicing to keep your vehicle reliable, fast diagnostics to find a fault, or specialist performance tuning, our qualified team is here to help. Visit our workshop or contact us to book your service today.
+              </p>
+            </article>
+          </div>
+        </section>
         <FAQSection faqs={faqs} className="bg-muted/30" />
       </main>
       <Footer />
