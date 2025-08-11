@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Gauge, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import { REMAP_DB } from "@/data/remap-db";
 // Simple stage presets inspired by industry norms. Values are conservative estimates.
 const presets = {
   "petrol_turbo": { s1: { p: 0.2, t: 0.25 }, s2: { p: 0.3, t: 0.35 }, s3: { p: 0.35, t: 0.4 }, s4: { p: 0.38, t: 0.45 } },
@@ -60,6 +61,19 @@ export default function PerformanceGainCalculator({ className }: { className?: s
   const [engine, setEngine] = useState<EnginePreset>("petrol_turbo");
   const [hp, setHp] = useState<number>(150);
   const [nm, setNm] = useState<number>(250);
+  // Selection mode and cascading selections for vehicle-based lookup
+  const [mode, setMode] = useState<"vehicle" | "manual">("vehicle");
+  const [make, setMake] = useState<string>("");
+  const [model, setModel] = useState<string>("");
+  const [variant, setVariant] = useState<string>("");
+
+  const makes = useMemo(() => Object.keys(REMAP_DB).sort(), []);
+  const models = useMemo(() => (make ? (REMAP_DB[make]?.models ?? []).map((m) => m.name) : []), [make]);
+  const variants = useMemo(() => {
+    if (!make || !model) return [] as string[];
+    const m = REMAP_DB[make]?.models.find((mm) => mm.name === model);
+    return m ? m.variants.map((v) => v.name) : [];
+  }, [make, model]);
 
   const gains = useMemo(() => computeGains(engine, clamp(hp), clamp(nm)), [engine, hp, nm]);
 
@@ -72,43 +86,108 @@ export default function PerformanceGainCalculator({ className }: { className?: s
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="engine">Engine type</Label>
-                  <Select value={engine} onValueChange={(v) => setEngine(v as EnginePreset)}>
-                    <SelectTrigger id="engine" aria-label="Engine type">
-                      <SelectValue placeholder="Select engine" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="petrol_turbo">Turbo Petrol</SelectItem>
-                      <SelectItem value="diesel_turbo">Turbo Diesel</SelectItem>
-                      <SelectItem value="petrol_na">Naturally Aspirated Petrol</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="hp">Stock power (hp)</Label>
-                  <Input
-                    id="hp"
-                    inputMode="numeric"
-                    value={hp}
-                    onChange={(e) => setHp(Number(e.target.value.replace(/[^0-9]/g, "")) || 0)}
-                    aria-describedby="hp-help"
-                  />
-                  <span id="hp-help" className="sr-only">Enter stock horsepower</span>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="nm">Stock torque (Nm)</Label>
-                  <Input
-                    id="nm"
-                    inputMode="numeric"
-                    value={nm}
-                    onChange={(e) => setNm(Number(e.target.value.replace(/[^0-9]/g, "")) || 0)}
-                    aria-describedby="nm-help"
-                  />
-                  <span id="nm-help" className="sr-only">Enter stock torque in Newton-metres</span>
-                </div>
-              </div>
+              <Tabs value={mode} onValueChange={(v) => setMode(v as "vehicle" | "manual")}
+                className="space-y-4">
+                <TabsList className="grid grid-cols-2 w-full">
+                  <TabsTrigger value="vehicle">By vehicle</TabsTrigger>
+                  <TabsTrigger value="manual">Manual</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="vehicle" className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="make">Make</Label>
+                      <Select value={make} onValueChange={(v) => { setMake(v); setModel(""); setVariant(""); }}>
+                        <SelectTrigger id="make" aria-label="Vehicle make">
+                          <SelectValue placeholder="Select make" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {makes.map((m) => (
+                            <SelectItem key={m} value={m}>{m}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="model">Model</Label>
+                      <Select disabled={!make} value={model} onValueChange={(v) => { setModel(v); setVariant(""); }}>
+                        <SelectTrigger id="model" aria-label="Vehicle model">
+                          <SelectValue placeholder={make ? "Select model" : "Select make first"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {models.map((m) => (
+                            <SelectItem key={m} value={m}>{m}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2 sm:col-span-2">
+                      <Label htmlFor="variant">Engine/Variant</Label>
+                      <Select disabled={!model} value={variant} onValueChange={(v) => {
+                        setVariant(v);
+                        const mod = REMAP_DB[make]?.models.find((mm) => mm.name === model);
+                        const vObj = mod?.variants.find((vv) => vv.name === v);
+                        if (vObj) {
+                          setEngine(vObj.engineType as EnginePreset);
+                          setHp(vObj.hp);
+                          setNm(vObj.nm);
+                        }
+                      }}>
+                        <SelectTrigger id="variant" aria-label="Engine or variant">
+                          <SelectValue placeholder={model ? "Select variant" : "Select model first"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {variants.map((v) => (
+                            <SelectItem key={v} value={v}>{v}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="manual" className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="engine">Engine type</Label>
+                      <Select value={engine} onValueChange={(v) => setEngine(v as EnginePreset)}>
+                        <SelectTrigger id="engine" aria-label="Engine type">
+                          <SelectValue placeholder="Select engine" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="petrol_turbo">Turbo Petrol</SelectItem>
+                          <SelectItem value="diesel_turbo">Turbo Diesel</SelectItem>
+                          <SelectItem value="petrol_na">Naturally Aspirated Petrol</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="hp">Stock power (hp)</Label>
+                      <Input
+                        id="hp"
+                        inputMode="numeric"
+                        value={hp}
+                        onChange={(e) => setHp(Number(e.target.value.replace(/[^0-9]/g, "")) || 0)}
+                        aria-describedby="hp-help"
+                      />
+                      <span id="hp-help" className="sr-only">Enter stock horsepower</span>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="nm">Stock torque (Nm)</Label>
+                      <Input
+                        id="nm"
+                        inputMode="numeric"
+                        value={nm}
+                        onChange={(e) => setNm(Number(e.target.value.replace(/[^0-9]/g, "")) || 0)}
+                        aria-describedby="nm-help"
+                      />
+                      <span id="nm-help" className="sr-only">Enter stock torque in Newton-metres</span>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
 
               <div className="rounded-md p-4 bg-secondary/10">
                 <div className="flex items-center gap-2 text-sm font-medium">
