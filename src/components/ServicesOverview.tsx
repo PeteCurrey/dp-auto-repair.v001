@@ -1,66 +1,48 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Wrench, 
-  Zap, 
-  Shield, 
-  Settings, 
-  Gauge, 
-  Car,
-  ArrowRight 
-} from "lucide-react";
+import { Wrench, Zap, Shield, Settings, Gauge, Car, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const ServicesOverview = () => {
-  const services = [
-    {
-      icon: Wrench,
-      title: "General Repairs",
-      description: "Complete automotive repair services for all makes and models",
-      features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"]
-    },
-    {
-      icon: Gauge,
-      title: "Diagnostics",
-      description: "Advanced computer diagnostics to identify issues quickly",
-      features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"]
-    },
-    {
-      icon: Shield,
-      title: "Routine Servicing",
-      description: "Keep your vehicle running smoothly with regular maintenance",
-      features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"]
-    },
-    {
-      icon: Zap,
-      title: "Electrical Services",
-      description: "Complete electrical system diagnosis and repair",
-      features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"]
-    },
-    {
-      icon: Settings,
-      title: "Performance Tuning",
-      description: "Optimise your vehicle's performance and efficiency",
-      features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"]
-    },
-    {
-      icon: Car,
-      title: "Collision Repair",
-      description: "Professional body work and collision repair services",
-      features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"]
-    }
-  ];
-
-  return (
-    <section className="py-20 bg-muted/30">
+  const services = [{
+    icon: Wrench,
+    title: "General Repairs",
+    description: "Complete automotive repair services for all makes and models",
+    features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"]
+  }, {
+    icon: Gauge,
+    title: "Diagnostics",
+    description: "Advanced computer diagnostics to identify issues quickly",
+    features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"]
+  }, {
+    icon: Shield,
+    title: "Routine Servicing",
+    description: "Keep your vehicle running smoothly with regular maintenance",
+    features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"]
+  }, {
+    icon: Zap,
+    title: "Electrical Services",
+    description: "Complete electrical system diagnosis and repair",
+    features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"]
+  }, {
+    icon: Settings,
+    title: "Performance Tuning",
+    description: "Optimise your vehicle's performance and efficiency",
+    features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"]
+  }, {
+    icon: Car,
+    title: "Collision Repair",
+    description: "Professional body work and collision repair services",
+    features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"]
+  }];
+  return <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl mb-6 font-extralight md:text-5xl">
             Complete Automotive
-            <span className="block text-primary">Service Solutions</span>
+            <span className="block text-primary font-extralight text-5xl">Service Solutions</span>
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-muted-foreground font-light">
             From routine maintenance to complex repairs, our certified technicians 
             provide comprehensive automotive services with precision and care.
           </p>
@@ -68,27 +50,22 @@ const ServicesOverview = () => {
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {services.map((service, index) => (
-            <Card 
-              key={service.title} 
-              className="hover-lift shadow-card border-0 bg-card/80 backdrop-blur-sm"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
+          {services.map((service, index) => <Card key={service.title} className="hover-lift shadow-card border-0 bg-card/80 backdrop-blur-sm" style={{
+          animationDelay: `${index * 0.1}s`
+        }}>
               <CardHeader className="pb-4">
                 <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
                   <service.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
-                <CardTitle className="text-xl">{service.title}</CardTitle>
+                <CardTitle className="text-xl font-light">{service.title}</CardTitle>
                 <p className="text-muted-foreground">{service.description}</p>
               </CardHeader>
               <CardContent className="pt-0">
                 <ul className="space-y-2 mb-6">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-sm">
+                  {service.features.map(feature => <li key={feature} className="flex items-center text-sm">
                       <ArrowRight className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
                       {feature}
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
                 <div className="pt-4 border-t border-border">
                   <Button asChild variant="outline" size="sm" className="w-full">
@@ -99,8 +76,7 @@ const ServicesOverview = () => {
                   </Button>
                 </div>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
 
         {/* CTA */}
@@ -113,8 +89,6 @@ const ServicesOverview = () => {
           </Button>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ServicesOverview;

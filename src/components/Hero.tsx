@@ -3,15 +3,12 @@ import { Badge } from "@/components/ui/badge";
 import { Star, Award, Users, Wrench } from "lucide-react";
 import heroImage from "@/assets/hero-garage.jpg";
 import { Link } from "react-router-dom";
-
 const Hero = () => {
-  return (
-    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+  return <section className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url(${heroImage})`
+    }}>
         <div className="absolute inset-0 gradient-hero" />
       </div>
 
@@ -53,20 +50,13 @@ const Hero = () => {
                 Book Service Now
               </Link>
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
-              asChild
-            >
+            <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20" asChild>
               <Link to="/services">View Our Services</Link>
             </Button>
           </div>
 
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
