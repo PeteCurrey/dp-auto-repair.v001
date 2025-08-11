@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
 import EnquiriesInbox from '@/components/dashboard/EnquiriesInbox';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Profile {
   id: string;
@@ -30,6 +31,9 @@ const Dashboard = () => {
   const { toast } = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+
+  // Track pageviews on dashboard route (profileId optional)
+  useAnalytics(profile?.id);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -63,7 +67,7 @@ const Dashboard = () => {
           .insert({
             user_id: user.id,
             email: user.email || '',
-            full_name: user.user_metadata?.full_name || null,
+            full_name: (user as any).user_metadata?.full_name || null,
             user_type: 'client'
           })
           .select('*')
@@ -79,7 +83,7 @@ const Dashboard = () => {
         } else {
           setProfile(newProfile);
         }
-      } else {
+      } else if (fetchError) {
         console.error('Error fetching profile:', fetchError);
         toast({
           title: "Profile Error",

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, Car, Users, Wrench, CreditCard, Plus, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { formatDate } from '@/lib/utils';
+import AnalyticsPanel from '@/components/dashboard/AnalyticsPanel';
+import { logEvent } from '@/lib/analytics';
 
 interface Profile {
   id: string;
@@ -260,15 +263,21 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
-            <Button className="h-16 flex flex-col gap-2">
+            <Button className="h-16 flex flex-col gap-2"
+              onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}
+            >
               <Calendar className="h-5 w-5" />
               Schedule Appointment
             </Button>
-            <Button variant="outline" className="h-16 flex flex-col gap-2">
+            <Button variant="outline" className="h-16 flex flex-col gap-2"
+              onClick={() => logEvent('quick_action', { action: 'add_service_record' }, { profileId: profile.id })}
+            >
               <Plus className="h-5 w-5" />
               Add Service Record
             </Button>
-            <Button variant="outline" className="h-16 flex flex-col gap-2">
+            <Button variant="outline" className="h-16 flex flex-col gap-2"
+              onClick={() => logEvent('quick_action', { action: 'add_new_client' }, { profileId: profile.id })}
+            >
               <Users className="h-5 w-5" />
               Add New Client
             </Button>
@@ -284,6 +293,7 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
           <TabsTrigger value="services">Services</TabsTrigger>
           <TabsTrigger value="clients">Clients</TabsTrigger>
           <TabsTrigger value="vehicles">Vehicles</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
 
         <TabsContent value="today" className="space-y-4">
@@ -396,7 +406,7 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="appointments" className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">All Appointments</h2>
-            <Button>
+            <Button onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}>
               <Plus className="h-4 w-4 mr-2" />
               Schedule Appointment
             </Button>
@@ -446,7 +456,7 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="services" className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Service Records</h2>
-            <Button>
+            <Button onClick={() => logEvent('quick_action', { action: 'add_service_record' }, { profileId: profile.id })}>
               <Plus className="h-4 w-4 mr-2" />
               Add Service Record
             </Button>
@@ -493,7 +503,7 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="clients" className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Client Management</h2>
-            <Button>
+            <Button onClick={() => logEvent('quick_action', { action: 'add_new_client' }, { profileId: profile.id })}>
               <Plus className="h-4 w-4 mr-2" />
               Add New Client
             </Button>
@@ -529,7 +539,7 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="vehicles" className="space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Vehicle Management</h2>
-            <Button>
+            <Button onClick={() => logEvent('quick_action', { action: 'add_new_vehicle' }, { profileId: profile.id })}>
               <Plus className="h-4 w-4 mr-2" />
               Add New Vehicle
             </Button>
@@ -563,6 +573,10 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-4">
+          <AnalyticsPanel />
         </TabsContent>
       </Tabs>
     </div>
