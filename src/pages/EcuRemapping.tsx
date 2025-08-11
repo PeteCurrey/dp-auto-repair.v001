@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, Gauge, Cpu, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSEO } from "@/hooks/useSEO";
+import PerformanceGainCalculator from "@/components/PerformanceGainCalculator";
 
 const EcuRemapping = () => {
   useSEO({
@@ -82,6 +83,8 @@ const EcuRemapping = () => {
             </div>
           </div>
         </section>
+
+        <PerformanceGainCalculator />
 
         <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4 max-w-5xl">
