@@ -92,7 +92,7 @@ const AboutSection = () => {
               <div className="bg-primary text-primary-foreground p-6 rounded-lg">
                 <h4 className="font-bold text-lg mb-2">Quality Guarantee</h4>
                 <p className="text-sm opacity-90">
-                  All work backed by our comprehensive warranty program
+                  All work backed by our comprehensive warranty programme
                 </p>
               </div>
               <Card className="overflow-hidden shadow-card border-0">

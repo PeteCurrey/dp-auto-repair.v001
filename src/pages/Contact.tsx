@@ -43,7 +43,7 @@ const Contact = () => {
       title: "Phone",
       details: "(01246) 233483",
       description: "Call us during business hours for immediate assistance",
-      action: "tel:+01246233483"
+      action: "tel:+441246233483"
     },
     {
       icon: Mail,

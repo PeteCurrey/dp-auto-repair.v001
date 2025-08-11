@@ -9,6 +9,24 @@ const NotFound = () => {
       "404 Error: User attempted to access non-existent route:",
       location.pathname
     );
+
+    // Set noindex for 404 pages
+    let robots = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!robots) {
+      robots = document.createElement('meta');
+      robots.setAttribute('name', 'robots');
+      document.head.appendChild(robots);
+    }
+    robots.setAttribute('content', 'noindex, nofollow, noarchive');
+
+    const prevTitle = document.title;
+    document.title = '404 Not Found | DP Automotive';
+
+    return () => {
+      // Revert robots to index,follow when leaving 404
+      if (robots) robots.setAttribute('content', 'index, follow');
+      document.title = prevTitle;
+    };
   }, [location.pathname]);
 
   return (

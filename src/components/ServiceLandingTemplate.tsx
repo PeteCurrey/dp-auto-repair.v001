@@ -107,9 +107,9 @@ const ServiceLandingTemplate = ({
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild className="px-8">
-                <a href="tel:01246123456">
+                <a href="tel:+441246233483">
                   <Phone className="h-5 w-5 mr-2" />
-                  01246 123456
+                  01246 233483
                 </a>
               </Button>
             </div>
@@ -216,9 +216,9 @@ const ServiceLandingTemplate = ({
               <Link to="/contact">Book Online</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <a href="tel:01246123456" className="flex items-center">
+              <a href="tel:+441246233483" className="flex items-center">
                 <Phone className="h-5 w-5 mr-2" />
-                01246 123456
+                01246 233483
               </a>
             </Button>
           </div>

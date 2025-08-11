@@ -23,58 +23,63 @@ export const useSEO = ({
     // Update document title
     document.title = title;
 
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
+    // Helper to create or update meta tags
+    const ensureMeta = (
+      nameOrProperty: string,
+      content: string,
+      isProperty = false
+    ) => {
+      let el = document.querySelector(
+        isProperty
+          ? `meta[property="${nameOrProperty}"]`
+          : `meta[name="${nameOrProperty}"]`
+      ) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement('meta');
+        if (isProperty) {
+          el.setAttribute('property', nameOrProperty);
+        } else {
+          el.setAttribute('name', nameOrProperty);
+        }
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+      return el;
+    };
 
-    // Update meta keywords if provided
+    // Meta description
+    ensureMeta('description', description);
+
+    // Meta keywords (optional)
     if (keywords) {
-      const metaKeywords = document.querySelector('meta[name="keywords"]');
-      if (metaKeywords) {
-        metaKeywords.setAttribute('content', keywords);
-      }
+      ensureMeta('keywords', keywords);
     }
 
-    // Update canonical URL if provided
-    if (canonical) {
-      let canonicalLink = document.querySelector('link[rel="canonical"]');
-      if (!canonicalLink) {
-        canonicalLink = document.createElement('link');
-        canonicalLink.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalLink);
-      }
-      canonicalLink.setAttribute('href', canonical);
+    // Canonical URL (defaults to current URL)
+    const canonicalUrl = canonical || window.location.href;
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
     }
+    canonicalLink.setAttribute('href', canonicalUrl);
 
-    // Update Open Graph tags
-    const ogTitleTag = document.querySelector('meta[property="og:title"]');
-    if (ogTitleTag) {
-      ogTitleTag.setAttribute('content', ogTitle || title);
-    }
-
-    const ogDescriptionTag = document.querySelector('meta[property="og:description"]');
-    if (ogDescriptionTag) {
-      ogDescriptionTag.setAttribute('content', ogDescription || description);
-    }
-
+    // Open Graph tags
+    ensureMeta('og:title', ogTitle || title, true);
+    ensureMeta('og:description', ogDescription || description, true);
+    ensureMeta('og:type', 'website', true);
+    ensureMeta('og:url', canonicalUrl, true);
     if (ogImage) {
-      const ogImageTag = document.querySelector('meta[property="og:image"]');
-      if (ogImageTag) {
-        ogImageTag.setAttribute('content', ogImage);
-      }
+      ensureMeta('og:image', ogImage, true);
     }
 
-    // Update Twitter Card tags
-    const twitterTitleTag = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitleTag) {
-      twitterTitleTag.setAttribute('content', ogTitle || title);
-    }
-
-    const twitterDescriptionTag = document.querySelector('meta[name="twitter:description"]');
-    if (twitterDescriptionTag) {
-      twitterDescriptionTag.setAttribute('content', ogDescription || description);
+    // Twitter Card tags
+    ensureMeta('twitter:card', 'summary_large_image');
+    ensureMeta('twitter:title', ogTitle || title);
+    ensureMeta('twitter:description', ogDescription || description);
+    if (ogImage) {
+      ensureMeta('twitter:image', ogImage);
     }
   }, [title, description, keywords, canonical, ogTitle, ogDescription, ogImage]);
 };

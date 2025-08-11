@@ -105,12 +105,12 @@ const FleetSupport = () => {
     {
       name: "Enterprise Fleet Plan",
       features: [
-        "Custom maintenance programs",
-        "24/7 breakdown support coordination",
-        "Advanced fleet analytics",
-        "Compliance management",
-        "On-site consultations",
-        "Bulk parts procurement"
+          "Custom maintenance programmes",
+          "24/7 breakdown support coordination",
+          "Advanced fleet analytics",
+          "Compliance management",
+          "On-site consultations",
+          "Bulk parts procurement"
       ],
       ideal: "15+ vehicles"
     }
@@ -148,7 +148,7 @@ const FleetSupport = () => {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <a href="tel:01246233483">
+                <a href="tel:+441246233483">
                   <Phone className="mr-2 h-5 w-5" />
                   Call (01246) 233483
                 </a>
@@ -225,11 +225,11 @@ const FleetSupport = () => {
                   <div className="space-y-4">
                     <div className="border-l-4 border-primary pl-4">
                       <h4 className="font-semibold text-foreground mb-2">Small Fleets (2-5 vehicles)</h4>
-                      <p className="text-sm text-muted-foreground">Basic maintenance programs with flexible scheduling</p>
+                      <p className="text-sm text-muted-foreground">Basic maintenance programmes with flexible scheduling</p>
                     </div>
                     <div className="border-l-4 border-primary pl-4">
                       <h4 className="font-semibold text-foreground mb-2">Medium Fleets (6-15 vehicles)</h4>
-                      <p className="text-sm text-muted-foreground">Comprehensive programs with dedicated coordination</p>
+                      <p className="text-sm text-muted-foreground">Comprehensive programmes with dedicated coordination</p>
                     </div>
                     <div className="border-l-4 border-primary pl-4">
                       <h4 className="font-semibold text-foreground mb-2">Larger Fleets (15+ vehicles)</h4>
@@ -279,11 +279,11 @@ const FleetSupport = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Fleet Maintenance Programs
+              Fleet Maintenance Programmes
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Choose the fleet maintenance program that best fits your business size and requirements. 
-              All programs include priority service and transparent pricing.
+              Choose the fleet maintenance programme that best fits your business size and requirements. 
+              All programmes include priority service and transparent pricing.
             </p>
           </div>
           

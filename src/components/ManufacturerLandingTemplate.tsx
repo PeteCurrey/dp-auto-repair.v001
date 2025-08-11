@@ -131,7 +131,7 @@ export const ManufacturerLandingTemplate = ({
                 <Link to="/contact">Book Your Service</Link>
               </Button>
               <Button variant="outline" size="lg" asChild className="text-lg px-8">
-                <a href="tel:01246123456">
+                <a href="tel:+441246233483">
                   <Phone className="h-5 w-5 mr-2" />
                   Call Now
                 </a>
@@ -296,9 +296,11 @@ export const ManufacturerLandingTemplate = ({
               <Button asChild size="lg" variant="secondary" className="text-lg px-8">
                 <Link to="/contact">Book Online</Link>
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                01246 123456
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+                <a href="tel:+441246233483">
+                  <Phone className="h-5 w-5 mr-2" />
+                  01246 233483
+                </a>
               </Button>
             </div>
           </div>
