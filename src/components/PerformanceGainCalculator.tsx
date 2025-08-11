@@ -225,15 +225,15 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                 </div>
               </div>
 
-              <div className="rounded-lg border">
-                <div className="grid grid-cols-4 text-xs font-medium text-muted-foreground border-b">
+              <div className="rounded-lg border overflow-x-auto">
+                <div className="grid grid-cols-3 md:grid-cols-4 text-xs font-medium text-muted-foreground border-b min-w-[640px]">
                   <div className="px-3 py-2">Stage</div>
                   <div className="px-3 py-2">Power</div>
                   <div className="px-3 py-2">Torque</div>
-                  <div className="px-3 py-2">Strings</div>
+                  <div className="px-3 py-2 hidden md:block">Strings</div>
                 </div>
                 {gains.stages.map((s) => (
-                  <div key={s.stage} className="grid grid-cols-4 text-sm border-b last:border-b-0">
+                  <div key={s.stage} className="grid grid-cols-3 md:grid-cols-4 text-sm border-b last:border-b-0 min-w-[640px]">
                     <div className="px-3 py-2 font-medium">Stage {s.stage}</div>
                     <div className="px-3 py-2">
                       {s.power.final} hp <span className="text-muted-foreground">(+{s.power.gain})</span>
@@ -241,7 +241,10 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                     <div className="px-3 py-2">
                       {s.torque.final} Nm <span className="text-muted-foreground">(+{s.torque.gain})</span>
                     </div>
-                    <div className="px-3 py-2 whitespace-nowrap text-xs text-muted-foreground">
+                    <div
+                      className="px-3 py-2 hidden md:block text-xs text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap"
+                      title={`${s.formatted.power} | ${s.formatted.torque}`}
+                    >
                       {s.formatted.power} | {s.formatted.torque}
                     </div>
                   </div>
