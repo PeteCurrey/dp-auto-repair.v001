@@ -22,6 +22,7 @@ import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Map from "@/components/Map";
+import SchemaMarkup from "@/components/SchemaMarkup";
 
 const Contact = () => {
   useSEO({
@@ -77,7 +78,28 @@ const Contact = () => {
     "Emergency Service",
     "Other"
   ];
-
+  
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "name": "DP Automotive Repair & Diagnostics",
+    "url": "https://dpautorepair.co.uk/contact",
+    "telephone": "+44-1246-233483",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Unit 5 Vanguard Trading Estate",
+      "addressLocality": "Chesterfield",
+      "postalCode": "S40 2TZ",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 53.2307,
+      "longitude": -1.4659
+    },
+    "openingHours": "Mo-Fr 09:00-17:00"
+  };
+  
   // Form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -144,6 +166,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
+      <SchemaMarkup schema={localBusinessSchema} />
       <Header />
       <main>
         {/* Hero Section */}
