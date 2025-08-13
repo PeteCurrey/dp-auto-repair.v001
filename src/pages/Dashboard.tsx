@@ -333,8 +333,8 @@ const Dashboard = () => {
       
       {/* Signature Footer */}
       <div className="fixed bottom-4 right-4 z-50">
-        <p className="text-xs text-white/60 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-lg flex items-center gap-2">
-          <img src="/lovable-uploads/a40ce8a0-f5e2-429f-9811-0318072bfe29.png" alt="Peter A Currey Signature" className="h-8 w-auto transform rotate-[-1deg] opacity-90" /> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
+        <p className="text-xs text-muted-foreground bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg flex items-center gap-2 border border-white/20">
+          <img src="/lovable-uploads/a40ce8a0-f5e2-429f-9811-0318072bfe29.png" alt="Peter A Currey Signature" className="h-12 w-auto transform rotate-[-1deg] opacity-90 -mx-2" /> <span className="font-montserrat font-extralight text-muted-foreground">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider">AVORRIA</span>
         </p>
       </div>
     </div>
