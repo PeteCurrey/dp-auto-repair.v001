@@ -331,7 +331,7 @@ const Dashboard = () => {
       {/* Signature Footer */}
       <div className="fixed bottom-4 right-4 z-50">
         <p className="text-xs text-white/60 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-lg">
-          <span className="font-buongiorno text-sm text-white/80">PeterACurrey</span> Signature Build by <span className="text-white/80">Avorria</span>
+          <span className="font-buongiorno text-sm text-white/80">PeterACurrey</span> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
         </p>
       </div>
     </div>
