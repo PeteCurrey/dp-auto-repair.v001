@@ -38,7 +38,7 @@ const Hero = () => {
           </h1>
 
           {/* Subheading */}
-          <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90 max-w-2xl animate-fade-up leading-relaxed">
+          <p className="text-lg sm:text-xl mb-8 text-white/90 max-w-2xl animate-fade-up leading-relaxed font-extralight md:text-lg">
             Professional automotive repair, diagnostics and service. From routine servicing to performance tuning, DP Auto Repair & Diagnostics. Your trusted mechanic.
           </p>
 
