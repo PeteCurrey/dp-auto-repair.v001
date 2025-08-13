@@ -77,7 +77,7 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="bg-white/60 backdrop-blur-md">
+      <div className="bg-white/40 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
           {/* Logo */}
