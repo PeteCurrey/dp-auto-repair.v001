@@ -96,7 +96,7 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/services')}
-                    className={`text-sm font-thin transition-colors hover:text-primary bg-transparent ${
+                    className={`text-sm font-extralight transition-colors hover:text-primary bg-transparent ${
                       isServiceActive() ? "text-primary" : "text-foreground"
                     }`}
                   >
@@ -122,7 +122,7 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/tuning')}
-                    className={`text-sm font-thin transition-colors hover:text-primary bg-transparent ${
+                    className={`text-sm font-extralight transition-colors hover:text-primary bg-transparent ${
                       isActive("/tuning") ? "text-primary" : "text-foreground"
                     }`}
                   >
@@ -151,7 +151,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-thin transition-colors hover:text-primary ${
+                className={`text-sm font-extralight transition-colors hover:text-primary ${
                   isActive(item.href) ? "text-primary" : "text-foreground"
                 }`}
               >
@@ -164,7 +164,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm font-thin"
+                  className="bg-white/10 text-black border-red-500 hover:bg-white/20 text-sm font-extralight"
                 >
                   <Link to="/dashboard">
                     Dashboard
@@ -172,7 +172,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   asChild
-                  className="gradient-primary text-primary-foreground shadow-elegant text-sm font-thin"
+                  className="gradient-primary text-black shadow-elegant text-sm font-extralight"
                 >
                   <Link to="/contact">
                     Book Service
@@ -184,7 +184,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm font-thin"
+                  className="bg-white/10 text-black border-red-500 hover:bg-white/20 text-sm font-extralight"
                 >
                   <Link to="/auth">
                     Client Login
@@ -192,7 +192,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   asChild
-                  className="gradient-primary text-primary-foreground shadow-elegant text-sm font-thin"
+                  className="gradient-primary text-black shadow-elegant text-sm font-extralight"
                 >
                   <Link to="/contact">
                     Book Service
@@ -249,45 +249,45 @@ const Header = () => {
               
               {user ? (
                 <div className="flex flex-col gap-4">
-                  <Button 
-                    asChild
-                    variant="outline" 
-                    className="bg-white/10 text-white border-white/30 hover:bg-white/20 w-fit"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Link to="/dashboard">
-                      Dashboard
-                    </Link>
-                  </Button>
-                  <Button 
-                    asChild
-                    className="gradient-primary text-primary-foreground w-fit"
-                  >
-                    <Link to="/contact">
-                      Book Service
-                    </Link>
-                  </Button>
+                   <Button 
+                     asChild
+                     variant="outline" 
+                     className="bg-white/10 text-black border-red-500 hover:bg-white/20 w-fit font-extralight"
+                     onClick={() => setIsMenuOpen(false)}
+                   >
+                     <Link to="/dashboard">
+                       Dashboard
+                     </Link>
+                   </Button>
+                   <Button 
+                     asChild
+                     className="gradient-primary text-black w-fit font-extralight"
+                   >
+                     <Link to="/contact">
+                       Book Service
+                     </Link>
+                   </Button>
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  <Button 
-                    asChild
-                    variant="outline" 
-                    className="bg-white/10 text-white border-white/30 hover:bg-white/20 w-fit"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Link to="/auth">
-                      Client Login
-                    </Link>
-                  </Button>
-                  <Button 
-                    asChild
-                    className="gradient-primary text-primary-foreground w-fit"
-                  >
-                    <Link to="/contact">
-                      Book Service
-                    </Link>
-                  </Button>
+                   <Button 
+                     asChild
+                     variant="outline" 
+                     className="bg-white/10 text-black border-red-500 hover:bg-white/20 w-fit font-extralight"
+                     onClick={() => setIsMenuOpen(false)}
+                   >
+                     <Link to="/auth">
+                       Client Login
+                     </Link>
+                   </Button>
+                   <Button 
+                     asChild
+                     className="gradient-primary text-black w-fit font-extralight"
+                   >
+                     <Link to="/contact">
+                       Book Service
+                     </Link>
+                   </Button>
                 </div>
               )}
             </nav>

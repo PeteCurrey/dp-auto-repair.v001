@@ -44,13 +44,13 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up">
-            <Button size="lg" className="gradient-primary text-primary-foreground shadow-glow hover-lift text-sm font-thin" asChild>
+            <Button size="lg" className="gradient-primary text-black shadow-glow hover-lift text-sm font-extralight" asChild>
               <Link to="/contact">
                 <Wrench className="w-5 h-5 mr-2" />
                 Book Service Now
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm font-thin" asChild>
+            <Button size="lg" variant="outline" className="bg-white/10 text-black border-red-500 hover:bg-white/20 text-sm font-extralight" asChild>
               <Link to="/services">View Our Services</Link>
             </Button>
           </div>
