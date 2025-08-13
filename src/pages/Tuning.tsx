@@ -238,6 +238,25 @@ const Tuning = () => {
           </div>
         </section>
 
+        {/* Related internal links for crawlability */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h3 className="text-2xl font-semibold mb-4">Related tuning services in Chesterfield</h3>
+              <p className="text-muted-foreground mb-6">Explore our specialist local landing pages:</p>
+              <ul className="grid sm:grid-cols-2 gap-3 list-disc pl-5">
+                <li><Link to="/ecu-remap-chesterfield">ECU Remap Chesterfield</Link></li>
+                <li><Link to="/ecu-remapping-chesterfield">ECU Remapping Chesterfield</Link></li>
+                <li><Link to="/performance-chip-chesterfield">Performance Chip Chesterfield</Link></li>
+                <li><Link to="/car-tuning-chesterfield">Car Tuning Chesterfield</Link></li>
+                <li><Link to="/car-performance-garage-chesterfield">Car Performance Garage Chesterfield</Link></li>
+                <li><Link to="/car-engine-tuning-chesterfield">Car Engine Tuning Chesterfield</Link></li>
+                <li><Link to="/tuning-garage-chesterfield">Tuning Garage Chesterfield</Link></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-20 bg-secondary/20">
           <div className="container mx-auto px-4 text-center">

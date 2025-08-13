@@ -48,10 +48,10 @@ const TuningLandingTemplate = ({
     title: pageTitle,
     description,
     keywords,
-    canonical: `https://dpautomotive.co.uk/${slug}`,
+    canonical: `https://dpautorepair.co.uk/${slug}`,
     ogTitle: pageTitle,
     ogDescription: description,
-    ogImage: "https://dpautomotive.co.uk/professional-garage-snapon.jpg"
+    ogImage: "https://dpautorepair.co.uk/professional-garage-snapon.jpg"
   });
 
   const serviceSchema = {
@@ -70,7 +70,7 @@ const TuningLandingTemplate = ({
         "addressCountry": "GB"
       },
       "telephone": "+441246233483",
-      "url": "https://dpautomotive.co.uk"
+      "url": "https://dpautorepair.co.uk"
     },
     "description": description,
     "areaServed": "Chesterfield, Derbyshire"
