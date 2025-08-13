@@ -181,8 +181,8 @@ const Footer = () => {
                   Terms of Service
                 </Link>
               </div>
-              <p className="text-xs opacity-60">
-                <span className="font-signature text-2xl font-bold transform rotate-[-2deg] skew-x-[-1deg] inline-block" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.2)', letterSpacing: '1px' }}>PeterACurrey</span> <span className="font-montserrat font-extralight">Signature Build by</span> <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="font-montserrat font-extralight tracking-wider hover:text-primary transition-colors">AVORRIA</a>
+              <p className="text-xs opacity-60 flex items-center gap-2">
+                <img src="/lovable-uploads/a40ce8a0-f5e2-429f-9811-0318072bfe29.png" alt="Peter A Currey Signature" className="h-6 w-auto transform rotate-[-1deg]" /> <span className="font-montserrat font-extralight">Signature Build by</span> <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="font-montserrat font-extralight tracking-wider hover:text-primary transition-colors">AVORRIA</a>
               </p>
             </div>
           </div>
