@@ -57,10 +57,11 @@ const ServicesOverview = () => {
                 <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
                   <service.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
-                <CardTitle className="text-xl font-light">{service.title}</CardTitle>
-                <p className="text-muted-foreground">{service.description}</p>
+                <h3 className="text-xl font-semibold">{service.title}</h3>
+                <h4 className="text-muted-foreground">{service.description}</h4>
               </CardHeader>
               <CardContent className="pt-0">
+                <h5 className="font-medium mb-3">Our Services Include:</h5>
                 <ul className="space-y-2 mb-6">
                   {service.features.map(feature => <li key={feature} className="flex items-center text-sm">
                       <ArrowRight className="w-4 h-4 text-primary mr-2 flex-shrink-0" />

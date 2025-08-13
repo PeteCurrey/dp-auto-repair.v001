@@ -120,13 +120,21 @@ const ServiceLandingTemplate = ({
       {/* Benefits */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary mb-4">
+              Why Choose DP Automotive for {serviceType} in Chesterfield?
+            </h2>
+            <h3 className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Your trusted local garage with proven expertise and transparent service
+            </h3>
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {benefits.map((b, i) => (
               <Card key={i}>
                 <CardContent className="p-6">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-6 w-6 text-primary mt-1" />
-                    <p className="text-foreground">{b}</p>
+                    <h4 className="text-foreground font-medium">{b}</h4>
                   </div>
                 </CardContent>
               </Card>
@@ -139,14 +147,17 @@ const ServiceLandingTemplate = ({
       <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">What You Get</h2>
+            <h2 className="text-3xl font-bold text-center mb-4">Our {serviceType} Service Includes</h2>
+            <h3 className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+              Comprehensive service features designed for your peace of mind
+            </h3>
             <div className="grid md:grid-cols-2 gap-6">
               {features.map((f, idx) => (
                 <Card key={idx}>
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3">
                       <Wrench className="h-5 w-5 text-primary" />
-                      <span>{f}</span>
+                      <h4 className="font-medium">{f}</h4>
                     </div>
                   </CardContent>
                 </Card>
@@ -159,26 +170,34 @@ const ServiceLandingTemplate = ({
       {/* Trust */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary mb-4">
+              Your Trusted Chesterfield {serviceType} Specialists
+            </h2>
+            <h3 className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Quality service backed by comprehensive warranties and local expertise
+            </h3>
+          </div>
           <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 text-center">
             <Card>
               <CardHeader>
                 <Shield className="h-10 w-10 text-primary mx-auto mb-2" />
-                <CardTitle>12‑Month Warranty</CardTitle>
-                <CardDescription>On parts and labour</CardDescription>
+                <h4 className="text-xl font-semibold">12‑Month Warranty</h4>
+                <h5 className="text-muted-foreground">On parts and labour</h5>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader>
                 <MapPin className="h-10 w-10 text-primary mx-auto mb-2" />
-                <CardTitle>Chesterfield Garage</CardTitle>
-                <CardDescription>Easy to reach location</CardDescription>
+                <h4 className="text-xl font-semibold">Chesterfield Garage</h4>
+                <h5 className="text-muted-foreground">Easy to reach location</h5>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader>
                 <Calendar className="h-10 w-10 text-primary mx-auto mb-2" />
-                <CardTitle>Fast Turnaround</CardTitle>
-                <CardDescription>Same‑day on many jobs</CardDescription>
+                <h4 className="text-xl font-semibold">Fast Turnaround</h4>
+                <h5 className="text-muted-foreground">Same‑day on many jobs</h5>
               </CardHeader>
             </Card>
           </div>
@@ -189,15 +208,18 @@ const ServiceLandingTemplate = ({
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold text-center mb-4">{serviceType} Questions Answered</h2>
+            <h3 className="text-lg text-muted-foreground text-center mb-8 max-w-3xl mx-auto">
+              Common questions about {serviceType.toLowerCase()} services in Chesterfield
+            </h3>
             <div className="grid gap-4">
               {faqs.map((faq, i) => (
                 <Card key={i}>
                   <CardHeader>
-                    <CardTitle className="text-lg">{faq.question}</CardTitle>
+                    <h4 className="text-lg font-semibold">{faq.question}</h4>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">{faq.answer}</p>
+                    <h5 className="text-muted-foreground">{faq.answer}</h5>
                   </CardContent>
                 </Card>
               ))}

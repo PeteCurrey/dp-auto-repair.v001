@@ -211,12 +211,12 @@ const TuningLandingTemplate = ({
                       <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
                         {benefit.icon}
                       </div>
-                      <CardTitle className="text-xl">{benefit.title}</CardTitle>
+                      <h3 className="text-xl font-semibold">{benefit.title}</h3>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-sm">
+                      <h4 className="text-sm text-muted-foreground">
                         {benefit.description}
-                      </CardDescription>
+                      </h4>
                     </CardContent>
                   </Card>
                 ))}
@@ -244,7 +244,7 @@ const TuningLandingTemplate = ({
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-primary mb-4">
-                  Our Performance Tuning Services
+                  Our Performance Tuning Services in Chesterfield
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                   From ECU remapping to complete performance packages, we offer comprehensive tuning solutions for all makes and models.
@@ -254,10 +254,11 @@ const TuningLandingTemplate = ({
                 {services.map((service, index) => (
                   <Card key={index}>
                     <CardHeader>
-                      <CardTitle className="text-xl">{service.title}</CardTitle>
-                      <CardDescription>{service.description}</CardDescription>
+                      <h3 className="text-xl font-semibold">{service.title}</h3>
+                      <h4 className="text-muted-foreground">{service.description}</h4>
                     </CardHeader>
                     <CardContent>
+                      <h5 className="font-medium mb-3">Service Includes:</h5>
                       <ul className="space-y-2">
                         {service.features.map((feature, featureIndex) => (
                           <li key={featureIndex} className="flex items-center text-sm">
@@ -278,7 +279,7 @@ const TuningLandingTemplate = ({
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-primary mb-4">
-                  Our Professional Remapping Process
+                  Our Professional {serviceType} Process in Chesterfield
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                   We follow a proven methodology to ensure safe, reliable, and optimal performance gains for your vehicle.
@@ -291,7 +292,8 @@ const TuningLandingTemplate = ({
                       <div className="mx-auto mb-4 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xl font-bold">
                         {index + 1}
                       </div>
-                      <CardTitle className="text-lg">{step}</CardTitle>
+                      <h3 className="text-lg font-semibold">Step {index + 1}</h3>
+                      <h4 className="text-sm text-muted-foreground">{step}</h4>
                     </CardHeader>
                   </Card>
                 ))}
@@ -304,8 +306,11 @@ const TuningLandingTemplate = ({
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-primary mb-4">
-                  Why Choose DP Automotive?
+                  Why Choose DP Automotive for {serviceType} in Chesterfield?
                 </h2>
+                <h3 className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                  Your trusted performance tuning specialists with proven expertise
+                </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {trustFactors.map((factor, index) => (
@@ -313,8 +318,8 @@ const TuningLandingTemplate = ({
                     <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
                       {factor.icon}
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">{factor.title}</h3>
-                    <p className="text-muted-foreground">{factor.description}</p>
+                    <h4 className="text-xl font-semibold mb-2">{factor.title}</h4>
+                    <h5 className="text-muted-foreground">{factor.description}</h5>
                   </div>
                 ))}
               </div>
@@ -326,18 +331,21 @@ const TuningLandingTemplate = ({
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-primary mb-4">
-                  Frequently Asked Questions
+                  {serviceType} Questions Answered
                 </h2>
+                <h3 className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                  Common questions about {serviceType.toLowerCase()} services in Chesterfield
+                </h3>
               </div>
               <div className="max-w-4xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {faqs.map((faq, index) => (
                     <Card key={index}>
                       <CardHeader>
-                        <CardTitle className="text-lg">{faq.question}</CardTitle>
+                        <h4 className="text-lg font-semibold">{faq.question}</h4>
                       </CardHeader>
                       <CardContent>
-                        <CardDescription>{faq.answer}</CardDescription>
+                        <h5 className="text-muted-foreground">{faq.answer}</h5>
                       </CardContent>
                     </Card>
                   ))}

@@ -45,6 +45,7 @@ const AboutSection = () => {
             </div>
 
             {/* Credentials */}
+            <h3 className="text-xl font-semibold mb-4">Our Credentials & Certifications</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               {credentials.map((credential) => (
                 <Badge 
@@ -59,11 +60,12 @@ const AboutSection = () => {
             </div>
 
             {/* Stats */}
+            <h3 className="text-xl font-semibold mb-4">DP Automotive by the Numbers</h3>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-3xl font-bold text-primary mb-1">{stat.number}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  <h4 className="text-3xl font-bold text-primary mb-1">{stat.number}</h4>
+                  <h5 className="text-sm text-muted-foreground">{stat.label}</h5>
                 </div>
               ))}
             </div>
@@ -82,18 +84,18 @@ const AboutSection = () => {
                 </CardContent>
               </Card>
               <div className="bg-secondary text-secondary-foreground p-6 rounded-lg">
-                <h4 className="font-bold text-lg mb-2">Professional Diagnostics</h4>
-                <p className="text-sm opacity-90">
+                <h4 className="font-bold text-lg mb-2">Professional Diagnostics in Chesterfield</h4>
+                <h5 className="text-sm opacity-90">
                   Advanced computer diagnostics ensure accurate problem identification
-                </p>
+                </h5>
               </div>
             </div>
             <div className="space-y-6 sm:mt-8">
               <div className="bg-primary text-primary-foreground p-6 rounded-lg">
-                <h4 className="font-bold text-lg mb-2">Quality Guarantee</h4>
-                <p className="text-sm opacity-90">
+                <h4 className="font-bold text-lg mb-2">Quality Guarantee & Warranty</h4>
+                <h5 className="text-sm opacity-90">
                   All work backed by our comprehensive warranty programme
-                </p>
+                </h5>
               </div>
               <Card className="overflow-hidden shadow-card border-0">
                 <CardContent className="p-0">

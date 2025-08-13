@@ -168,18 +168,22 @@ export const ManufacturerLandingTemplate = ({
       <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">
-              {manufacturer} Service Packages
+            <h2 className="text-3xl font-bold text-center mb-4">
+              {manufacturer} Service Packages in Chesterfield
             </h2>
+            <h3 className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+              Tailored service packages designed specifically for {manufacturer} vehicles
+            </h3>
             <div className="grid md:grid-cols-3 gap-6">
               {servicePackages.map((pkg, index) => (
                 <Card key={index} className="relative">
                   <CardHeader>
-                    <CardTitle className="text-xl">{pkg.name}</CardTitle>
-                    <CardDescription>Every {pkg.interval}</CardDescription>
+                    <h4 className="text-xl font-semibold">{pkg.name}</h4>
+                    <h5 className="text-muted-foreground">Every {pkg.interval}</h5>
                     <div className="text-2xl font-bold text-primary">{pkg.price}</div>
                   </CardHeader>
                   <CardContent>
+                    <h6 className="font-medium mb-3">Includes:</h6>
                     <ul className="space-y-2">
                       {pkg.services.map((service, serviceIndex) => (
                         <li key={serviceIndex} className="flex items-center gap-2">
@@ -200,9 +204,12 @@ export const ManufacturerLandingTemplate = ({
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">
-              {manufacturer} Specialist Services
+            <h2 className="text-3xl font-bold text-center mb-4">
+              {manufacturer} Specialist Services in Chesterfield
             </h2>
+            <h3 className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+              Advanced diagnostic and repair services specific to {manufacturer} vehicles
+            </h3>
             <div className="grid md:grid-cols-2 gap-6">
               {specialServices.map((service, index) => (
                 <Card key={index}>
@@ -223,16 +230,19 @@ export const ManufacturerLandingTemplate = ({
       <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">
-              Common {manufacturer} Issues We Address
+            <h2 className="text-3xl font-bold text-center mb-4">
+              Common {manufacturer} Issues We Address in Chesterfield
             </h2>
+            <h3 className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+              Expert solutions for known {manufacturer} problems and maintenance requirements
+            </h3>
             <div className="grid md:grid-cols-2 gap-6">
               {commonIssues.map((issue, index) => (
                 <Card key={index}>
                   <CardContent className="p-6">
                     <div className="flex items-start gap-3">
                       <Shield className="h-6 w-6 text-primary mt-1" />
-                      <p>{issue}</p>
+                      <h4 className="font-medium">{issue}</h4>
                     </div>
                   </CardContent>
                 </Card>
@@ -246,27 +256,30 @@ export const ManufacturerLandingTemplate = ({
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-12">Trusted by Chesterfield Drivers</h2>
+            <h2 className="text-3xl font-bold mb-4">Trusted {manufacturer} Specialists in Chesterfield</h2>
+            <h3 className="text-lg text-muted-foreground mb-12 max-w-3xl mx-auto">
+              Your local garage with proven expertise and commitment to quality service
+            </h3>
             <div className="grid md:grid-cols-4 gap-8">
               <div className="flex flex-col items-center">
                 <Award className="h-12 w-12 text-primary mb-4" />
                 <h4 className="font-semibold mb-2">15+ Years Experience</h4>
-                <p className="text-muted-foreground">Serving Chesterfield since 2008</p>
+                <h5 className="text-muted-foreground">Serving Chesterfield since 2008</h5>
               </div>
               <div className="flex flex-col items-center">
                 <Clock className="h-12 w-12 text-primary mb-4" />
                 <h4 className="font-semibold mb-2">Same Day Service</h4>
-                <p className="text-muted-foreground">Quick turnaround times</p>
+                <h5 className="text-muted-foreground">Quick turnaround times</h5>
               </div>
               <div className="flex flex-col items-center">
                 <Shield className="h-12 w-12 text-primary mb-4" />
                 <h4 className="font-semibold mb-2">12 Month Warranty</h4>
-                <p className="text-muted-foreground">On all parts and labour</p>
+                <h5 className="text-muted-foreground">On all parts and labour</h5>
               </div>
               <div className="flex flex-col items-center">
                 <MapPin className="h-12 w-12 text-primary mb-4" />
                 <h4 className="font-semibold mb-2">Central Location</h4>
-                <p className="text-muted-foreground">Easy to find in Chesterfield</p>
+                <h5 className="text-muted-foreground">Easy to find in Chesterfield</h5>
               </div>
             </div>
           </div>
