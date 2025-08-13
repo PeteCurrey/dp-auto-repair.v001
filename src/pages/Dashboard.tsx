@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import heroImage from "@/assets/hero-garage.jpg";
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -180,7 +180,9 @@ const Dashboard = () => {
         <div className="absolute inset-0 gradient-hero opacity-95" />
         <div className="relative z-10 container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-white">DP Automotive</h1>
+            <Link to="/" className="hover:opacity-80 transition-opacity">
+              <h1 className="text-2xl font-bold text-white">DP Automotive</h1>
+            </Link>
             <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
               {profile.user_type.charAt(0).toUpperCase() + profile.user_type.slice(1)}
             </Badge>
@@ -331,7 +333,7 @@ const Dashboard = () => {
       {/* Signature Footer */}
       <div className="fixed bottom-4 right-4 z-50">
         <p className="text-xs text-white/60 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-lg">
-          <span className="font-buongiorno text-sm text-white/80">PeterACurrey</span> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
+          <span className="font-signature text-lg text-white/80">PeterACurrey</span> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
         </p>
       </div>
     </div>
