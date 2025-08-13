@@ -57,7 +57,7 @@ const DashboardWelcome = ({
           {/* Vehicle Search */}
           <div className="max-w-md mx-auto mb-12 animate-fade-up">
             <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20">
-              <h3 className="text-white text-xl font-semibold mb-4">
+              <h3 className="text-xl mb-4 font-light text-gray-300">
                 Quick Vehicle Lookup
               </h3>
               <div className="flex gap-2">
@@ -75,7 +75,7 @@ const DashboardWelcome = ({
           {/* Today's Appointments */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20 cursor-pointer hover-lift" onClick={() => onNavigateToTab('schedule')}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-white text-sm font-medium">
+              <CardTitle className="text-white text-sm font-light">
                 Today's Appointments
               </CardTitle>
               <Calendar className="h-4 w-4 text-primary-glow" />
@@ -98,7 +98,7 @@ const DashboardWelcome = ({
           {/* New Enquiries */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20 cursor-pointer hover-lift" onClick={() => onNavigateToTab('enquiries')}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-white text-sm font-medium">
+              <CardTitle className="text-white text-sm font-light">
                 New Enquiries
               </CardTitle>
               <MessageSquare className="h-4 w-4 text-primary-glow" />
@@ -121,7 +121,7 @@ const DashboardWelcome = ({
           {/* Total Clients */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-white text-sm font-medium">
+              <CardTitle className="text-white text-sm font-light">
                 Active Clients
               </CardTitle>
               <Users className="h-4 w-4 text-primary-glow" />
@@ -139,7 +139,7 @@ const DashboardWelcome = ({
           {/* Monthly Revenue */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-white text-sm font-medium">
+              <CardTitle className="text-white text-sm font-light">
                 This Month
               </CardTitle>
               <TrendingUp className="h-4 w-4 text-primary-glow" />
@@ -157,7 +157,7 @@ const DashboardWelcome = ({
 
         {/* Quick Actions */}
         <div className="mt-12 text-center animate-fade-up">
-          <h3 className="text-white text-xl font-semibold mb-6">Quick Actions</h3>
+          <h3 className="text-xl mb-6 font-light text-gray-300">Quick Actions</h3>
           <div className="flex flex-wrap justify-center gap-4">
             <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20" onClick={() => onNavigateToTab('schedule')}>
               <Calendar className="h-4 w-4 mr-2" />
