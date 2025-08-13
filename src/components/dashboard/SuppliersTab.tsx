@@ -61,7 +61,7 @@ const suppliers: SupplierLink[] = [
   }
 ];
 
-const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
+const SuppliersTab = () => {
   const [registration, setRegistration] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [vehicleInfo, setVehicleInfo] = useState<VehicleInfo | null>(null);
@@ -149,7 +149,7 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
       return;
     }
 
-    logEvent('supplier_search', { registration: registration.toUpperCase() }, { profileId: profile.id });
+    logEvent('supplier_search', { registration: registration.toUpperCase() });
 
     try {
       const vehicle = await lookupVehicle(registration);
@@ -218,7 +218,7 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
         registration: registration.toUpperCase(),
         errorType,
         statusCode
-      }, { profileId: profile.id });
+      });
     }
   };
 
@@ -252,7 +252,7 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
     logEvent('supplier_link_clicked', { 
       supplier: supplier.name, 
       registration: cleanReg 
-    }, { profileId: profile.id });
+    });
     
     window.open(url, '_blank');
   };

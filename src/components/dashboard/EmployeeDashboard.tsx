@@ -493,7 +493,7 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         </TabsContent>
 
         <TabsContent value="suppliers" className="space-y-4">
-          <SuppliersTab profile={profile} />
+          <SuppliersTab />
         </TabsContent>
       </Tabs>
     </div>

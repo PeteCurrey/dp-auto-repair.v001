@@ -7,11 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
 import EnquiriesInbox from '@/components/dashboard/EnquiriesInbox';
+import AnalyticsPanel from '@/components/dashboard/AnalyticsPanel';
+import SuppliersTab from '@/components/dashboard/SuppliersTab';
+import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
+import VehicleLookupTab from '@/components/dashboard/VehicleLookupTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Profile {
@@ -31,6 +35,10 @@ const Dashboard = () => {
   const { toast } = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('home');
+  const [vehicleSearchReg, setVehicleSearchReg] = useState('');
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [enquiries, setEnquiries] = useState<any[]>([]);
 
   // Track pageviews on dashboard route (profileId optional)
   useAnalytics(profile?.id);
@@ -44,6 +52,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (user) {
       fetchOrCreateProfile();
+      fetchDashboardData();
     }
   }, [user]);
 
@@ -98,9 +107,46 @@ const Dashboard = () => {
     }
   };
 
+  const fetchDashboardData = async () => {
+    if (!user) return;
+
+    try {
+      // Fetch appointments
+      const { data: appointmentsData } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('appointment_date', { ascending: true });
+      
+      setAppointments(appointmentsData || []);
+
+      // Mock enquiries data for now
+      setEnquiries([]);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
+
+  const handleVehicleSearch = (registration: string) => {
+    setVehicleSearchReg(registration);
+  };
+
+  const handleNavigateToTab = (tab: string) => {
+    setActiveTab(tab);
+  };
+
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
+  };
+
+  const getTodayAppointments = () => {
+    const today = new Date().toISOString().split('T')[0];
+    return appointments.filter(apt => apt.appointment_date === today);
+  };
+
+  const getNewEnquiries = () => {
+    // Mock data for now
+    return enquiries.filter(enq => enq.status === 'new');
   };
 
   if (loading || profileLoading) {
@@ -144,12 +190,90 @@ const Dashboard = () => {
         </div>
       </header>
 
+      {/* Navigation Tabs */}
+      {isEmployee && (
+        <div className="border-b bg-background">
+          <div className="container mx-auto px-4">
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-6">
+                <TabsTrigger value="home" className="flex items-center gap-2">
+                  <Home className="h-4 w-4" />
+                  <span className="hidden sm:inline">Home</span>
+                </TabsTrigger>
+                <TabsTrigger value="schedule" className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  <span className="hidden sm:inline">Schedule</span>
+                </TabsTrigger>
+                <TabsTrigger value="enquiries" className="flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4" />
+                  <span className="hidden sm:inline">Enquiries</span>
+                </TabsTrigger>
+                <TabsTrigger value="analytics" className="flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden sm:inline">Analytics</span>
+                </TabsTrigger>
+                <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2">
+                  <Car className="h-4 w-4" />
+                  <span className="hidden sm:inline">Vehicle Lookup</span>
+                </TabsTrigger>
+                <TabsTrigger value="suppliers" className="flex items-center gap-2">
+                  <Package className="h-4 w-4" />
+                  <span className="hidden sm:inline">Suppliers</span>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 space-y-6">
+      <main className="flex-1">
         {isEmployee ? (
-          <EmployeeDashboard profile={profile} />
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsContent value="home" className="mt-0">
+              <DashboardWelcome 
+                profile={profile}
+                todayAppointments={getTodayAppointments()}
+                newEnquiries={getNewEnquiries()}
+                onVehicleSearch={handleVehicleSearch}
+                onNavigateToTab={handleNavigateToTab}
+              />
+            </TabsContent>
+            
+            <TabsContent value="schedule" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <EmployeeDashboard profile={profile} />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="enquiries" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <EnquiriesInbox profile={profile} />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="analytics" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <AnalyticsPanel />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="vehicle-lookup" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <VehicleLookupTab initialRegistration={vehicleSearchReg} />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="suppliers" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <SuppliersTab />
+              </div>
+            </TabsContent>
+          </Tabs>
         ) : (
-          <ClientDashboard profile={profile} />
+          <div className="container mx-auto px-4 py-6">
+            <ClientDashboard profile={profile} />
+          </div>
         )}
       </main>
     </div>
