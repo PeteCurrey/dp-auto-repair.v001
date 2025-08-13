@@ -96,8 +96,8 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/services')}
-                    className={`text-xs font-thin transition-colors hover:text-primary bg-transparent ${
-                      isServiceActive() ? "text-primary" : "text-white"
+                    className={`text-sm font-thin transition-colors hover:text-primary bg-transparent ${
+                      isServiceActive() ? "text-primary" : "text-foreground"
                     }`}
                   >
                     Services
@@ -122,8 +122,8 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/tuning')}
-                    className={`text-xs font-thin transition-colors hover:text-primary bg-transparent ${
-                      isActive("/tuning") ? "text-primary" : "text-white"
+                    className={`text-sm font-thin transition-colors hover:text-primary bg-transparent ${
+                      isActive("/tuning") ? "text-primary" : "text-foreground"
                     }`}
                   >
                     Tuning
@@ -151,8 +151,8 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-xs font-thin transition-colors hover:text-primary ${
-                  isActive(item.href) ? "text-primary" : "text-white"
+                className={`text-sm font-thin transition-colors hover:text-primary ${
+                  isActive(item.href) ? "text-primary" : "text-foreground"
                 }`}
               >
                 {item.name}
@@ -164,7 +164,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-white border-white/30 hover:bg-white/20"
+                  className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm font-thin"
                 >
                   <Link to="/dashboard">
                     Dashboard
@@ -172,7 +172,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   asChild
-                  className="gradient-primary text-primary-foreground shadow-elegant"
+                  className="gradient-primary text-primary-foreground shadow-elegant text-sm font-thin"
                 >
                   <Link to="/contact">
                     Book Service
@@ -184,7 +184,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-white border-white/30 hover:bg-white/20"
+                  className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-sm font-thin"
                 >
                   <Link to="/auth">
                     Client Login
@@ -192,7 +192,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   asChild
-                  className="gradient-primary text-primary-foreground shadow-elegant"
+                  className="gradient-primary text-primary-foreground shadow-elegant text-sm font-thin"
                 >
                   <Link to="/contact">
                     Book Service
