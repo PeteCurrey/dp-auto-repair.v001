@@ -227,9 +227,6 @@ const App = () => (
           <Route path="/what-is-car-remapping" element={<WhatIsCarRemapping />} />
           <Route path="/car-garages-chesterfield" element={<CarGaragesChesterfield />} />
           
-          {/* Static file routes */}
-          <Route path="/sitemap.xml" element={<SitemapComponent />} />
-          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
