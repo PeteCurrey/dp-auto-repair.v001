@@ -199,13 +199,13 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
   return (
     <div className="space-y-6">
       {/* Search Section */}
-      <Card>
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Car className="h-5 w-5" />
             Vehicle Lookup
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-white/80">
             Enter a UK registration number to retrieve vehicle information and MOT status
           </CardDescription>
         </CardHeader>
@@ -216,9 +216,9 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
               value={registration}
               onChange={(e) => setRegistration(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1"
+              className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/60"
             />
-            <Button onClick={handleSearch} disabled={loading}>
+            <Button onClick={handleSearch} disabled={loading} className="gradient-primary shadow-glow">
               {loading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary" />
               ) : (
@@ -232,32 +232,32 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
 
       {/* Vehicle Information */}
       {vehicleInfo && (
-        <Card>
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
           <CardHeader>
-            <CardTitle>Vehicle Information</CardTitle>
-            <CardDescription>Registration: {registration}</CardDescription>
+            <CardTitle className="text-white">Vehicle Information</CardTitle>
+            <CardDescription className="text-white/80">Registration: {registration}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
-                <span className="text-muted-foreground">Make & Model:</span>
-                <p className="font-medium">{vehicleInfo.make} {vehicleInfo.model}</p>
+                <span className="text-white/70">Make & Model:</span>
+                <p className="font-medium text-white">{vehicleInfo.make} {vehicleInfo.model}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">Year:</span>
-                <p className="font-medium">{vehicleInfo.year}</p>
+                <span className="text-white/70">Year:</span>
+                <p className="font-medium text-white">{vehicleInfo.year}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">Fuel Type:</span>
-                <p className="font-medium">{vehicleInfo.fuelType}</p>
+                <span className="text-white/70">Fuel Type:</span>
+                <p className="font-medium text-white">{vehicleInfo.fuelType}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">MOT Status:</span>
-                <p className="font-medium">{vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}</p>
+                <span className="text-white/70">MOT Status:</span>
+                <p className="font-medium text-white">{vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">Tax Status:</span>
-                <p className="font-medium">{vehicleInfo.taxStatus}</p>
+                <span className="text-white/70">Tax Status:</span>
+                <p className="font-medium text-white">{vehicleInfo.taxStatus}</p>
               </div>
             </div>
 
@@ -265,15 +265,15 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
 
             {/* MOT Information */}
             <div className="space-y-3">
-              <h4 className="font-medium">MOT Information</h4>
+              <h4 className="font-medium text-white">MOT Information</h4>
               <div className="flex items-center gap-2 flex-wrap">
                 <Badge className={getMotStatusColor(vehicleInfo.motStatus)}>
                   {vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}
                 </Badge>
                 {vehicleInfo.motExpiryDate && (
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">
+                    <Calendar className="h-4 w-4 text-white/70" />
+                    <span className="text-sm text-white/80">
                       Expires: {new Date(vehicleInfo.motExpiryDate).toLocaleDateString()}
                     </span>
                     {isMotDueSoon(vehicleInfo.motExpiryDate) && (
@@ -290,10 +290,10 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
             {/* Tax Information */}
             {vehicleInfo.taxExpiryDate && (
               <div className="space-y-3">
-                <h4 className="font-medium">Tax Information</h4>
+                <h4 className="font-medium text-white">Tax Information</h4>
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
+                  <Calendar className="h-4 w-4 text-white/70" />
+                  <span className="text-sm text-white/80">
                     Tax expires: {new Date(vehicleInfo.taxExpiryDate).toLocaleDateString()}
                   </span>
                 </div>
@@ -305,15 +305,15 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
 
       {/* Search History */}
       {searchHistory.length > 0 && (
-        <Card>
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Recent Searches</CardTitle>
+              <CardTitle className="text-white">Recent Searches</CardTitle>
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={clearSearchHistory}
-                className="text-destructive hover:text-destructive"
+                className="text-destructive hover:text-destructive bg-white/10 border-white/30 hover:bg-white/20"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Clear History
@@ -325,7 +325,7 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
               {searchHistory.slice(0, 5).map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-lg border cursor-pointer hover:bg-muted/50"
+                  className="flex items-center justify-between p-3 rounded-lg border border-white/30 cursor-pointer hover:bg-white/10"
                   onClick={() => {
                     setRegistration(item.registration);
                     if (item.vehicleData) {
@@ -334,17 +334,17 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <Car className="h-4 w-4 text-muted-foreground" />
+                    <Car className="h-4 w-4 text-white/70" />
                     <div>
-                      <p className="font-medium">{item.registration}</p>
+                      <p className="font-medium text-white">{item.registration}</p>
                       {item.vehicleData && (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-white/70">
                           {item.vehicleData.make} {item.vehicleData.model} ({item.vehicleData.year})
                         </p>
                       )}
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-white/60">
                     {new Date(item.timestamp).toLocaleDateString()}
                   </span>
                 </div>

@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import heroImage from "@/assets/hero-garage.jpg";
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -227,9 +228,17 @@ const Dashboard = () => {
       )}
 
       {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 relative min-h-screen">
+        {/* Background Image for all pages */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        >
+          <div className="absolute inset-0 gradient-hero opacity-90" />
+        </div>
         {isEmployee ? (
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <div className="relative z-10">
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsContent value="home" className="mt-0">
               <DashboardWelcome 
                 profile={profile}
@@ -269,9 +278,10 @@ const Dashboard = () => {
                 <SuppliersTab />
               </div>
             </TabsContent>
-          </Tabs>
+            </Tabs>
+          </div>
         ) : (
-          <div className="container mx-auto px-4 py-6">
+          <div className="relative z-10 container mx-auto px-4 py-6">
             <ClientDashboard profile={profile} />
           </div>
         )}

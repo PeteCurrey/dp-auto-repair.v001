@@ -1,14 +1,14 @@
-
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { MessageSquare, UserPlus, CheckCircle, Archive, Play } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { formatDate } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { MessageSquare, UserPlus, CheckCircle, Archive, Mail, Phone, Calendar } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { formatDate } from '@/lib/utils';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { supabase } from '@/integrations/supabase/client';
 
 type Profile = {
   id: string;
@@ -28,19 +28,16 @@ type ContactSubmission = {
   vehicle_info: string | null;
   message: string | null;
   source_page: string | null;
-  status: "new" | "in_progress" | "resolved" | "archived";
+  status: 'new' | 'in_progress' | 'responded' | 'closed';
   assigned_to: string | null;
-  internal_notes: string | null;
-};
-
-const statusVariant = (status: ContactSubmission["status"]) => {
-  switch (status) {
-    case "new": return "destructive";
-    case "in_progress": return "secondary";
-    case "resolved": return "outline";
-    case "archived": return "secondary";
-    default: return "secondary";
-  }
+  notes: string | null;
+  priority: 'low' | 'normal' | 'high' | 'urgent';
+  response_due_date: string | null;
+  first_response_at: string | null;
+  last_response_at: string | null;
+  response_count: number;
+  customer_rating: number | null;
+  resolution_notes: string | null;
 };
 
 export default function EnquiriesInbox({ profile }: { profile: Profile }) {
@@ -60,150 +57,241 @@ export default function EnquiriesInbox({ profile }: { profile: Profile }) {
       console.error("Failed to fetch enquiries:", error);
       toast({ title: "Error", description: "Unable to load enquiries.", variant: "destructive" });
     } else {
-      setSubmissions(data as ContactSubmission[]);
+      setSubmissions(data as any[]);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     fetchSubmissions();
-    // Optionally, you could set up a Realtime channel here later.
   }, []);
 
-  const updateStatus = async (id: string, status: ContactSubmission["status"]) => {
-    const { error } = await supabase.from("contact_submissions").update({ status }).eq("id", id);
+  const updateSubmissionStatus = async (id: string, status: ContactSubmission["status"]) => {
+    const { error } = await supabase
+      .from("contact_submissions")
+      .update({ status, assigned_to: profile.id, updated_at: new Date().toISOString() })
+      .eq("id", id);
+
     if (error) {
-      toast({ title: "Update failed", description: "Could not update status.", variant: "destructive" });
-      return;
+      console.error("Failed to update submission:", error);
+      toast({ title: "Error", description: "Failed to update enquiry status.", variant: "destructive" });
+    } else {
+      setSubmissions(prev => prev.map(sub => 
+        sub.id === id ? { ...sub, status, assigned_to: profile.id } : sub
+      ));
+      toast({ title: "Success", description: "Enquiry status updated." });
     }
-    setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status } : s));
-    toast({ title: "Status updated", description: "Enquiry status has been updated." });
   };
 
-  const assignToMe = async (id: string) => {
-    const { error } = await supabase.from("contact_submissions").update({ assigned_to: profile.id }).eq("id", id);
-    if (error) {
-      toast({ title: "Assign failed", description: "Could not assign enquiry.", variant: "destructive" });
-      return;
+  const filteredSubmissions = submissions.filter(submission => 
+    filter === "all" || submission.status === filter
+  );
+
+  const getStatusBadgeVariant = (status: ContactSubmission["status"]) => {
+    switch (status) {
+      case 'new': return 'destructive';
+      case 'in_progress': return 'default';
+      case 'responded': return 'secondary';
+      case 'closed': return 'outline';
+      default: return 'secondary';
     }
-    setSubmissions(prev => prev.map(s => s.id === id ? { ...s, assigned_to: profile.id } : s));
-    toast({ title: "Assigned", description: "Enquiry assigned to you." });
   };
 
-  const saveNotes = async (id: string, notes: string) => {
-    const { error } = await supabase.from("contact_submissions").update({ internal_notes: notes }).eq("id", id);
-    if (error) {
-      toast({ title: "Save failed", description: "Could not save notes.", variant: "destructive" });
-      return;
+  const getPriorityBadgeVariant = (priority: ContactSubmission["priority"]) => {
+    switch (priority) {
+      case 'urgent': return 'destructive';
+      case 'high': return 'destructive';
+      case 'normal': return 'secondary';
+      case 'low': return 'outline';
+      default: return 'secondary';
     }
-    setSubmissions(prev => prev.map(s => s.id === id ? { ...s, internal_notes: notes } : s));
-    toast({ title: "Notes saved", description: "Internal notes updated." });
   };
 
-  const filtered = submissions.filter(s => filter === "all" ? true : s.status === filter);
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <Card key={i} className="bg-white/20 backdrop-blur-md border-white/30">
+            <CardContent className="p-6">
+              <div className="animate-pulse space-y-2">
+                <div className="h-4 bg-white/20 rounded w-1/2"></div>
+                <div className="h-8 bg-white/20 rounded w-3/4"></div>
+                <div className="h-4 bg-white/20 rounded w-full"></div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <Card className="shadow-card border-0 bg-card/80 backdrop-blur-sm">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MessageSquare className="h-5 w-5 text-primary" />
-          Enquiries Inbox
-        </CardTitle>
-        <CardDescription>View and manage contact form submissions</CardDescription>
-        <div className="flex flex-wrap gap-2 mt-3">
-          {(["all","new","in_progress","resolved","archived"] as const).map(s => (
-            <Button
-              key={s}
-              size="sm"
-              variant={filter === s ? "default" : "outline"}
-              onClick={() => setFilter(s)}
-            >
-              {s === "all" ? "All" : s.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())}
-            </Button>
-          ))}
-          <Button size="sm" variant="outline" onClick={fetchSubmissions}>Refresh</Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {loading ? (
-          <p className="text-muted-foreground">Loading enquiries...</p>
-        ) : filtered.length === 0 ? (
-          <p className="text-muted-foreground">No enquiries found.</p>
-        ) : (
-          <div className="space-y-4">
-            {filtered.map((s) => (
-              <div key={s.id} className="p-4 border rounded-lg">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-medium">{s.full_name}</h4>
-                      <Badge variant={statusVariant(s.status)}>{s.status}</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {formatDate(s.created_at)} • {s.email}{s.phone ? ` • ${s.phone}` : ""}
-                    </p>
-                    {s.service_needed && (
-                      <p className="text-sm mt-1"><strong>Service:</strong> {s.service_needed}</p>
-                    )}
-                    {s.vehicle_info && (
-                      <p className="text-sm"><strong>Vehicle:</strong> {s.vehicle_info}</p>
-                    )}
-                    {s.source_page && (
-                      <p className="text-xs text-muted-foreground">Source: {s.source_page}</p>
-                    )}
-                    {s.message && (
-                      <p className="text-sm mt-2">{s.message}</p>
-                    )}
-                  </div>
-                  <div className="flex flex-col gap-2 shrink-0">
-                    {s.assigned_to !== profile.id && (
-                      <Button size="sm" variant="outline" onClick={() => assignToMe(s.id)}>
-                        <UserPlus className="h-4 w-4 mr-1" /> Assign to me
-                      </Button>
-                    )}
-                    {s.status === "new" && (
-                      <Button size="sm" onClick={() => updateStatus(s.id, "in_progress")}>
-                        <Play className="h-4 w-4 mr-1" /> Start
-                      </Button>
-                    )}
-                    {s.status === "in_progress" && (
-                      <Button size="sm" variant="secondary" onClick={() => updateStatus(s.id, "resolved")}>
-                        <CheckCircle className="h-4 w-4 mr-1" /> Resolve
-                      </Button>
-                    )}
-                    <Button size="sm" variant="outline" onClick={() => updateStatus(s.id, "archived")}>
-                      <Archive className="h-4 w-4 mr-1" /> Archive
-                    </Button>
-                  </div>
-                </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-white">
+            <MessageSquare className="h-5 w-5" />
+            Customer Enquiries
+          </CardTitle>
+          <CardDescription className="text-white/80">
+            Manage and respond to customer inquiries
+          </CardDescription>
+        </CardHeader>
+      </Card>
 
-                <div className="mt-3 grid gap-2 md:grid-cols-[1fr_auto] md:items-start">
-                  <div>
-                    <label className="text-sm font-medium">Internal Notes</label>
-                    <Textarea
-                      className="mt-1"
-                      placeholder="Add notes for your team (not visible to the customer)"
-                      value={s.internal_notes ?? ""}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setSubmissions(prev => prev.map(x => x.id === s.id ? { ...x, internal_notes: val } : x));
-                      }}
-                    />
-                  </div>
-                  <div className="md:pl-4 flex md:flex-col gap-2 mt-2 md:mt-0">
-                    <Button size="sm" onClick={() => saveNotes(s.id, s.internal_notes ?? "")}>Save Notes</Button>
-                    <Input
-                      readOnly
-                      value={s.assigned_to === profile.id ? "Assigned to you" : (s.assigned_to ? "Assigned" : "Unassigned")}
-                      className="text-sm"
-                    />
-                  </div>
-                </div>
-              </div>
+      {/* Filter Tabs */}
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+        <CardContent className="p-4">
+          <div className="flex flex-wrap gap-2">
+            {[
+              { key: "all", label: "All" },
+              { key: "new", label: "New" },
+              { key: "in_progress", label: "In Progress" },
+              { key: "responded", label: "Responded" },
+              { key: "closed", label: "Closed" }
+            ].map(({ key, label }) => (
+              <Button
+                key={key}
+                variant={filter === key ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter(key as typeof filter)}
+                className={filter === key 
+                  ? "gradient-primary shadow-glow" 
+                  : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                }
+              >
+                {label}
+                {key !== "all" && (
+                  <Badge variant="secondary" className="ml-2 bg-white/20 text-white">
+                    {submissions.filter(s => s.status === key).length}
+                  </Badge>
+                )}
+              </Button>
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Enquiries List */}
+      <div className="space-y-4">
+        {filteredSubmissions.length === 0 ? (
+          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+            <CardContent className="p-8 text-center">
+              <MessageSquare className="h-12 w-12 text-white/50 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-white mb-2">No enquiries found</h3>
+              <p className="text-white/70">
+                {filter === "all" ? "No enquiries have been received yet." : `No ${filter} enquiries found.`}
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          filteredSubmissions.map((submission) => (
+            <Card key={submission.id} className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div className="space-y-1">
+                    <CardTitle className="text-lg text-white">{submission.full_name}</CardTitle>
+                    <div className="flex items-center gap-2 text-sm text-white/70">
+                      <Mail className="h-4 w-4" />
+                      {submission.email}
+                      {submission.phone && (
+                        <>
+                          <Separator orientation="vertical" className="h-4" />
+                          <Phone className="h-4 w-4" />
+                          {submission.phone}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Badge variant={getStatusBadgeVariant(submission.status)}>
+                      {submission.status.replace('_', ' ').toUpperCase()}
+                    </Badge>
+                    {submission.priority && (
+                      <Badge variant={getPriorityBadgeVariant(submission.priority)}>
+                        {submission.priority.toUpperCase()}
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {submission.service_needed && (
+                  <div>
+                    <h4 className="font-medium text-white mb-1">Service Needed</h4>
+                    <p className="text-white/80">{submission.service_needed}</p>
+                  </div>
+                )}
+                
+                {submission.vehicle_info && (
+                  <div>
+                    <h4 className="font-medium text-white mb-1">Vehicle Information</h4>
+                    <p className="text-white/80">{submission.vehicle_info}</p>
+                  </div>
+                )}
+                
+                {submission.message && (
+                  <div>
+                    <h4 className="font-medium text-white mb-1">Message</h4>
+                    <p className="text-white/80">{submission.message}</p>
+                  </div>
+                )}
+
+                <Separator className="bg-white/20" />
+                
+                <div className="flex items-center justify-between text-sm text-white/70">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4" />
+                    Received: {formatDate(submission.created_at)}
+                  </div>
+                  {submission.source_page && (
+                    <span>From: {submission.source_page}</span>
+                  )}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {submission.status === 'new' && (
+                    <Button
+                      size="sm"
+                      onClick={() => updateSubmissionStatus(submission.id, 'in_progress')}
+                      className="gradient-primary shadow-glow"
+                    >
+                      <UserPlus className="h-4 w-4 mr-2" />
+                      Assign to Me
+                    </Button>
+                  )}
+                  
+                  {submission.status === 'in_progress' && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => updateSubmissionStatus(submission.id, 'responded')}
+                      className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    >
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      Mark as Responded
+                    </Button>
+                  )}
+                  
+                  {['responded', 'in_progress'].includes(submission.status) && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => updateSubmissionStatus(submission.id, 'closed')}
+                      className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    >
+                      <Archive className="h-4 w-4 mr-2" />
+                      Close Enquiry
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

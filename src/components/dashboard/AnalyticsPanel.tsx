@@ -1,4 +1,3 @@
-
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { subDays, format } from "date-fns";
@@ -28,43 +27,57 @@ type EventRow = {
 const fetchLast30Days = async () => {
   const since = subDays(new Date(), 30).toISOString();
 
-  const { data: pageviews, error: pvErr } = await supabase
-    .from("web_pageviews")
-    .select("*")
-    .gte("created_at", since)
-    .limit(10000); // safety cap
+  const [pageviewsRes, eventsRes] = await Promise.all([
+    supabase
+      .from("web_pageviews")
+      .select("*")
+      .gte("created_at", since)
+      .order("created_at", { ascending: true }),
+    
+    supabase
+      .from("web_events")
+      .select("*")
+      .gte("created_at", since)
+      .order("created_at", { ascending: true }),
+  ]);
 
-  if (pvErr) throw pvErr;
+  if (pageviewsRes.error) throw pageviewsRes.error;
+  if (eventsRes.error) throw eventsRes.error;
 
-  const { data: events, error: evErr } = await supabase
-    .from("web_events")
-    .select("*")
-    .gte("created_at", since)
-    .limit(10000);
-
-  if (evErr) throw evErr;
-
-  return { pageviews: (pageviews || []) as Pageview[], events: (events || []) as EventRow[] };
+  return {
+    pageviews: pageviewsRes.data as Pageview[],
+    events: eventsRes.data as EventRow[],
+  };
 };
 
-const groupByDay = (rows: { created_at: string }[]) => {
-  const map = new Map<string, number>();
-  rows.forEach((r) => {
-    const d = format(new Date(r.created_at), "MMM d");
-    map.set(d, (map.get(d) || 0) + 1);
-  });
-  // Ensure continuous days for the last 30 days
-  const days: string[] = [];
-  for (let i = 29; i >= 0; i--) {
-    days.push(format(subDays(new Date(), i), "MMM d"));
-  }
-  return days.map((d) => ({ day: d, count: map.get(d) || 0 }));
+const groupByDay = (data: Pageview[]) => {
+  const grouped = data.reduce((acc, item) => {
+    const day = format(new Date(item.created_at), "yyyy-MM-dd");
+    acc[day] = (acc[day] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return Object.entries(grouped)
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => a.date.localeCompare(b.date));
 };
 
-const topCounts = (rows: Record<string, any>[], key: string, limit = 5) => {
+const topPages = (data: Pageview[], limit = 5) => {
+  const counts = data.reduce((acc, pv) => {
+    acc[pv.path] = (acc[pv.path] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return Object.entries(counts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, limit)
+    .map(([path, count]) => ({ path, count }));
+};
+
+const topReferrers = (data: Pageview[], limit = 5) => {
   const map = new Map<string, number>();
-  rows.forEach((r) => {
-    const k = (r[key] as string) || "(none)";
+  data.forEach((r) => {
+    const k = (r.referrer as string) || "(direct)";
     map.set(k, (map.get(k) || 0) + 1);
   });
   return Array.from(map.entries())
@@ -83,110 +96,206 @@ const AnalyticsPanel = () => {
   const eventsCount = data?.events?.length || 0;
 
   const trendData = useMemo(() => groupByDay(data?.pageviews || []), [data?.pageviews]);
-  const topPages = useMemo(() => topCounts(data?.pageviews || [], "path"), [data?.pageviews]);
-  const topEvents = useMemo(() => topCounts(data?.events || [], "name"), [data?.events]);
+  const topPagesData = useMemo(() => topPages(data?.pageviews || []), [data?.pageviews]);
+  const topReferrersData = useMemo(() => topReferrers(data?.pageviews || []), [data?.pageviews]);
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        <Skeleton className="h-8 w-48" />
-        <div className="grid gap-4 md:grid-cols-3">
-          <Skeleton className="h-24 w-full" />
-          <Skeleton className="h-24 w-full" />
-          <Skeleton className="h-24 w-full" />
-        </div>
-        <Skeleton className="h-64 w-full" />
-        <Skeleton className="h-64 w-full" />
+      <div className="space-y-6">
+        <Card className="bg-white/20 backdrop-blur-md border-white/30">
+          <CardHeader>
+            <Skeleton className="h-6 w-48 bg-white/20" />
+            <Skeleton className="h-4 w-64 bg-white/20" />
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="space-y-2">
+                  <Skeleton className="h-4 w-24 bg-white/20" />
+                  <Skeleton className="h-8 w-16 bg-white/20" />
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   if (error) {
-    return <p className="text-sm text-destructive">Failed to load analytics.</p>;
+    return (
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+        <CardContent className="p-6">
+          <p className="text-red-300">Error loading analytics: {(error as Error).message}</p>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Visits</CardTitle>
-            <CardDescription>Last 30 days</CardDescription>
+      {/* Overview Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Total Pageviews</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{visits}</div>
+            <div className="text-2xl font-bold text-white">{visits.toLocaleString()}</div>
+            <p className="text-xs text-white/70">Last 30 days</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Events</CardTitle>
-            <CardDescription>Last 30 days</CardDescription>
+
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Events Tracked</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{eventsCount}</div>
+            <div className="text-2xl font-bold text-white">{eventsCount.toLocaleString()}</div>
+            <p className="text-xs text-white/70">Last 30 days</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Active Pages</CardTitle>
-            <CardDescription>Top 5 in last 30 days</CardDescription>
+
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Avg. Daily Views</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-1">
-              {topPages.map((p) => (
-                <div key={p.name} className="flex justify-between text-sm">
-                  <span className="truncate max-w-[75%]" title={p.name}>{p.name}</span>
-                  <span className="text-muted-foreground">{p.count}</span>
-                </div>
-              ))}
-              {topPages.length === 0 && <p className="text-sm text-muted-foreground">No data</p>}
-            </div>
+            <div className="text-2xl font-bold text-white">{Math.round(visits / 30).toLocaleString()}</div>
+            <p className="text-xs text-white/70">Per day</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-white">Top Pages</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{topPagesData.length}</div>
+            <p className="text-xs text-white/70">Unique pages</p>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="trend" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="trend">Visits Trend</TabsTrigger>
-          <TabsTrigger value="events">Top Events</TabsTrigger>
+      {/* Charts */}
+      <Tabs defaultValue="traffic" className="space-y-4">
+        <TabsList className="bg-white/20 backdrop-blur-md border-white/30">
+          <TabsTrigger value="traffic" className="data-[state=active]:bg-white/30 text-white">
+            Traffic Trends
+          </TabsTrigger>
+          <TabsTrigger value="pages" className="data-[state=active]:bg-white/30 text-white">
+            Top Pages
+          </TabsTrigger>
+          <TabsTrigger value="referrers" className="data-[state=active]:bg-white/30 text-white">
+            Referrers
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="trend">
-          <Card>
+        <TabsContent value="traffic" className="space-y-4">
+          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
             <CardHeader>
-              <CardTitle>Daily Visits</CardTitle>
-              <CardDescription>Last 30 days</CardDescription>
+              <CardTitle className="text-white">Daily Pageviews (Last 30 Days)</CardTitle>
+              <CardDescription className="text-white/80">
+                Track your website traffic over time
+              </CardDescription>
             </CardHeader>
-            <CardContent className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
+            <CardContent className="pl-2">
+              <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={trendData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                  <XAxis 
+                    dataKey="date" 
+                    stroke="rgba(255,255,255,0.7)"
+                    fontSize={12}
+                    tickFormatter={(value) => format(new Date(value), "MMM dd")}
+                  />
+                  <YAxis stroke="rgba(255,255,255,0.7)" fontSize={12} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(0,0,0,0.8)', 
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      borderRadius: '8px',
+                      color: 'white'
+                    }}
+                    labelFormatter={(value) => format(new Date(value), "MMM dd, yyyy")}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="count" 
+                    stroke="hsl(var(--primary-glow))" 
+                    strokeWidth={2}
+                    dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+                    activeDot={{ r: 6, stroke: "hsl(var(--primary-glow))", strokeWidth: 2 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="events">
-          <Card>
+        <TabsContent value="pages" className="space-y-4">
+          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
             <CardHeader>
-              <CardTitle>Top Events</CardTitle>
-              <CardDescription>Most frequent actions</CardDescription>
+              <CardTitle className="text-white">Most Visited Pages</CardTitle>
+              <CardDescription className="text-white/80">
+                Your most popular content
+              </CardDescription>
             </CardHeader>
-            <CardContent className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={topEvents}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip />
-                  <Bar dataKey="count" fill="hsl(var(--primary))" />
+            <CardContent>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart data={topPagesData} layout="horizontal">
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                  <XAxis type="number" stroke="rgba(255,255,255,0.7)" fontSize={12} />
+                  <YAxis 
+                    dataKey="path" 
+                    type="category" 
+                    stroke="rgba(255,255,255,0.7)" 
+                    fontSize={12}
+                    width={120}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(0,0,0,0.8)', 
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      borderRadius: '8px',
+                      color: 'white'
+                    }}
+                  />
+                  <Bar 
+                    dataKey="count" 
+                    fill="hsl(var(--primary))" 
+                    radius={[0, 4, 4, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="referrers" className="space-y-4">
+          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
+            <CardHeader>
+              <CardTitle className="text-white">Top Referrers</CardTitle>
+              <CardDescription className="text-white/80">
+                Where your traffic comes from
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {topReferrersData.map((referrer, index) => (
+                  <div key={referrer.name} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-white/20 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium">
+                        {index + 1}
+                      </div>
+                      <span className="text-white truncate max-w-xs">
+                        {referrer.name === "(direct)" ? "Direct Traffic" : referrer.name}
+                      </span>
+                    </div>
+                    <span className="text-white/80 font-medium">{referrer.count}</span>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
