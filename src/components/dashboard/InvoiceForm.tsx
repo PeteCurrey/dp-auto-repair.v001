@@ -9,6 +9,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Trash2, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import ClientDialog from "./ClientDialog";
+import VehicleDialog from "./VehicleDialog";
 
 interface InvoiceItem {
   id?: string;
@@ -64,6 +66,8 @@ const InvoiceForm = ({ invoiceId, onSave, onCancel }: InvoiceFormProps) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showClientDialog, setShowClientDialog] = useState(false);
+  const [showVehicleDialog, setShowVehicleDialog] = useState(false);
 
   useEffect(() => {
     fetchClients();
@@ -118,6 +122,18 @@ const InvoiceForm = ({ invoiceId, onSave, onCancel }: InvoiceFormProps) => {
       console.error("Error fetching quotes:", error);
       toast.error("Failed to load quotes");
     }
+  };
+
+  const handleClientCreated = (clientId: string) => {
+    fetchClients().then(() => {
+      setFormData(prev => ({ ...prev, client_id: clientId }));
+    });
+  };
+
+  const handleVehicleCreated = (vehicleId: string) => {
+    fetchVehicles().then(() => {
+      setFormData(prev => ({ ...prev, vehicle_id: vehicleId }));
+    });
   };
 
   const fetchInvoice = async () => {
@@ -392,33 +408,55 @@ const InvoiceForm = ({ invoiceId, onSave, onCancel }: InvoiceFormProps) => {
               </div>
               <div>
                 <Label htmlFor="client">Client</Label>
-                <Select value={formData.client_id} onValueChange={(value) => setFormData({ ...formData, client_id: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a client" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clients.map((client) => (
-                      <SelectItem key={client.id} value={client.id}>
-                        {client.business_name || client.contact_person || client.email}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                  <Select value={formData.client_id} onValueChange={(value) => setFormData({ ...formData, client_id: value })}>
+                    <SelectTrigger className="flex-1">
+                      <SelectValue placeholder="Select a client" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {clients.map((client) => (
+                        <SelectItem key={client.id} value={client.id}>
+                          {client.business_name || client.contact_person || client.email}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setShowClientDialog(true)}
+                    title="Add New Client"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               <div>
                 <Label htmlFor="vehicle">Vehicle</Label>
-                <Select value={formData.vehicle_id} onValueChange={(value) => setFormData({ ...formData, vehicle_id: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a vehicle" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {vehicles.map((vehicle) => (
-                      <SelectItem key={vehicle.id} value={vehicle.id}>
-                        {vehicle.registration} - {vehicle.make} {vehicle.model} ({vehicle.year})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                  <Select value={formData.vehicle_id} onValueChange={(value) => setFormData({ ...formData, vehicle_id: value })}>
+                    <SelectTrigger className="flex-1">
+                      <SelectValue placeholder="Select a vehicle" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {vehicles.map((vehicle) => (
+                        <SelectItem key={vehicle.id} value={vehicle.id}>
+                          {vehicle.registration} - {vehicle.make} {vehicle.model} ({vehicle.year})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setShowVehicleDialog(true)}
+                    title="Add New Vehicle"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -542,6 +580,19 @@ const InvoiceForm = ({ invoiceId, onSave, onCancel }: InvoiceFormProps) => {
           </Button>
         </div>
       </form>
+      
+      <ClientDialog
+        open={showClientDialog}
+        onOpenChange={setShowClientDialog}
+        onClientCreated={handleClientCreated}
+      />
+      
+      <VehicleDialog
+        open={showVehicleDialog}
+        onOpenChange={setShowVehicleDialog}
+        onVehicleCreated={handleVehicleCreated}
+        clientId={formData.client_id || undefined}
+      />
     </div>
   );
 };

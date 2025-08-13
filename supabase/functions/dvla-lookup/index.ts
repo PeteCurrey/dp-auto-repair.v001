@@ -34,6 +34,10 @@ interface VehicleInfo {
   motStatus: 'valid' | 'due_soon' | 'expired';
   motExpiryDate: string;
   taxStatus: string;
+  taxExpiryDate?: string;
+  dateOfFirstRegistration?: string;
+  co2Emissions?: number;
+  typeApproval?: string;
 }
 
 serve(async (req) => {
@@ -163,7 +167,11 @@ serve(async (req) => {
       colour: dvlaData.colour,
       motStatus,
       motExpiryDate: dvlaData.motExpiryDate,
-      taxStatus: dvlaData.taxStatus
+      taxStatus: dvlaData.taxStatus,
+      taxExpiryDate: dvlaData.taxDueDate,
+      dateOfFirstRegistration: dvlaData.yearOfManufacture?.toString(), // Use year as registration date fallback
+      co2Emissions: dvlaData.co2Emissions,
+      typeApproval: dvlaData.typeApproval
     };
 
     return new Response(JSON.stringify(vehicleInfo), {

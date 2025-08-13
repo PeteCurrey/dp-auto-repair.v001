@@ -13,10 +13,15 @@ interface VehicleInfo {
   model: string;
   year: number;
   fuelType: string;
+  engineCapacity: number;
+  colour: string;
   motStatus: string;
   motExpiryDate: string;
   taxStatus: string;
-  taxExpiryDate: string;
+  taxExpiryDate?: string;
+  dateOfFirstRegistration?: string;
+  co2Emissions?: number;
+  typeApproval?: string;
 }
 
 interface SearchHistoryItem {
@@ -289,28 +294,64 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
             <CardDescription className="text-white/80">Registration: {registration}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div>
-                <span className="text-white/70">Make & Model:</span>
-                <p className="font-medium text-white">{vehicleInfo.make} {vehicleInfo.model}</p>
-              </div>
-              <div>
-                <span className="text-white/70">Year:</span>
-                <p className="font-medium text-white">{vehicleInfo.year}</p>
-              </div>
-              <div>
-                <span className="text-white/70">Fuel Type:</span>
-                <p className="font-medium text-white">{vehicleInfo.fuelType}</p>
-              </div>
-              <div>
-                <span className="text-white/70">MOT Status:</span>
-                <p className="font-medium text-white">{vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}</p>
-              </div>
-              <div>
-                <span className="text-white/70">Tax Status:</span>
-                <p className="font-medium text-white">{vehicleInfo.taxStatus}</p>
+            {/* Basic Vehicle Information */}
+            <div className="space-y-4">
+              <h4 className="font-medium text-white">Basic Details</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <span className="text-white/70">Make:</span>
+                  <p className="font-medium text-white">{vehicleInfo.make}</p>
+                </div>
+                <div>
+                  <span className="text-white/70">Model:</span>
+                  <p className="font-medium text-white">{vehicleInfo.model}</p>
+                </div>
+                <div>
+                  <span className="text-white/70">Year:</span>
+                  <p className="font-medium text-white">{vehicleInfo.year}</p>
+                </div>
+                <div>
+                  <span className="text-white/70">Colour:</span>
+                  <p className="font-medium text-white">{vehicleInfo.colour || 'Not specified'}</p>
+                </div>
+                <div>
+                  <span className="text-white/70">Fuel Type:</span>
+                  <p className="font-medium text-white">{vehicleInfo.fuelType || 'Not specified'}</p>
+                </div>
+                <div>
+                  <span className="text-white/70">Engine:</span>
+                  <p className="font-medium text-white">
+                    {vehicleInfo.engineCapacity ? `${vehicleInfo.engineCapacity}cc` : 'Not specified'}
+                  </p>
+                </div>
               </div>
             </div>
+
+            <Separator />
+
+            {/* Additional Technical Information */}
+            {(vehicleInfo.co2Emissions || vehicleInfo.typeApproval) && (
+              <>
+                <div className="space-y-4">
+                  <h4 className="font-medium text-white">Technical Details</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {vehicleInfo.co2Emissions && (
+                      <div>
+                        <span className="text-white/70">CO2 Emissions:</span>
+                        <p className="font-medium text-white">{vehicleInfo.co2Emissions}g/km</p>
+                      </div>
+                    )}
+                    {vehicleInfo.typeApproval && (
+                      <div>
+                        <span className="text-white/70">Type Approval:</span>
+                        <p className="font-medium text-white">{vehicleInfo.typeApproval}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <Separator />
+              </>
+            )}
 
             <Separator />
 
