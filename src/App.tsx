@@ -110,7 +110,6 @@ import BrakeDiscLifespan from "./pages/BrakeDiscLifespan";
 import WhenMotDue from "./pages/WhenMotDue";
 
 import NotFound from "./pages/NotFound";
-import { SitemapComponent } from "./components/StaticFileServers";
 
 const queryClient = new QueryClient();
 
