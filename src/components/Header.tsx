@@ -85,7 +85,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
               alt="DP Auto Repair & Diagnostics Logo" 
-              className="h-12 sm:h-14 w-auto max-w-[200px] object-contain"
+              className="h-16 sm:h-20 w-auto max-w-[250px] object-contain"
             />
           </Link>
 
