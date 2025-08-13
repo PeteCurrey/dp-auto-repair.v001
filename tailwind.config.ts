@@ -20,7 +20,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'montserrat': ['Montserrat', 'sans-serif'],
-				'signature': ['Dancing Script', 'cursive'],
+				'signature': ['Kalam', 'cursive'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

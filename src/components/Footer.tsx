@@ -182,7 +182,7 @@ const Footer = () => {
                 </Link>
               </div>
               <p className="text-xs opacity-60">
-                <span className="font-signature text-xl font-bold transform rotate-[-1deg] inline-block">PeterACurrey</span> <span className="font-montserrat font-extralight">Signature Build by</span> <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="font-montserrat font-extralight tracking-wider hover:text-primary transition-colors">AVORRIA</a>
+                <span className="font-signature text-2xl font-bold transform rotate-[-2deg] skew-x-[-1deg] inline-block" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.2)', letterSpacing: '1px' }}>PeterACurrey</span> <span className="font-montserrat font-extralight">Signature Build by</span> <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="font-montserrat font-extralight tracking-wider hover:text-primary transition-colors">AVORRIA</a>
               </p>
             </div>
           </div>

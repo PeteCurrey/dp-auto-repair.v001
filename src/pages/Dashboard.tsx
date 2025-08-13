@@ -334,7 +334,7 @@ const Dashboard = () => {
       {/* Signature Footer */}
       <div className="fixed bottom-4 right-4 z-50">
         <p className="text-xs text-white/60 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-lg">
-          <span className="font-signature text-2xl font-bold text-white/90 transform rotate-[-1deg] inline-block">PeterACurrey</span> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
+          <span className="font-signature text-3xl font-bold text-white/90 transform rotate-[-2deg] skew-x-[-1deg] inline-block" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.3)', letterSpacing: '1px' }}>PeterACurrey</span> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
         </p>
       </div>
     </div>
