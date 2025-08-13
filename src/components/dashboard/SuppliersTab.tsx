@@ -76,7 +76,13 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
     
     if (savedHistory) {
       try {
-        setSearchHistory(JSON.parse(savedHistory));
+        const parsedHistory = JSON.parse(savedHistory);
+        // Convert timestamp strings back to Date objects
+        const historyWithDates = parsedHistory.map((item: any) => ({
+          ...item,
+          timestamp: new Date(item.timestamp)
+        }));
+        setSearchHistory(historyWithDates);
       } catch (e) {
         console.error('Failed to parse search history');
       }
