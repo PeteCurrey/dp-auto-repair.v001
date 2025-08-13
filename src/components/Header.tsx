@@ -61,14 +61,14 @@ const Header = () => {
       {/* Top Info Bar */}
       <div className="bg-transparent">
         <div className="container mx-auto px-4 py-2">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-sm">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-xs">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 flex-shrink-0 text-white" />
-              <span className="text-center sm:text-left text-white">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
+              <Clock className="h-3 w-3 flex-shrink-0 text-white" />
+              <span className="text-center sm:text-left text-white font-thin">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
             </div>
             <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 flex-shrink-0 text-white" />
-              <a href="tel:+441246233483" className="hover:text-primary transition-colors text-white">
+              <Phone className="h-3 w-3 flex-shrink-0 text-white" />
+              <a href="tel:+441246233483" className="hover:text-primary transition-colors text-white font-thin">
                 (01246) 233483
               </a>
             </div>
@@ -77,7 +77,7 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="bg-white/40 backdrop-blur-md border-b border-white/50">
+      <div className="bg-white/60 backdrop-blur-md">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -96,7 +96,7 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/services')}
-                    className={`text-sm font-medium transition-colors hover:text-primary bg-transparent ${
+                    className={`text-xs font-thin transition-colors hover:text-primary bg-transparent ${
                       isServiceActive() ? "text-primary" : "text-white"
                     }`}
                   >
@@ -122,7 +122,7 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/tuning')}
-                    className={`text-sm font-medium transition-colors hover:text-primary bg-transparent ${
+                    className={`text-xs font-thin transition-colors hover:text-primary bg-transparent ${
                       isActive("/tuning") ? "text-primary" : "text-white"
                     }`}
                   >
@@ -151,7 +151,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-xs font-thin transition-colors hover:text-primary ${
                   isActive(item.href) ? "text-primary" : "text-white"
                 }`}
               >
@@ -218,13 +218,13 @@ const Header = () => {
           <div className="lg:hidden py-4 border-t border-white/20">
             <nav className="flex flex-col gap-4">
               <div>
-                <div className="text-sm font-medium text-white mb-2">Services</div>
+                <div className="text-xs font-thin text-white mb-2">Services</div>
                 <div className="flex flex-col gap-2 pl-4">
                   {serviceItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`text-sm transition-colors hover:text-primary ${
+                      className={`text-xs font-thin transition-colors hover:text-primary ${
                         isActive(item.href) ? "text-primary" : "text-white/80"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
@@ -238,7 +238,7 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                  className={`text-xs font-thin transition-colors hover:text-primary ${
                     isActive(item.href) ? "text-primary" : "text-white"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
