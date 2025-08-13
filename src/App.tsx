@@ -208,7 +208,13 @@ const App = () => (
         <Route path="/mot-retest" element={<MotRetest />} />
         <Route path="/mot-and-service" element={<MotAndService />} />
         <Route path="/brake-disc-lifespan" element={<BrakeDiscLifespan />} />
-        <Route path="/when-mot-due" element={<WhenMotDue />} />
+          <Route path="/when-mot-due" element={<WhenMotDue />} />
+          <Route path="/mot-due-date-checker" element={<MotDueChecker />} />
+          <Route path="/local-mot-garage" element={<LocalMotGarage />} />
+          <Route path="/car-remap" element={<CarRemap />} />
+          <Route path="/remapping-guide" element={<RemappingGuide />} />
+          <Route path="/what-is-car-remapping" element={<WhatIsCarRemapping />} />
+          <Route path="/car-garages-chesterfield" element={<CarGaragesChesterfield />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

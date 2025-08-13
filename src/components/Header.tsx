@@ -161,19 +161,21 @@ const Header = () => {
             {user ? (
               <div className="flex items-center gap-4">
                 <Button 
-                  onClick={handleBookService}
-                  className="gradient-primary text-primary-foreground shadow-elegant"
+                  asChild
+                  variant="outline" 
+                  className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20"
                 >
-                  Dashboard
+                  <Link to="/dashboard">
+                    Dashboard
+                  </Link>
                 </Button>
                 <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={handleSignOut}
-                  className="flex items-center gap-2"
+                  asChild
+                  className="gradient-primary text-primary-foreground shadow-elegant"
                 >
-                  <LogOut className="h-4 w-4" />
-                  Sign Out
+                  <Link to="/contact">
+                    Book Service
+                  </Link>
                 </Button>
               </div>
             ) : (
@@ -247,19 +249,22 @@ const Header = () => {
               {user ? (
                 <div className="flex flex-col gap-4">
                   <Button 
-                    onClick={handleBookService}
-                    className="gradient-primary text-primary-foreground w-fit"
+                    asChild
+                    variant="outline" 
+                    className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20 w-fit"
+                    onClick={() => setIsMenuOpen(false)}
                   >
-                    Dashboard
+                    <Link to="/dashboard">
+                      Dashboard
+                    </Link>
                   </Button>
                   <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={handleSignOut}
-                    className="flex items-center gap-2 w-fit"
+                    asChild
+                    className="gradient-primary text-primary-foreground w-fit"
                   >
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
+                    <Link to="/contact">
+                      Book Service
+                    </Link>
                   </Button>
                 </div>
               ) : (
