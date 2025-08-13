@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Gauge, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { REMAP_DB } from "@/data/remap-db";
 // Simple stage presets inspired by industry norms. Values are conservative estimates.
@@ -200,13 +201,13 @@ export default function PerformanceGainCalculator({ className }: { className?: s
 
               <div className="flex gap-3">
                 <Button className="gradient-primary text-primary-foreground" asChild>
-                  <a href="/contact" aria-label="Get a remap quote">
+                  <Link to="/contact" aria-label="Get a remap quote">
                     Get Remap Quote
                     <ArrowRight className="w-4 h-4 ml-2" />
-                  </a>
+                  </Link>
                 </Button>
                 <Button variant="outline" asChild>
-                  <a href="/contact" aria-label="Book a consultation">Book Consultation</a>
+                  <Link to="/contact" aria-label="Book a consultation">Book Consultation</Link>
                 </Button>
               </div>
             </div>

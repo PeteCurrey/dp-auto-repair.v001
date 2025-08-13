@@ -173,14 +173,6 @@ const Footer = () => {
               © 2025 DP Automotive Repair & Diagnostics. All rights reserved.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
-              <div className="flex gap-6">
-                <Link to="/privacy" className="text-sm opacity-80 hover:opacity-100 transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link to="/terms" className="text-sm opacity-80 hover:opacity-100 transition-colors">
-                  Terms of Service
-                </Link>
-              </div>
               <p className="text-xs opacity-60 flex items-center gap-2">
                 <img src="/lovable-uploads/a40ce8a0-f5e2-429f-9811-0318072bfe29.png" alt="Peter A Currey Signature" className="h-6 w-auto transform rotate-[-1deg]" /> <span className="font-montserrat font-extralight">Signature Build by</span> <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="font-montserrat font-extralight tracking-wider hover:text-primary transition-colors">AVORRIA</a>
               </p>

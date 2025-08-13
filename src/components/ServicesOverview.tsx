@@ -7,32 +7,38 @@ const ServicesOverview = () => {
     icon: Wrench,
     title: "General Repairs",
     description: "Complete automotive repair services for all makes and models",
-    features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"]
+    features: ["Engine repair", "Transmission service", "Brake systems", "Suspension work"],
+    href: "/general-repairs"
   }, {
     icon: Gauge,
     title: "Diagnostics",
     description: "Advanced computer diagnostics to identify issues quickly",
-    features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"]
+    features: ["Engine diagnostics", "Electrical testing", "Performance analysis", "Error code reading"],
+    href: "/diagnostics"
   }, {
     icon: Shield,
     title: "Routine Servicing",
     description: "Keep your vehicle running smoothly with regular maintenance",
-    features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"]
+    features: ["Oil changes", "Filter replacements", "Fluid checks", "Safety inspections"],
+    href: "/routine-servicing"
   }, {
     icon: Zap,
     title: "Electrical Services",
     description: "Complete electrical system diagnosis and repair",
-    features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"]
+    features: ["Battery testing", "Alternator repair", "Starter service", "Wiring repairs"],
+    href: "/electrical-services"
   }, {
     icon: Settings,
     title: "Performance Tuning",
     description: "Optimise your vehicle's performance and efficiency",
-    features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"]
+    features: ["Engine tuning", "Performance upgrades", "Exhaust systems", "Air intake"],
+    href: "/performance-tuning"
   }, {
     icon: Car,
     title: "Collision Repair",
     description: "Professional body work and collision repair services",
-    features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"]
+    features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"],
+    href: "/collision-repair"
   }];
   return <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -70,7 +76,7 @@ const ServicesOverview = () => {
                 </ul>
                 <div className="pt-4 border-t border-border">
                   <Button asChild variant="outline" size="sm" className="w-full">
-                    <Link to="/services">
+                    <Link to={service.href}>
                       Learn More
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
