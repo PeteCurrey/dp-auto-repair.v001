@@ -186,9 +186,6 @@ const AnalyticsPanel = () => {
           <TabsTrigger value="pages" className="data-[state=active]:bg-white/30 text-white">
             Top Pages
           </TabsTrigger>
-          <TabsTrigger value="referrers" className="data-[state=active]:bg-white/30 text-white">
-            Referrers
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="traffic" className="space-y-4">
@@ -272,33 +269,6 @@ const AnalyticsPanel = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="referrers" className="space-y-4">
-          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
-            <CardHeader>
-              <CardTitle className="text-white">Top Referrers</CardTitle>
-              <CardDescription className="text-white/80">
-                Where your traffic comes from
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {topReferrersData.map((referrer, index) => (
-                  <div key={referrer.name} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-white/20 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium">
-                        {index + 1}
-                      </div>
-                      <span className="text-white truncate max-w-xs">
-                        {referrer.name === "(direct)" ? "Direct Traffic" : referrer.name}
-                      </span>
-                    </div>
-                    <span className="text-white/80 font-medium">{referrer.count}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
     </div>
   );
