@@ -110,6 +110,7 @@ import BrakeDiscLifespan from "./pages/BrakeDiscLifespan";
 import WhenMotDue from "./pages/WhenMotDue";
 
 import NotFound from "./pages/NotFound";
+import { SitemapComponent } from "./components/StaticFileServers";
 
 const queryClient = new QueryClient();
 
@@ -225,6 +226,10 @@ const App = () => (
           <Route path="/remapping-guide" element={<RemappingGuide />} />
           <Route path="/what-is-car-remapping" element={<WhatIsCarRemapping />} />
           <Route path="/car-garages-chesterfield" element={<CarGaragesChesterfield />} />
+          
+          {/* Static file routes */}
+          <Route path="/sitemap.xml" element={<SitemapComponent />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
