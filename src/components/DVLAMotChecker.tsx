@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Car, Calendar, Shield, AlertTriangle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface VehicleData {
   registration: string;
@@ -14,6 +15,8 @@ interface VehicleData {
   motStatus: 'valid' | 'expired' | 'due_soon';
   colour: string;
   fuelType: string;
+  engineCapacity: number;
+  taxStatus: string;
 }
 
 const DVLAMotChecker = () => {
@@ -22,44 +25,37 @@ const DVLAMotChecker = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Mock DVLA lookup - in production, this would call the DVLA API
-  const mockDVLALookup = (reg: string): VehicleData => {
-    const cleanReg = reg.replace(/\s/g, '').toUpperCase();
-    
-    // Mock data - in production, this would come from DVLA API
-    const mockData: Record<string, VehicleData> = {
-      'AB12CDE': {
-        registration: 'AB12 CDE',
-        make: 'Ford',
-        model: 'Focus',
-        year: 2018,
-        motExpiryDate: '2025-03-15',
-        motStatus: 'valid',
-        colour: 'Blue',
-        fuelType: 'Petrol'
-      },
-      'XY98ZAB': {
-        registration: 'XY98 ZAB',
-        make: 'BMW',
-        model: '320i',
-        year: 2020,
-        motExpiryDate: '2025-01-20',
-        motStatus: 'due_soon',
-        colour: 'Black',
-        fuelType: 'Petrol'
-      }
-    };
+  // Real DVLA API lookup via our edge function
+  const dvlaLookup = async (reg: string): Promise<VehicleData | null> => {
+    try {
+      const { data, error } = await supabase.functions.invoke('dvla-lookup', {
+        body: { registrationNumber: reg }
+      });
 
-    return mockData[cleanReg] || {
-      registration: cleanReg,
-      make: 'Unknown',
-      model: 'Vehicle',
-      year: 2020,
-      motExpiryDate: '2025-06-15',
-      motStatus: 'valid',
-      colour: 'Unknown',
-      fuelType: 'Unknown'
-    };
+      if (error) {
+        console.error('DVLA lookup error:', error);
+        throw new Error(error.message || 'Failed to lookup vehicle');
+      }
+
+      if (data) {
+        return {
+          registration: reg.toUpperCase().replace(/\s+/g, ''),
+          make: data.make,
+          model: data.model,
+          year: data.year,
+          fuelType: data.fuelType,
+          engineCapacity: data.engineCapacity,
+          colour: data.colour,
+          motExpiryDate: data.motExpiryDate,
+          motStatus: data.motStatus,
+          taxStatus: data.taxStatus
+        };
+      }
+
+      return null;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handleSearch = async () => {
@@ -72,13 +68,14 @@ const DVLAMotChecker = () => {
     setError('');
     
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const data = mockDVLALookup(registration);
-      setVehicleData(data);
-    } catch (err) {
-      setError('Unable to retrieve vehicle information. Please try again.');
+      const data = await dvlaLookup(registration);
+      if (data) {
+        setVehicleData(data);
+      } else {
+        setError('Vehicle not found in DVLA database.');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Unable to retrieve vehicle information. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -185,6 +182,14 @@ const DVLAMotChecker = () => {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Fuel Type:</span>
                       <span className="font-medium text-foreground">{vehicleData.fuelType}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Engine:</span>
+                      <span className="font-medium text-foreground">{vehicleData.engineCapacity}cc</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Tax Status:</span>
+                      <span className="font-medium text-foreground">{vehicleData.taxStatus}</span>
                     </div>
                   </div>
                 </div>

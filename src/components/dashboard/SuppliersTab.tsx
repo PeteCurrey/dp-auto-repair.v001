@@ -7,14 +7,18 @@ import { Separator } from '@/components/ui/separator';
 import { Search, ExternalLink, Car, Clock, Bookmark, History } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { logEvent } from '@/lib/analytics';
+import { supabase } from '@/integrations/supabase/client';
 
 interface VehicleInfo {
   make: string;
   model: string;
-  year: string;
-  engineSize: string;
+  year: number;
   fuelType: string;
-  transmission: string;
+  engineCapacity: number;
+  colour: string;
+  motStatus: 'valid' | 'due_soon' | 'expired';
+  motExpiryDate: string;
+  taxStatus: string;
 }
 
 interface SearchHistory {
@@ -93,25 +97,25 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
     return ukRegex.test(reg.toUpperCase().replace(/\s/g, ''));
   };
 
-  const mockVehicleLookup = async (reg: string): Promise<VehicleInfo | null> => {
-    // Mock DVLA lookup - in real implementation, you'd call a service like UKVehicleData.co.uk
+  const lookupVehicle = async (reg: string): Promise<VehicleInfo | null> => {
     setIsSearching(true);
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Mock vehicle data based on registration format
-    const mockData: VehicleInfo = {
-      make: 'Ford',
-      model: 'Focus',
-      year: '2019',
-      engineSize: '1.0L',
-      fuelType: 'Petrol',
-      transmission: 'Manual'
-    };
-    
-    setIsSearching(false);
-    return mockData;
+    try {
+      const { data, error } = await supabase.functions.invoke('dvla-lookup', {
+        body: { registrationNumber: reg }
+      });
+
+      if (error) {
+        console.error('DVLA lookup error:', error);
+        throw new Error(error.message || 'Failed to lookup vehicle');
+      }
+
+      setIsSearching(false);
+      return data;
+    } catch (error) {
+      setIsSearching(false);
+      throw error;
+    }
   };
 
   const handleSearch = async () => {
@@ -136,7 +140,7 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
     logEvent('supplier_search', { registration: registration.toUpperCase() }, { profileId: profile.id });
 
     try {
-      const vehicle = await mockVehicleLookup(registration);
+      const vehicle = await lookupVehicle(registration);
       setVehicleInfo(vehicle);
       
       // Add to search history
@@ -272,15 +276,23 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
                   </div>
                   <div>
                     <span className="text-muted-foreground">Engine:</span>
-                    <p className="font-medium">{vehicleInfo.engineSize}</p>
+                    <p className="font-medium">{vehicleInfo.engineCapacity}cc</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Fuel:</span>
                     <p className="font-medium">{vehicleInfo.fuelType}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Transmission:</span>
-                    <p className="font-medium">{vehicleInfo.transmission}</p>
+                    <span className="text-muted-foreground">Colour:</span>
+                    <p className="font-medium">{vehicleInfo.colour}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">MOT Status:</span>
+                    <p className="font-medium">{vehicleInfo.motStatus.replace('_', ' ')}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Tax Status:</span>
+                    <p className="font-medium">{vehicleInfo.taxStatus}</p>
                   </div>
                 </div>
               </CardContent>
