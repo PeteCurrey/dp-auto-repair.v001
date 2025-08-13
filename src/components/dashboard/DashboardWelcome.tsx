@@ -49,7 +49,7 @@ const DashboardWelcome = ({
             <h1 className="text-4xl mb-2 font-extralight text-gray-300 text-left md:text-2xl">
               Welcome back, {profile.full_name || 'User'}
             </h1>
-            <p className="text-white/80 text-base text-left">
+            <p className="text-left text-gray-300 font-extralight text-xs">
               Management Dashboard - {new Date().toLocaleDateString()}
             </p>
           </div>

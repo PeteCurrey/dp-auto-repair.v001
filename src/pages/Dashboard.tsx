@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -22,7 +21,6 @@ import SettingsTab from "@/components/dashboard/SettingsTab";
 import BusinessManagementTab from "@/components/dashboard/BusinessManagementTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
-
 interface Profile {
   id: string;
   user_id: string;
@@ -33,11 +31,16 @@ interface Profile {
   created_at: string;
   updated_at: string;
 }
-
 const Dashboard = () => {
-  const { user, signOut, loading } = useAuth();
+  const {
+    user,
+    signOut,
+    loading
+  } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('home');
@@ -47,46 +50,38 @@ const Dashboard = () => {
 
   // Track pageviews on dashboard route (profileId optional)
   useAnalytics(profile?.id);
-
   useEffect(() => {
     if (!loading && !user) {
       navigate('/auth');
     }
   }, [user, loading, navigate]);
-
   useEffect(() => {
     if (user) {
       fetchOrCreateProfile();
       fetchDashboardData();
     }
   }, [user]);
-
   const fetchOrCreateProfile = async () => {
     if (!user) return;
-
     try {
       // Try to fetch existing profile
-      const { data: existingProfile, error: fetchError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
+      const {
+        data: existingProfile,
+        error: fetchError
+      } = await supabase.from('profiles').select('*').eq('user_id', user.id).single();
       if (existingProfile) {
         setProfile(existingProfile);
       } else if (fetchError?.code === 'PGRST116') {
         // Profile doesn't exist, create one
-        const { data: newProfile, error: createError } = await supabase
-          .from('profiles')
-          .insert({
-            user_id: user.id,
-            email: user.email || '',
-            full_name: (user as any).user_metadata?.full_name || null,
-            user_type: 'client'
-          })
-          .select('*')
-          .single();
-
+        const {
+          data: newProfile,
+          error: createError
+        } = await supabase.from('profiles').insert({
+          user_id: user.id,
+          email: user.email || '',
+          full_name: (user as any).user_metadata?.full_name || null,
+          user_type: 'client'
+        }).select('*').single();
         if (createError) {
           console.error('Error creating profile:', createError);
           toast({
@@ -111,17 +106,15 @@ const Dashboard = () => {
       setProfileLoading(false);
     }
   };
-
   const fetchDashboardData = async () => {
     if (!user) return;
-
     try {
       // Fetch appointments
-      const { data: appointmentsData } = await supabase
-        .from('appointments')
-        .select('*')
-        .order('appointment_date', { ascending: true });
-      
+      const {
+        data: appointmentsData
+      } = await supabase.from('appointments').select('*').order('appointment_date', {
+        ascending: true
+      });
       setAppointments(appointmentsData || []);
 
       // Mock enquiries data for now
@@ -130,59 +123,46 @@ const Dashboard = () => {
       console.error('Error fetching dashboard data:', error);
     }
   };
-
   const handleVehicleSearch = (registration: string) => {
     setVehicleSearchReg(registration);
   };
-
   const handleNavigateToTab = (tab: string) => {
     setActiveTab(tab);
   };
-
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
   };
-
   const getTodayAppointments = () => {
     const today = new Date().toISOString().split('T')[0];
     return appointments.filter(apt => apt.appointment_date === today);
   };
-
   const getNewEnquiries = () => {
     // Mock data for now
     return enquiries.filter(enq => enq.status === 'new');
   };
-
   if (loading || profileLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
+    return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p>Loading dashboard...</p>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (!user || !profile) {
     return null;
   }
-
   const isEmployee = profile.user_type === 'employee' || profile.user_type === 'admin';
-
-  return (
-    <div className="min-h-screen bg-muted/30">
+  return <div className="min-h-screen bg-muted/30">
       {/* Header with background */}
-      <header 
-        className="relative border-b"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+      <header className="relative border-b" style={{
+      backgroundImage: `url(${heroImage})`
+    }}>
         <div className="absolute inset-0 gradient-hero opacity-95" />
         <div className="relative z-10 container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link to="/" className="hover:opacity-80 transition-opacity">
-              <h1 className="text-2xl font-bold text-white">DP Automotive</h1>
+              <h1 className="text-2xl font-extralight text-gray-300">DP Automotive</h1>
             </Link>
             <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
               {profile.user_type.charAt(0).toUpperCase() + profile.user_type.slice(1)}
@@ -202,11 +182,9 @@ const Dashboard = () => {
       </header>
 
       {/* Navigation Tabs with background */}
-      {isEmployee && (
-        <div 
-          className="relative border-b"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
+      {isEmployee && <div className="relative border-b" style={{
+      backgroundImage: `url(${heroImage})`
+    }}>
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -250,29 +228,20 @@ const Dashboard = () => {
               </TabsList>
             </Tabs>
           </div>
-        </div>
-      )}
+        </div>}
 
       {/* Main Content */}
       <main className="flex-1 relative min-h-screen">
         {/* Background Image for all pages */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+        backgroundImage: `url(${heroImage})`
+      }}>
           <div className="absolute inset-0 gradient-hero opacity-90" />
         </div>
-        {isEmployee ? (
-          <div className="relative z-10">
+        {isEmployee ? <div className="relative z-10">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsContent value="home" className="mt-0">
-              <DashboardWelcome 
-                profile={profile}
-                todayAppointments={getTodayAppointments()}
-                newEnquiries={getNewEnquiries()}
-                onVehicleSearch={handleVehicleSearch}
-                onNavigateToTab={handleNavigateToTab}
-              />
+              <DashboardWelcome profile={profile} todayAppointments={getTodayAppointments()} newEnquiries={getNewEnquiries()} onVehicleSearch={handleVehicleSearch} onNavigateToTab={handleNavigateToTab} />
             </TabsContent>
             
             <TabsContent value="schedule" className="mt-0">
@@ -323,12 +292,9 @@ const Dashboard = () => {
               </div>
             </TabsContent>
             </Tabs>
-          </div>
-        ) : (
-          <div className="relative z-10 container mx-auto px-4 py-6">
+          </div> : <div className="relative z-10 container mx-auto px-4 py-6">
             <ClientDashboard profile={profile} />
-          </div>
-        )}
+          </div>}
       </main>
       
       {/* Signature Footer */}
@@ -337,8 +303,6 @@ const Dashboard = () => {
           <img src="/lovable-uploads/a40ce8a0-f5e2-429f-9811-0318072bfe29.png" alt="Peter A Currey Signature" className="h-8 w-auto transform rotate-[-1deg] opacity-90" /> <span className="font-montserrat font-extralight text-white/60">Signature Build by</span> <span className="font-montserrat font-extralight tracking-wider text-white/80">AVORRIA</span>
         </p>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
