@@ -5,6 +5,9 @@ import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
 import SchemaMarkup from '@/components/SchemaMarkup';
 import FAQSection from '@/components/FAQSection';
+import RelatedServices from '@/components/RelatedServices';
+import ServiceCategoryNav from '@/components/ServiceCategoryNav';
+import PopularServices from '@/components/PopularServices';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -339,6 +342,23 @@ const InformationalLandingTemplate = ({
               </div>
             </div>
           </section>
+
+          {/* Popular Services */}
+          <PopularServices 
+            currentService={h1}
+            layout="horizontal"
+            showLocation={false}
+          />
+
+          {/* Related Services */}
+          <RelatedServices 
+            currentService={h1}
+            currentCategory="information"
+            limit={3}
+          />
+
+          {/* Service Category Navigation */}
+          <ServiceCategoryNav currentCategory="information" />
 
           {/* CTA Section */}
           <section className="py-16 bg-gradient-to-r from-primary via-primary to-primary-glow">

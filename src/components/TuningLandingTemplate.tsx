@@ -6,6 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import PerformanceGainCalculator from "@/components/PerformanceGainCalculator";
 import Breadcrumb from "@/components/Breadcrumb";
 import SchemaMarkup from "@/components/SchemaMarkup";
+import RelatedServices from "@/components/RelatedServices";
+import ServiceCategoryNav from "@/components/ServiceCategoryNav";
+import LocalAreaLinks from "@/components/LocalAreaLinks";
 import { useSEO } from "@/hooks/useSEO";
 import { CheckCircle, Zap, Shield, Clock, Award, Phone } from "lucide-react";
 
@@ -353,6 +356,19 @@ const TuningLandingTemplate = ({
               </div>
             </div>
           </section>
+
+          {/* Related Services */}
+          <RelatedServices 
+            currentService={serviceType}
+            currentCategory="tuning"
+            limit={3}
+          />
+
+          {/* Local Area Links */}
+          <LocalAreaLinks serviceType="performance tuning and ECU remapping" />
+
+          {/* Service Category Navigation */}
+          <ServiceCategoryNav currentCategory="tuning" />
 
           {/* Final CTA */}
           <section className="py-16 bg-primary text-primary-foreground">

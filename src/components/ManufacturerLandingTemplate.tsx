@@ -5,6 +5,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FAQSection from '@/components/FAQSection';
 import Breadcrumb from '@/components/Breadcrumb';
+import RelatedServices from '@/components/RelatedServices';
+import ServiceCategoryNav from '@/components/ServiceCategoryNav';
+import LocalAreaLinks from '@/components/LocalAreaLinks';
 import { useSEO } from '@/hooks/useSEO';
 import { 
   CheckCircle, 
@@ -293,6 +296,19 @@ export const ManufacturerLandingTemplate = ({
         faqs={faqs}
         className="bg-muted/30"
       />
+
+      {/* Related Services */}
+      <RelatedServices 
+        currentService={`${manufacturer} Servicing`}
+        currentCategory="manufacturer"
+        limit={3}
+      />
+
+      {/* Local Area Links */}
+      <LocalAreaLinks serviceType={`${manufacturer} servicing and repairs`} />
+
+      {/* Service Category Navigation */}
+      <ServiceCategoryNav currentCategory="manufacturer" />
 
       {/* CTA Section */}
       <section className="py-16 bg-primary text-primary-foreground">

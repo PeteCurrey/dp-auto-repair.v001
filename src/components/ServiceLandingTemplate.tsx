@@ -1,6 +1,9 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
+import RelatedServices from '@/components/RelatedServices';
+import ServiceCategoryNav from '@/components/ServiceCategoryNav';
+import LocalAreaLinks from '@/components/LocalAreaLinks';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -227,6 +230,19 @@ const ServiceLandingTemplate = ({
           </div>
         </div>
       </section>
+
+      {/* Related Services */}
+      <RelatedServices 
+        currentService={serviceType}
+        currentCategory="service"
+        limit={3}
+      />
+
+      {/* Local Area Links */}
+      <LocalAreaLinks serviceType={serviceType.toLowerCase()} />
+
+      {/* Service Category Navigation */}
+      <ServiceCategoryNav currentCategory="service" />
 
       {/* CTA */}
       <section className="py-16 bg-primary text-primary-foreground">
