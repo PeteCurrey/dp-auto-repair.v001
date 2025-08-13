@@ -47,7 +47,7 @@ const DashboardWelcome = ({
           <div className="mb-8 animate-fade-up">
             <img src={dpLogo} alt="DP Automotive" className="h-20 w-auto mx-auto mb-4 brightness-0 invert" />
             <h1 className="text-4xl mb-2 font-extralight text-gray-300 text-left md:text-2xl">
-              Welcome back, {profile.full_name || 'User'}
+              Welcome back, {profile.full_name?.split(' ')[0] || 'User'}
             </h1>
             <p className="text-left text-gray-300 font-extralight text-xs">
               Management Dashboard - {new Date().toLocaleDateString()}
