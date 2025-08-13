@@ -327,6 +327,13 @@ const Dashboard = () => {
           </div>
         )}
       </main>
+      
+      {/* Signature Footer */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <p className="text-xs text-white/60 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-lg">
+          <span className="font-buongiorno text-sm text-white/80">PeterACurrey</span> Signature Build by <span className="text-white/80">Avorria</span>
+        </p>
+      </div>
     </div>
   );
 };

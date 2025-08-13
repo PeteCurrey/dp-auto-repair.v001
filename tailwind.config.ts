@@ -20,6 +20,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'montserrat': ['Montserrat', 'sans-serif'],
+				'buongiorno': ['Buongiorno Rastellino', 'cursive'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
