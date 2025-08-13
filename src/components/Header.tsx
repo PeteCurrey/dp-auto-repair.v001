@@ -77,7 +77,7 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="bg-white/20 backdrop-blur-md border-b border-white/30">
+      <div className="bg-white/30 backdrop-blur-md border-b border-white/40">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -85,7 +85,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
               alt="DP Auto Repair & Diagnostics Logo" 
-              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain"
+              className="h-12 sm:h-14 w-auto max-w-[200px] object-contain"
             />
           </Link>
 
