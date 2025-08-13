@@ -147,10 +147,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 space-y-6">
         {isEmployee ? (
-          <>
-            <EmployeeDashboard profile={profile} />
-            <EnquiriesInbox profile={profile} />
-          </>
+          <EmployeeDashboard profile={profile} />
         ) : (
           <ClientDashboard profile={profile} />
         )}

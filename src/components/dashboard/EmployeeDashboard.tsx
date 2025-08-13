@@ -5,10 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Users, Wrench, CreditCard, Plus, Clock } from 'lucide-react';
+import { Calendar, Car, Users, Wrench, CreditCard, Plus, Clock, Settings, MessageSquare, BarChart3 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { formatDate } from '@/lib/utils';
 import AnalyticsPanel from '@/components/dashboard/AnalyticsPanel';
+import EnquiriesInbox from '@/components/dashboard/EnquiriesInbox';
+import SuppliersTab from '@/components/dashboard/SuppliersTab';
 import { logEvent } from '@/lib/analytics';
 
 interface Profile {
@@ -286,297 +288,212 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
       </Card>
 
       {/* Main Content Tabs */}
-      <Tabs defaultValue="today" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="today">Today's Schedule</TabsTrigger>
-          <TabsTrigger value="appointments">All Appointments</TabsTrigger>
-          <TabsTrigger value="services">Services</TabsTrigger>
-          <TabsTrigger value="clients">Clients</TabsTrigger>
-          <TabsTrigger value="vehicles">Vehicles</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <Tabs defaultValue="schedule" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="schedule" className="flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
+            Schedule
+          </TabsTrigger>
+          <TabsTrigger value="enquiries" className="flex items-center gap-2">
+            <MessageSquare className="h-4 w-4" />
+            Enquiries
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <BarChart3 className="h-4 w-4" />
+            Analytics
+          </TabsTrigger>
+          <TabsTrigger value="suppliers" className="flex items-center gap-2">
+            <Settings className="h-4 w-4" />
+            Suppliers
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="today" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                Today's Appointments
-              </CardTitle>
-              <CardDescription>
-                {todayAppointments.length} appointments scheduled for today
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {todayAppointments.length > 0 ? (
-                <div className="space-y-4">
-                  {todayAppointments.map((appointment) => (
-                    <div key={appointment.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h4 className="font-medium">{appointment.service_type}</h4>
+        <TabsContent value="schedule" className="space-y-4">
+          {/* Schedule Sub-tabs */}
+          <Tabs defaultValue="today" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="today">Today</TabsTrigger>
+              <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+              <TabsTrigger value="all">All Appointments</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="today">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="h-5 w-5" />
+                    Today's Appointments
+                  </CardTitle>
+                  <CardDescription>
+                    {todayAppointments.length} appointments scheduled for today
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {todayAppointments.length > 0 ? (
+                    <div className="space-y-4">
+                      {todayAppointments.map((appointment) => (
+                        <div key={appointment.id} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h4 className="font-medium">{appointment.service_type}</h4>
+                              <Badge variant={getStatusBadgeVariant(appointment.status)}>
+                                {appointment.status}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              Time: {appointment.appointment_time}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              Client: {appointment.profiles?.full_name || appointment.profiles?.email}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              Vehicle: {appointment.vehicles?.make} {appointment.vehicles?.model} ({appointment.vehicles?.registration})
+                            </p>
+                            {appointment.notes && (
+                              <p className="text-sm text-muted-foreground mt-1">
+                                Notes: {appointment.notes}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex gap-2">
+                            {appointment.status === 'scheduled' && (
+                              <Button 
+                                size="sm" 
+                                onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
+                              >
+                                Confirm
+                              </Button>
+                            )}
+                            {appointment.status === 'confirmed' && (
+                              <Button 
+                                size="sm" 
+                                variant="secondary"
+                                onClick={() => updateAppointmentStatus(appointment.id, 'in_progress')}
+                              >
+                                Start Work
+                              </Button>
+                            )}
+                            {appointment.status === 'in_progress' && (
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => updateAppointmentStatus(appointment.id, 'completed')}
+                              >
+                                Complete
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-center py-8">No appointments scheduled for today</p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="upcoming">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Upcoming Appointments
+                  </CardTitle>
+                  <CardDescription>
+                    {upcomingAppointments.length} upcoming appointments
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {upcomingAppointments.length > 0 ? (
+                    <div className="space-y-3">
+                      {upcomingAppointments.map((appointment) => (
+                        <div key={appointment.id} className="flex items-center justify-between p-3 border rounded-lg">
+                          <div>
+                            <p className="font-medium">{appointment.service_type}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {appointment.vehicles?.make} {appointment.vehicles?.model} • {appointment.profiles?.full_name || appointment.profiles?.email}
+                            </p>
+                          </div>
                           <Badge variant={getStatusBadgeVariant(appointment.status)}>
                             {appointment.status}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          Time: {appointment.appointment_time}
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-center py-8">No upcoming appointments</p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="all">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold">All Appointments</h2>
+                <Button onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Schedule Appointment
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                {appointments.map((appointment) => (
+                  <Card key={appointment.id}>
+                    <CardHeader>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle>{appointment.service_type}</CardTitle>
+                          <CardDescription>
+                            {appointment.profiles?.full_name || appointment.profiles?.email}
+                          </CardDescription>
+                        </div>
+                        <Badge variant={getStatusBadgeVariant(appointment.status)}>
+                          {appointment.status}
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        <p className="text-sm">
+                          <strong>Date & Time:</strong> {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                          Client: {appointment.profiles?.full_name || appointment.profiles?.email}
+                        <p className="text-sm">
+                          <strong>Vehicle:</strong> {appointment.vehicles?.make} {appointment.vehicles?.model} ({appointment.vehicles?.registration})
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                          Vehicle: {appointment.vehicles?.make} {appointment.vehicles?.model} ({appointment.vehicles?.registration})
-                        </p>
+                        {appointment.estimated_cost && (
+                          <p className="text-sm">
+                            <strong>Estimated Cost:</strong> £{appointment.estimated_cost}
+                          </p>
+                        )}
                         {appointment.notes && (
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Notes: {appointment.notes}
+                          <p className="text-sm">
+                            <strong>Notes:</strong> {appointment.notes}
                           </p>
                         )}
                       </div>
-                      <div className="flex gap-2">
-                        {appointment.status === 'scheduled' && (
-                          <Button 
-                            size="sm" 
-                            onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
-                          >
-                            Confirm
-                          </Button>
-                        )}
-                        {appointment.status === 'confirmed' && (
-                          <Button 
-                            size="sm" 
-                            variant="secondary"
-                            onClick={() => updateAppointmentStatus(appointment.id, 'in_progress')}
-                          >
-                            Start Work
-                          </Button>
-                        )}
-                        {appointment.status === 'in_progress' && (
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => updateAppointmentStatus(appointment.id, 'completed')}
-                          >
-                            Complete
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-muted-foreground text-center py-8">No appointments scheduled for today</p>
-              )}
-            </CardContent>
-          </Card>
-
-          {upcomingAppointments.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5" />
-                  Upcoming Appointments
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {upcomingAppointments.slice(0, 5).map((appointment) => (
-                    <div key={appointment.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div>
-                        <p className="font-medium">{appointment.service_type}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {appointment.vehicles?.make} {appointment.vehicles?.model} • {appointment.profiles?.full_name || appointment.profiles?.email}
-                        </p>
-                      </div>
-                      <Badge variant={getStatusBadgeVariant(appointment.status)}>
-                        {appointment.status}
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
         </TabsContent>
 
-        <TabsContent value="appointments" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">All Appointments</h2>
-            <Button onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}>
-              <Plus className="h-4 w-4 mr-2" />
-              Schedule Appointment
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            {appointments.map((appointment) => (
-              <Card key={appointment.id}>
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle>{appointment.service_type}</CardTitle>
-                      <CardDescription>
-                        {appointment.profiles?.full_name || appointment.profiles?.email}
-                      </CardDescription>
-                    </div>
-                    <Badge variant={getStatusBadgeVariant(appointment.status)}>
-                      {appointment.status}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <p className="text-sm">
-                      <strong>Date & Time:</strong> {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
-                    </p>
-                    <p className="text-sm">
-                      <strong>Vehicle:</strong> {appointment.vehicles?.make} {appointment.vehicles?.model} ({appointment.vehicles?.registration})
-                    </p>
-                    {appointment.estimated_cost && (
-                      <p className="text-sm">
-                        <strong>Estimated Cost:</strong> £{appointment.estimated_cost}
-                      </p>
-                    )}
-                    {appointment.notes && (
-                      <p className="text-sm">
-                        <strong>Notes:</strong> {appointment.notes}
-                      </p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="enquiries" className="space-y-4">
+          <EnquiriesInbox profile={profile} />
         </TabsContent>
 
-        <TabsContent value="services" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Service Records</h2>
-            <Button onClick={() => logEvent('quick_action', { action: 'add_service_record' }, { profileId: profile.id })}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Service Record
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            {services.map((service) => (
-              <Card key={service.id}>
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle>{service.service_type}</CardTitle>
-                      <CardDescription>
-                        {service.vehicles?.make} {service.vehicles?.model} ({service.vehicles?.registration})
-                      </CardDescription>
-                    </div>
-                    <Badge variant={getStatusBadgeVariant(service.status)}>
-                      {service.status}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <p className="text-sm">
-                      <strong>Date:</strong> {formatDate(service.service_date)}
-                    </p>
-                    {service.cost && (
-                      <p className="text-sm">
-                        <strong>Cost:</strong> £{service.cost}
-                      </p>
-                    )}
-                    {service.description && (
-                      <p className="text-sm">
-                        <strong>Description:</strong> {service.description}
-                      </p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="clients" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Client Management</h2>
-            <Button onClick={() => logEvent('quick_action', { action: 'add_new_client' }, { profileId: profile.id })}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add New Client
-            </Button>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {clients.map((client) => (
-              <Card key={client.id}>
-                <CardHeader>
-                  <CardTitle>{client.full_name || 'Unnamed Client'}</CardTitle>
-                  <CardDescription>{client.email}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {client.phone && (
-                      <p className="text-sm">Phone: {client.phone}</p>
-                    )}
-                    <p className="text-sm">
-                      Member since: {formatDate(client.created_at)}
-                    </p>
-                    <div className="flex gap-2 mt-4">
-                      <Button size="sm" variant="outline">
-                        View Details
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="vehicles" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Vehicle Management</h2>
-            <Button onClick={() => logEvent('quick_action', { action: 'add_new_vehicle' }, { profileId: profile.id })}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add New Vehicle
-            </Button>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {vehicles.map((vehicle) => (
-              <Card key={vehicle.id}>
-                <CardHeader>
-                  <CardTitle>{vehicle.make} {vehicle.model}</CardTitle>
-                  <CardDescription>
-                    {vehicle.year} • {vehicle.registration}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2 text-sm">
-                    {vehicle.mileage && (
-                      <p>Mileage: {vehicle.mileage.toLocaleString()} miles</p>
-                    )}
-                    {vehicle.fuel_type && (
-                      <p>Fuel Type: {vehicle.fuel_type}</p>
-                    )}
-                    {vehicle.mot_expiry && (
-                      <p>MOT Expires: {formatDate(vehicle.mot_expiry)}</p>
-                    )}
-                    {vehicle.service_due_date && (
-                      <p>Next Service: {formatDate(vehicle.service_due_date)}</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
 
         <TabsContent value="analytics" className="space-y-4">
           <AnalyticsPanel />
+        </TabsContent>
+
+        <TabsContent value="suppliers" className="space-y-4">
+          <SuppliersTab profile={profile} />
         </TabsContent>
       </Tabs>
     </div>
