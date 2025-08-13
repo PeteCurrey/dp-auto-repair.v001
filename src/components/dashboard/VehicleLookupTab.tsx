@@ -113,6 +113,36 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
     return data;
   };
 
+  const saveVehicleToDatabase = async (reg: string, vehicleData: VehicleInfo) => {
+    try {
+      const { data, error } = await supabase
+        .from('vehicle_lookups')
+        .upsert({
+          registration: reg,
+          make: vehicleData.make,
+          model: vehicleData.model,
+          year: vehicleData.year,
+          fuel_type: vehicleData.fuelType,
+          mot_status: vehicleData.motStatus,
+          mot_expiry_date: vehicleData.motExpiryDate,
+          tax_status: vehicleData.taxStatus,
+          tax_expiry_date: vehicleData.taxExpiryDate,
+          last_updated: new Date().toISOString()
+        }, {
+          onConflict: 'registration',
+          count: 'exact'
+        });
+
+      if (error) {
+        console.error('Error saving vehicle to database:', error);
+      } else {
+        console.log('Vehicle data saved to database:', data);
+      }
+    } catch (error) {
+      console.error('Error in saveVehicleToDatabase:', error);
+    }
+  };
+
   const handleSearch = async () => {
     if (!registration.trim()) {
       toast({
@@ -140,6 +170,11 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
     try {
       const result = await lookupVehicle(cleanedReg);
       setVehicleInfo(result);
+
+      // Save to database if lookup was successful
+      if (result) {
+        await saveVehicleToDatabase(cleanedReg, result);
+      }
 
       // Add to search history
       const newHistoryItem: SearchHistoryItem = {
@@ -203,6 +238,13 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
     const diffTime = expiry.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 30 && diffDays >= 0;
+  };
+
+  const getMotDaysRemaining = (expiryDate: string) => {
+    const expiry = new Date(expiryDate);
+    const today = new Date();
+    const diffTime = expiry.getTime() - today.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
   return (
@@ -282,16 +324,18 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
                 {vehicleInfo.motExpiryDate && (
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-white/70" />
-                    <span className="text-sm text-white/80">
-                      Expires: {new Date(vehicleInfo.motExpiryDate).toLocaleDateString()}
-                    </span>
-                    {isMotDueSoon(vehicleInfo.motExpiryDate) && (
-                      <Badge variant="destructive" className="ml-2">
-                        <AlertTriangle className="h-3 w-3 mr-1" />
-                        Due Soon
-                      </Badge>
-                    )}
-                  </div>
+                     <span className="text-sm text-white/80">
+                       Expires: {new Date(vehicleInfo.motExpiryDate).toLocaleDateString()}
+                     </span>
+                     {isMotDueSoon(vehicleInfo.motExpiryDate) && (
+                       <div className="flex items-center gap-2 ml-2">
+                         <Badge variant="destructive" className="bg-red-500/20 text-red-200 border-red-400/30">
+                           <AlertTriangle className="h-3 w-3 mr-1" />
+                           {getMotDaysRemaining(vehicleInfo.motExpiryDate)} days left
+                         </Badge>
+                       </div>
+                     )}
+                   </div>
                 )}
               </div>
             </div>

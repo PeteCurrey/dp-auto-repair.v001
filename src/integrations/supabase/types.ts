@@ -130,6 +130,42 @@ export type Database = {
           },
         ]
       }
+      mot_reminders: {
+        Row: {
+          client_email: string | null
+          client_phone: string | null
+          created_at: string
+          id: string
+          mot_expiry_date: string
+          registration: string
+          reminder_date: string | null
+          reminder_sent: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          client_email?: string | null
+          client_phone?: string | null
+          created_at?: string
+          id?: string
+          mot_expiry_date: string
+          registration: string
+          reminder_date?: string | null
+          reminder_sent?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string | null
+          client_phone?: string | null
+          created_at?: string
+          id?: string
+          mot_expiry_date?: string
+          registration?: string
+          reminder_date?: string | null
+          reminder_sent?: boolean | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
@@ -323,6 +359,66 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      vehicle_lookups: {
+        Row: {
+          colour: string | null
+          created_at: string
+          engine_capacity: number | null
+          fuel_type: string | null
+          id: string
+          last_updated: string | null
+          lookup_count: number | null
+          make: string | null
+          model: string | null
+          mot_expiry_date: string | null
+          mot_status: string | null
+          registration: string
+          tax_expiry_date: string | null
+          tax_status: string | null
+          updated_at: string
+          vin: string | null
+          year: number | null
+        }
+        Insert: {
+          colour?: string | null
+          created_at?: string
+          engine_capacity?: number | null
+          fuel_type?: string | null
+          id?: string
+          last_updated?: string | null
+          lookup_count?: number | null
+          make?: string | null
+          model?: string | null
+          mot_expiry_date?: string | null
+          mot_status?: string | null
+          registration: string
+          tax_expiry_date?: string | null
+          tax_status?: string | null
+          updated_at?: string
+          vin?: string | null
+          year?: number | null
+        }
+        Update: {
+          colour?: string | null
+          created_at?: string
+          engine_capacity?: number | null
+          fuel_type?: string | null
+          id?: string
+          last_updated?: string | null
+          lookup_count?: number | null
+          make?: string | null
+          model?: string | null
+          mot_expiry_date?: string | null
+          mot_status?: string | null
+          registration?: string
+          tax_expiry_date?: string | null
+          tax_status?: string | null
+          updated_at?: string
+          vin?: string | null
+          year?: number | null
+        }
+        Relationships: []
       }
       vehicles: {
         Row: {
