@@ -6,11 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
-
 const AvirriaAdmin = () => {
-  const { user } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,11 +23,6 @@ const AvirriaAdmin = () => {
       setError('Invalid password');
     }
   };
-
-  // Redirect if not logged in
-  if (!user) {
-    return <Navigate to="/auth" replace />;
-  }
 
   // Show authentication form if not authenticated
   if (!isAuthenticated) {
