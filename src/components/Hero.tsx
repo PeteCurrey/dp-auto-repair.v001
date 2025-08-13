@@ -50,7 +50,7 @@ const Hero = () => {
                 Book Service Now
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="bg-white/10 text-black border-red-500 hover:bg-white/20 text-sm font-extralight" asChild>
+            <Button size="lg" variant="outline" className="bg-white/40 text-black border-red-500 hover:bg-white/50 text-sm font-extralight" asChild>
               <Link to="/tuning">Tuning</Link>
             </Button>
           </div>
