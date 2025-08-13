@@ -90,6 +90,16 @@ import ClutchReplacementChesterfield from "./pages/ClutchReplacementChesterfield
 import ExhaustReplacementChesterfield from "./pages/ExhaustReplacementChesterfield";
 import TimingChainReplacementChesterfield from "./pages/TimingChainReplacementChesterfield";
 
+// New Landing Pages
+import ServiceVsMotDifference from "./pages/ServiceVsMotDifference";
+import HowLongMotTakes from "./pages/HowLongMotTakes";
+import HowLongServiceTakes from "./pages/HowLongServiceTakes";
+import WhenChangeTimingBelt from "./pages/WhenChangeTimingBelt";
+import MotRetest from "./pages/MotRetest";
+import MotAndService from "./pages/MotAndService";
+import BrakeDiscLifespan from "./pages/BrakeDiscLifespan";
+import WhenMotDue from "./pages/WhenMotDue";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -189,6 +199,16 @@ const App = () => (
         <Route path="/clutch-replacement-chesterfield" element={<ClutchReplacementChesterfield />} />
         <Route path="/exhaust-replacement-chesterfield" element={<ExhaustReplacementChesterfield />} />
         <Route path="/timing-chain-replacement-chesterfield" element={<TimingChainReplacementChesterfield />} />
+        
+        {/* New Landing Pages */}
+        <Route path="/service-vs-mot-difference" element={<ServiceVsMotDifference />} />
+        <Route path="/how-long-mot-takes" element={<HowLongMotTakes />} />
+        <Route path="/how-long-service-takes" element={<HowLongServiceTakes />} />
+        <Route path="/when-change-timing-belt" element={<WhenChangeTimingBelt />} />
+        <Route path="/mot-retest" element={<MotRetest />} />
+        <Route path="/mot-and-service" element={<MotAndService />} />
+        <Route path="/brake-disc-lifespan" element={<BrakeDiscLifespan />} />
+        <Route path="/when-mot-due" element={<WhenMotDue />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
