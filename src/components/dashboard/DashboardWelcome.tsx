@@ -85,7 +85,7 @@ const DashboardWelcome = ({
                 {todayAppointments.length}
               </div>
               <p className="text-xs text-white/70">
-                {todayAppointments.length === 1 ? 'appointment' : 'appointments'} scheduled
+                {todayAppointments.length === 1 ? 'Appointment' : 'Appointments'} scheduled
               </p>
               {todayAppointments.length > 0 && <div className="mt-2">
                   <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
