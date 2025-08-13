@@ -14,11 +14,12 @@ import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
 import EnquiriesInbox from '@/components/dashboard/EnquiriesInbox';
 import AnalyticsPanel from '@/components/dashboard/AnalyticsPanel';
-import SuppliersTab from '@/components/dashboard/SuppliersTab';
+import VehicleLookupTab from "@/components/dashboard/VehicleLookupTab";
+import VehicleManagementTab from "@/components/dashboard/VehicleManagementTab";
+import SuppliersTab from "@/components/dashboard/SuppliersTab";
+import SettingsTab from "@/components/dashboard/SettingsTab";
+import BusinessManagementTab from "@/components/dashboard/BusinessManagementTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
-import VehicleLookupTab from '@/components/dashboard/VehicleLookupTab';
-import VehicleManagementTab from '@/components/dashboard/VehicleManagementTab';
-import SettingsTab from '@/components/dashboard/SettingsTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Profile {
@@ -206,7 +207,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-8 lg:w-auto lg:grid-cols-8 bg-white/10 backdrop-blur-md border-white/20">
+              <TabsList className="grid w-full grid-cols-9 lg:w-auto lg:grid-cols-9 bg-white/10 backdrop-blur-md border-white/20">
                 <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
@@ -222,6 +223,10 @@ const Dashboard = () => {
                 <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <BarChart3 className="h-4 w-4" />
                   <span className="hidden sm:inline">Analytics</span>
+                </TabsTrigger>
+                <TabsTrigger value="business" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                  <FileText className="h-4 w-4" />
+                  <span className="hidden sm:inline">Business</span>
                 </TabsTrigger>
                 <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Car className="h-4 w-4" />
@@ -282,6 +287,12 @@ const Dashboard = () => {
             <TabsContent value="analytics" className="mt-0">
               <div className="container mx-auto px-4 py-6">
                 <AnalyticsPanel />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="business" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <BusinessManagementTab />
               </div>
             </TabsContent>
             

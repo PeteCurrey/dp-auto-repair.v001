@@ -272,10 +272,14 @@ const InvoiceForm = ({ invoiceId, onSave, onCancel }: InvoiceFormProps) => {
         }
       } else {
         // Create new invoice
+        const { data: newInvoiceNumber, error: numberError } = await supabase.rpc("generate_invoice_number");
+        if (numberError) throw numberError;
+
         const { data: invoice, error: invoiceError } = await supabase
           .from("invoices")
           .insert({
             ...formData,
+            invoice_number: newInvoiceNumber,
             subtotal,
             tax_rate: taxRate,
             tax_amount: taxAmount,

@@ -17,6 +17,14 @@ import CarPerformanceGarageChesterfield from "@/pages/CarPerformanceGarageCheste
 import CarEngineTuningChesterfield from "@/pages/CarEngineTuningChesterfield";
 import TuningGarageChesterfield from "@/pages/TuningGarageChesterfield";
 
+// Missing landing pages
+import MotDueChecker from "@/pages/MotDueChecker";
+import LocalMotGarage from "@/pages/LocalMotGarage";
+import CarRemap from "@/pages/CarRemap";
+import RemappingGuide from "@/pages/RemappingGuide";
+import WhatIsCarRemapping from "@/pages/WhatIsCarRemapping";
+import CarGaragesChesterfield from "@/pages/CarGaragesChesterfield";
+
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import Tuning from "./pages/Tuning";

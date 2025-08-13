@@ -203,10 +203,14 @@ const QuoteForm = ({ quoteId, onSave, onCancel }: QuoteFormProps) => {
         }
       } else {
         // Create new quote
+        const { data: newQuoteNumber, error: numberError } = await supabase.rpc("generate_quote_number");
+        if (numberError) throw numberError;
+
         const { data: quote, error: quoteError } = await supabase
           .from("quotes")
           .insert({
             ...formData,
+            quote_number: newQuoteNumber,
             subtotal,
             tax_rate: taxRate,
             tax_amount: taxAmount,
