@@ -260,13 +260,13 @@ const SuppliersTab = () => {
   return (
     <div className="space-y-6">
       {/* Search Section */}
-      <Card>
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Search className="h-5 w-5" />
             Vehicle Parts Search
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-white/80">
             Search for parts using vehicle registration number
           </CardDescription>
         </CardHeader>
@@ -277,9 +277,9 @@ const SuppliersTab = () => {
               value={registration}
               onChange={(e) => setRegistration(e.target.value.toUpperCase())}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              className="flex-1"
+              className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/60"
             />
-            <Button onClick={handleSearch} disabled={isSearching}>
+            <Button onClick={handleSearch} disabled={isSearching} className="gradient-primary shadow-glow">
               {isSearching ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
               ) : (
@@ -302,44 +302,44 @@ const SuppliersTab = () => {
 
           {/* Vehicle Information */}
           {vehicleInfo && (
-            <Card className="bg-muted/50">
+            <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Car className="h-5 w-5 text-primary" />
-                  <h3 className="font-semibold">Vehicle Details</h3>
+                  <Car className="h-5 w-5 text-primary-glow" />
+                  <h3 className="font-semibold text-white">Vehicle Details</h3>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground">Make:</span>
-                    <p className="font-medium">{vehicleInfo.make}</p>
+                    <span className="text-white/70">Make:</span>
+                    <p className="font-medium text-white">{vehicleInfo.make}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Model:</span>
-                    <p className="font-medium">{vehicleInfo.model}</p>
+                    <span className="text-white/70">Model:</span>
+                    <p className="font-medium text-white">{vehicleInfo.model}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Year:</span>
-                    <p className="font-medium">{vehicleInfo.year}</p>
+                    <span className="text-white/70">Year:</span>
+                    <p className="font-medium text-white">{vehicleInfo.year}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Engine:</span>
-                    <p className="font-medium">{vehicleInfo.engineCapacity}cc</p>
+                    <span className="text-white/70">Engine:</span>
+                    <p className="font-medium text-white">{vehicleInfo.engineCapacity}cc</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Fuel:</span>
-                    <p className="font-medium">{vehicleInfo.fuelType}</p>
+                    <span className="text-white/70">Fuel:</span>
+                    <p className="font-medium text-white">{vehicleInfo.fuelType}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Colour:</span>
-                    <p className="font-medium">{vehicleInfo.colour}</p>
+                    <span className="text-white/70">Colour:</span>
+                    <p className="font-medium text-white">{vehicleInfo.colour}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">MOT Status:</span>
-                    <p className="font-medium">{vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}</p>
+                    <span className="text-white/70">MOT Status:</span>
+                    <p className="font-medium text-white">{vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Tax Status:</span>
-                    <p className="font-medium">{vehicleInfo.taxStatus}</p>
+                    <span className="text-white/70">Tax Status:</span>
+                    <p className="font-medium text-white">{vehicleInfo.taxStatus}</p>
                   </div>
                 </div>
               </CardContent>
@@ -349,23 +349,23 @@ const SuppliersTab = () => {
       </Card>
 
       {/* Suppliers */}
-      <Card>
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
         <CardHeader>
-          <CardTitle>Parts Suppliers</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-white">Parts Suppliers</CardTitle>
+          <CardDescription className="text-white/80">
             Click to search for parts on supplier websites
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2">
             {suppliers.map((supplier, index) => (
-              <div key={index} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
+              <div key={index} className="border border-white/30 rounded-lg p-4 hover:bg-white/10 transition-colors">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{supplier.icon}</span>
                     <div>
-                      <h3 className="font-semibold">{supplier.name}</h3>
-                      <p className="text-sm text-muted-foreground">{supplier.description}</p>
+                      <h3 className="font-semibold text-white">{supplier.name}</h3>
+                      <p className="text-sm text-white/70">{supplier.description}</p>
                     </div>
                   </div>
                   <Button
@@ -373,6 +373,7 @@ const SuppliersTab = () => {
                     size="sm"
                     onClick={() => openSupplierSearch(supplier)}
                     disabled={!registration.trim()}
+                    className="bg-white/10 text-white border-white/30 hover:bg-white/20"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
                     Search
@@ -388,9 +389,9 @@ const SuppliersTab = () => {
       <div className="grid gap-6 md:grid-cols-2">
         {/* Bookmarks */}
         {bookmarks.length > 0 && (
-          <Card>
+          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Bookmark className="h-5 w-5" />
                 Bookmarked Registrations
               </CardTitle>
@@ -398,8 +399,8 @@ const SuppliersTab = () => {
             <CardContent>
               <div className="space-y-2">
                 {bookmarks.map((reg, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 border rounded">
-                    <span className="font-mono font-medium">{reg}</span>
+                  <div key={index} className="flex items-center justify-between p-2 border border-white/30 rounded">
+                    <span className="font-mono font-medium text-white">{reg}</span>
                     <div className="flex gap-2">
                       <Button
                         variant="outline"
@@ -408,6 +409,7 @@ const SuppliersTab = () => {
                           setRegistration(reg);
                           handleSearch();
                         }}
+                        className="bg-white/10 text-white border-white/30 hover:bg-white/20"
                       >
                         Search
                       </Button>
@@ -415,6 +417,7 @@ const SuppliersTab = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => toggleBookmark(reg)}
+                        className="text-white hover:bg-white/20"
                       >
                         Remove
                       </Button>
@@ -428,9 +431,9 @@ const SuppliersTab = () => {
 
         {/* Recent Searches */}
         {searchHistory.length > 0 && (
-          <Card>
+          <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <History className="h-5 w-5" />
                 Recent Searches
               </CardTitle>
@@ -438,17 +441,17 @@ const SuppliersTab = () => {
             <CardContent>
               <div className="space-y-2">
                 {searchHistory.slice(0, 5).map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 border rounded">
+                  <div key={index} className="flex items-center justify-between p-2 border border-white/30 rounded">
                     <div>
-                      <span className="font-mono font-medium">{item.registration}</span>
+                      <span className="font-mono font-medium text-white">{item.registration}</span>
                       {item.vehicle && (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-white/70">
                           {item.vehicle.make} {item.vehicle.model}
                         </p>
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-white/60">
                         {item.timestamp.toLocaleDateString()}
                       </span>
                       <Button
@@ -458,6 +461,7 @@ const SuppliersTab = () => {
                           setRegistration(item.registration);
                           setVehicleInfo(item.vehicle || null);
                         }}
+                        className="text-white hover:bg-white/20"
                       >
                         Use
                       </Button>

@@ -169,21 +169,25 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      {/* Header */}
-      <header className="border-b bg-background">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      {/* Header with background */}
+      <header 
+        className="relative border-b"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="absolute inset-0 gradient-hero opacity-95" />
+        <div className="relative z-10 container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold">DP Automotive</h1>
-            <Badge variant={isEmployee ? "default" : "secondary"}>
+            <h1 className="text-2xl font-bold text-white">DP Automotive</h1>
+            <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
               {profile.user_type.charAt(0).toUpperCase() + profile.user_type.slice(1)}
             </Badge>
           </div>
           <div className="flex items-center space-x-4">
             <div className="text-right">
-              <p className="font-medium">{profile.full_name || 'User'}</p>
-              <p className="text-sm text-muted-foreground">{profile.email}</p>
+              <p className="font-medium text-white">{profile.full_name || 'User'}</p>
+              <p className="text-sm text-white/70">{profile.email}</p>
             </div>
-            <Button variant="outline" size="sm" onClick={handleSignOut}>
+            <Button variant="outline" size="sm" onClick={handleSignOut} className="bg-white/10 text-white border-white/30 hover:bg-white/20">
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
@@ -191,33 +195,37 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Navigation Tabs */}
+      {/* Navigation Tabs with background */}
       {isEmployee && (
-        <div className="border-b bg-background">
-          <div className="container mx-auto px-4">
+        <div 
+          className="relative border-b"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        >
+          <div className="absolute inset-0 gradient-hero opacity-90" />
+          <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-6">
-                <TabsTrigger value="home" className="flex items-center gap-2">
+              <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-6 bg-white/10 backdrop-blur-md border-white/20">
+                <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
                 </TabsTrigger>
-                <TabsTrigger value="schedule" className="flex items-center gap-2">
+                <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Calendar className="h-4 w-4" />
                   <span className="hidden sm:inline">Schedule</span>
                 </TabsTrigger>
-                <TabsTrigger value="enquiries" className="flex items-center gap-2">
+                <TabsTrigger value="enquiries" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <MessageSquare className="h-4 w-4" />
                   <span className="hidden sm:inline">Enquiries</span>
                 </TabsTrigger>
-                <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <BarChart3 className="h-4 w-4" />
                   <span className="hidden sm:inline">Analytics</span>
                 </TabsTrigger>
-                <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2">
+                <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Car className="h-4 w-4" />
                   <span className="hidden sm:inline">Vehicle Lookup</span>
                 </TabsTrigger>
-                <TabsTrigger value="suppliers" className="flex items-center gap-2">
+                <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Package className="h-4 w-4" />
                   <span className="hidden sm:inline">Suppliers</span>
                 </TabsTrigger>

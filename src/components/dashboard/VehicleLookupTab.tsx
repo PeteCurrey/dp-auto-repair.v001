@@ -59,6 +59,15 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
     setSearchHistory(newHistory);
   };
 
+  const deleteSearchHistoryItem = (indexToDelete: number) => {
+    const updatedHistory = searchHistory.filter((_, index) => index !== indexToDelete);
+    saveSearchHistory(updatedHistory);
+    toast({
+      title: "Search Deleted",
+      description: "Search entry has been removed from history.",
+    });
+  };
+
   const clearSearchHistory = () => {
     localStorage.removeItem('vehicleSearchHistory');
     setSearchHistory([]);
@@ -76,7 +85,7 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
 
   const lookupVehicle = async (reg: string): Promise<VehicleInfo | null> => {
     const { data, error } = await supabase.functions.invoke('dvla-lookup', {
-      body: { registration: reg }
+      body: { registrationNumber: reg }
     });
 
     if (error) {
@@ -321,35 +330,60 @@ const VehicleLookupTab = ({ initialRegistration = '' }: VehicleLookupTabProps) =
             </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {searchHistory.slice(0, 5).map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-3 rounded-lg border border-white/30 cursor-pointer hover:bg-white/10"
-                  onClick={() => {
-                    setRegistration(item.registration);
-                    if (item.vehicleData) {
-                      setVehicleInfo(item.vehicleData);
-                    }
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <Car className="h-4 w-4 text-white/70" />
-                    <div>
-                      <p className="font-medium text-white">{item.registration}</p>
-                      {item.vehicleData && (
-                        <p className="text-sm text-white/70">
-                          {item.vehicleData.make} {item.vehicleData.model} ({item.vehicleData.year})
-                        </p>
-                      )}
+              <div className="space-y-2">
+                {searchHistory.slice(0, 5).map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 rounded-lg border border-white/30 hover:bg-white/10"
+                  >
+                    <div 
+                      className="flex items-center gap-3 flex-1 cursor-pointer"
+                      onClick={() => {
+                        setRegistration(item.registration);
+                        if (item.vehicleData) {
+                          setVehicleInfo(item.vehicleData);
+                        }
+                      }}
+                    >
+                      <Car className="h-4 w-4 text-white/70" />
+                      <div>
+                        <p className="font-medium text-white">{item.registration}</p>
+                        {item.vehicleData && (
+                          <p className="text-sm text-white/70">
+                            {item.vehicleData.make} {item.vehicleData.model} ({item.vehicleData.year})
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-white/60">
+                        {new Date(item.timestamp).toLocaleDateString()}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setRegistration(item.registration);
+                          if (item.vehicleData) {
+                            setVehicleInfo(item.vehicleData);
+                          }
+                        }}
+                        className="text-white hover:bg-white/20"
+                      >
+                        Use
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => deleteSearchHistoryItem(index)}
+                        className="text-red-300 hover:bg-red-500/20 hover:text-red-200"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-                  <span className="text-xs text-white/60">
-                    {new Date(item.timestamp).toLocaleDateString()}
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
           </CardContent>
         </Card>
       )}

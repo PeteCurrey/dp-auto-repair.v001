@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MessageSquare, Search, Car, Users, TrendingUp } from 'lucide-react';
 import heroImage from "@/assets/hero-garage.jpg";
-import dpLogo from "@/assets/dp-auto-logo.png";
+import dpLogo from "/lovable-uploads/1eaab9f6-6ddb-41c1-a642-f8a3b7cca707.png";
 
 interface DashboardWelcomeProps {
   profile: any;
