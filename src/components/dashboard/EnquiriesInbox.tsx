@@ -40,7 +40,7 @@ type ContactSubmission = {
   resolution_notes: string | null;
 };
 
-export default function EnquiriesInbox({ profile }: { profile: Profile }) {
+function EnquiriesInbox({ profile }: { profile: Profile }) {
   const [submissions, setSubmissions] = useState<ContactSubmission[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<ContactSubmission["status"] | "all">("new");
@@ -295,3 +295,5 @@ export default function EnquiriesInbox({ profile }: { profile: Profile }) {
     </div>
   );
 }
+
+export default EnquiriesInbox;
