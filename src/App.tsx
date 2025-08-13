@@ -7,6 +7,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { AuthProvider } from "@/hooks/useAuth";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
+import AvirriaAdmin from "@/pages/AvirriaAdmin";
 
 // Tuning Landing Pages
 import EcuRemapChesterfield from "@/pages/EcuRemapChesterfield";
@@ -124,6 +125,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/avorria-admin" element={<AvirriaAdmin />} />
           <Route path="/services" element={<Services />} />
           <Route path="/tuning" element={<Tuning />} />
           <Route path="/tuning/ecu-remapping" element={<EcuRemapping />} />

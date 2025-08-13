@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /avorria-admin
 
 # Specific crawlers
 User-agent: Googlebot
