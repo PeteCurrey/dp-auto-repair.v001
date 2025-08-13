@@ -7,6 +7,16 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { AuthProvider } from "@/hooks/useAuth";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
+
+// Tuning Landing Pages
+import EcuRemapChesterfield from "@/pages/EcuRemapChesterfield";
+import EcuRemappingChesterfield from "@/pages/EcuRemappingChesterfield";
+import PerformanceChipChesterfield from "@/pages/PerformanceChipChesterfield";
+import CarTuningChesterfield from "@/pages/CarTuningChesterfield";
+import CarPerformanceGarageChesterfield from "@/pages/CarPerformanceGarageChesterfield";
+import CarEngineTuningChesterfield from "@/pages/CarEngineTuningChesterfield";
+import TuningGarageChesterfield from "@/pages/TuningGarageChesterfield";
+
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import Tuning from "./pages/Tuning";
@@ -119,6 +129,16 @@ const App = () => (
           <Route path="/fleet-support" element={<FleetSupport />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          
+          {/* Tuning Landing Pages - Not in main menu */}
+          <Route path="/ecu-remap-chesterfield" element={<EcuRemapChesterfield />} />
+          <Route path="/ecu-remapping-chesterfield" element={<EcuRemappingChesterfield />} />
+          <Route path="/performance-chip-chesterfield" element={<PerformanceChipChesterfield />} />
+          <Route path="/car-tuning-chesterfield" element={<CarTuningChesterfield />} />
+          <Route path="/car-performance-garage-chesterfield" element={<CarPerformanceGarageChesterfield />} />
+          <Route path="/car-engine-tuning-chesterfield" element={<CarEngineTuningChesterfield />} />
+          <Route path="/tuning-garage-chesterfield" element={<TuningGarageChesterfield />} />
+
           {/* SEO Landing Pages - Not in main menu */}
           <Route path="/ford-servicing-chesterfield" element={<FordServicingChesterfield />} />
           <Route path="/bmw-servicing-chesterfield" element={<BMWServicingChesterfield />} />
