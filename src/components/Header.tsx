@@ -85,7 +85,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
               alt="DP Auto Repair & Diagnostics Logo" 
-              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain brightness-0 invert"
+              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain"
             />
           </Link>
 
@@ -96,7 +96,7 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/services')}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                    className={`text-sm font-medium transition-colors hover:text-primary bg-transparent ${
                       isServiceActive() ? "text-primary" : "text-white"
                     }`}
                   >
@@ -122,7 +122,7 @@ const Header = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     onClick={() => navigate('/tuning')}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                    className={`text-sm font-medium transition-colors hover:text-primary bg-transparent ${
                       isActive("/tuning") ? "text-primary" : "text-white"
                     }`}
                   >
