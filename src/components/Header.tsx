@@ -77,7 +77,7 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="bg-white/40 backdrop-blur-sm">
+      <div className="bg-white/40 backdrop-blur-sm border-none" style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}>
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
           {/* Logo */}
