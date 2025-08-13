@@ -335,7 +335,7 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
                   </div>
                   <div>
                     <span className="text-muted-foreground">MOT Status:</span>
-                    <p className="font-medium">{vehicleInfo.motStatus.replace('_', ' ')}</p>
+                    <p className="font-medium">{vehicleInfo.motStatus?.replace('_', ' ') || 'Unknown'}</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Tax Status:</span>
