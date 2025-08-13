@@ -113,7 +113,13 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
 
       if (error) {
         console.error('DVLA lookup error:', error);
-        throw new Error(error.message || 'Failed to lookup vehicle');
+        
+        // Create enhanced error with type information
+        const enhancedError = new Error(error.message || 'Failed to lookup vehicle');
+        (enhancedError as any).errorType = error.errorType || 'UNKNOWN_ERROR';
+        (enhancedError as any).statusCode = error.statusCode || 500;
+        
+        throw enhancedError;
       }
 
       setIsSearching(false);
@@ -172,12 +178,47 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
           variant: "destructive"
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      // Enhanced error handling with specific messages
+      const errorType = error.errorType || 'UNKNOWN_ERROR';
+      const statusCode = error.statusCode || 500;
+      
+      let title = "Search Error";
+      let description = "Failed to lookup vehicle details.";
+      
+      switch (errorType) {
+        case 'VEHICLE_NOT_FOUND':
+          title = "Vehicle Not Found";
+          description = "This registration was not found in the DVLA database. Please check the number and try different formatting (e.g., AB12 CDE or AB12CDE).";
+          break;
+        case 'RATE_LIMITED':
+          title = "Service Busy";
+          description = "The DVLA service is currently busy. Please wait a moment and try again.";
+          break;
+        case 'ACCESS_DENIED':
+          title = "Service Unavailable";
+          description = "The vehicle lookup service is temporarily unavailable. Please contact support.";
+          break;
+        case 'SERVICE_ERROR':
+          title = "Service Error";
+          description = "The DVLA service is experiencing issues. Please try again later.";
+          break;
+        default:
+          description = error.message || "An unexpected error occurred while looking up the vehicle.";
+      }
+      
       toast({
-        title: "Search Error",
-        description: "Failed to lookup vehicle details.",
+        title,
+        description,
         variant: "destructive"
       });
+      
+      // Log the search attempt for debugging
+      logEvent('supplier_search_error', { 
+        registration: registration.toUpperCase(),
+        errorType,
+        statusCode
+      }, { profileId: profile.id });
     }
   };
 
@@ -232,7 +273,7 @@ const SuppliersTab = ({ profile }: { profile: { id: string } }) => {
         <CardContent className="space-y-4">
           <div className="flex gap-2">
             <Input
-              placeholder="Enter vehicle registration (e.g. AB12 CDE)"
+              placeholder="Enter vehicle registration (e.g. AB12 CDE, AB12CDE, A123 BCD)"
               value={registration}
               onChange={(e) => setRegistration(e.target.value.toUpperCase())}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}

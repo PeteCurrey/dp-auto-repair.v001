@@ -84,7 +84,11 @@ serve(async (req) => {
       
       if (dvlaResponse.status === 404) {
         return new Response(
-          JSON.stringify({ error: 'Vehicle not found' }), 
+          JSON.stringify({ 
+            error: 'Vehicle not found in DVLA database. Please check the registration number and try different formatting (e.g., AB12 CDE or AB12CDE).',
+            errorType: 'VEHICLE_NOT_FOUND',
+            statusCode: 404
+          }), 
           { 
             status: 404, 
             headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -94,7 +98,11 @@ serve(async (req) => {
       
       if (dvlaResponse.status === 429) {
         return new Response(
-          JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }), 
+          JSON.stringify({ 
+            error: 'DVLA service rate limit exceeded. Please try again in a few moments.',
+            errorType: 'RATE_LIMITED',
+            statusCode: 429
+          }), 
           { 
             status: 429, 
             headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -102,8 +110,26 @@ serve(async (req) => {
         );
       }
 
+      if (dvlaResponse.status === 403) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'DVLA service access denied. Please contact support.',
+            errorType: 'ACCESS_DENIED',
+            statusCode: 403
+          }), 
+          { 
+            status: 403, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        );
+      }
+
       return new Response(
-        JSON.stringify({ error: 'Failed to lookup vehicle' }), 
+        JSON.stringify({ 
+          error: 'DVLA service temporarily unavailable. Please try again later.',
+          errorType: 'SERVICE_ERROR',
+          statusCode: dvlaResponse.status
+        }), 
         { 
           status: dvlaResponse.status, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
