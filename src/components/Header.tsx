@@ -57,18 +57,18 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-background border-b border-border shadow-sm sticky top-0 z-50">
+    <header className="sticky top-0 z-50">
       {/* Top Info Bar */}
-      <div className="bg-secondary text-secondary-foreground">
+      <div className="bg-transparent">
         <div className="container mx-auto px-4 py-2">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-sm">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 flex-shrink-0" />
-              <span className="text-center sm:text-left">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
+              <Clock className="h-4 w-4 flex-shrink-0 text-white" />
+              <span className="text-center sm:text-left text-white">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
             </div>
             <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 flex-shrink-0" />
-              <a href="tel:+441246233483" className="hover:text-primary transition-colors">
+              <Phone className="h-4 w-4 flex-shrink-0 text-white" />
+              <a href="tel:+441246233483" className="hover:text-primary transition-colors text-white">
                 (01246) 233483
               </a>
             </div>
@@ -77,14 +77,15 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+      <div className="bg-white/10 backdrop-blur-md border-b border-white/20">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img 
               src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
               alt="DP Auto Repair & Diagnostics Logo" 
-              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain"
+              className="h-10 sm:h-12 w-auto max-w-[200px] object-contain brightness-0 invert"
             />
           </Link>
 
@@ -96,7 +97,7 @@ const Header = () => {
                   <NavigationMenuTrigger
                     onClick={() => navigate('/services')}
                     className={`text-sm font-medium transition-colors hover:text-primary ${
-                      isServiceActive() ? "text-primary" : "text-foreground"
+                      isServiceActive() ? "text-primary" : "text-white"
                     }`}
                   >
                     Services
@@ -122,7 +123,7 @@ const Header = () => {
                   <NavigationMenuTrigger
                     onClick={() => navigate('/tuning')}
                     className={`text-sm font-medium transition-colors hover:text-primary ${
-                      isActive("/tuning") ? "text-primary" : "text-foreground"
+                      isActive("/tuning") ? "text-primary" : "text-white"
                     }`}
                   >
                     Tuning
@@ -151,7 +152,7 @@ const Header = () => {
                 key={item.name}
                 to={item.href}
                 className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.href) ? "text-primary" : "text-foreground"
+                  isActive(item.href) ? "text-primary" : "text-white"
                 }`}
               >
                 {item.name}
@@ -163,7 +164,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20"
+                  className="bg-white/10 text-white border-white/30 hover:bg-white/20"
                 >
                   <Link to="/dashboard">
                     Dashboard
@@ -183,7 +184,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20"
+                  className="bg-white/10 text-white border-white/30 hover:bg-white/20"
                 >
                   <Link to="/auth">
                     Client Login
@@ -205,26 +206,26 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-white hover:bg-white/20"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
-        </div>
+          </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border">
+          <div className="lg:hidden py-4 border-t border-white/20">
             <nav className="flex flex-col gap-4">
               <div>
-                <div className="text-sm font-medium text-foreground mb-2">Services</div>
+                <div className="text-sm font-medium text-white mb-2">Services</div>
                 <div className="flex flex-col gap-2 pl-4">
                   {serviceItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={`text-sm transition-colors hover:text-primary ${
-                        isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                        isActive(item.href) ? "text-primary" : "text-white/80"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -238,7 +239,7 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isActive(item.href) ? "text-primary" : "text-foreground"
+                    isActive(item.href) ? "text-primary" : "text-white"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -251,7 +252,7 @@ const Header = () => {
                   <Button 
                     asChild
                     variant="outline" 
-                    className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20 w-fit"
+                    className="bg-white/10 text-white border-white/30 hover:bg-white/20 w-fit"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Link to="/dashboard">
@@ -272,7 +273,7 @@ const Header = () => {
                   <Button 
                     asChild
                     variant="outline" 
-                    className="bg-white/10 text-foreground border-red-500 hover:bg-accent/20 w-fit"
+                    className="bg-white/10 text-white border-white/30 hover:bg-white/20 w-fit"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Link to="/auth">
@@ -292,6 +293,7 @@ const Header = () => {
             </nav>
           </div>
         )}
+        </div>
       </div>
     </header>
   );

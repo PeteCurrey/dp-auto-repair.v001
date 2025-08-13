@@ -4,7 +4,7 @@ import { Star, Award, Users, Wrench } from "lucide-react";
 import heroImage from "@/assets/hero-garage.jpg";
 import { Link } from "react-router-dom";
 const Hero = () => {
-  return <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center overflow-hidden -mt-[140px] pt-[140px]">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
       backgroundImage: `url(${heroImage})`
