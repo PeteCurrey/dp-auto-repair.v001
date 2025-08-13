@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MessageSquare, Search, Car, Users, TrendingUp } from 'lucide-react';
 import heroImage from "@/assets/hero-garage.jpg";
 import dpLogo from "/lovable-uploads/1eaab9f6-6ddb-41c1-a642-f8a3b7cca707.png";
-
 interface DashboardWelcomeProps {
   profile: any;
   todayAppointments: any[];
@@ -14,36 +13,30 @@ interface DashboardWelcomeProps {
   onVehicleSearch: (registration: string) => void;
   onNavigateToTab: (tab: string) => void;
 }
-
-const DashboardWelcome = ({ 
-  profile, 
-  todayAppointments, 
-  newEnquiries, 
-  onVehicleSearch, 
-  onNavigateToTab 
+const DashboardWelcome = ({
+  profile,
+  todayAppointments,
+  newEnquiries,
+  onVehicleSearch,
+  onNavigateToTab
 }: DashboardWelcomeProps) => {
   const [searchReg, setSearchReg] = useState('');
-
   const handleSearch = () => {
     if (searchReg.trim()) {
       onVehicleSearch(searchReg.trim());
       onNavigateToTab('vehicle-lookup');
     }
   };
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
   };
-
-  return (
-    <div className="min-h-[calc(100vh-8rem)] relative">
+  return <div className="min-h-[calc(100vh-8rem)] relative">
       {/* Hero Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url(${heroImage})`
+    }}>
         <div className="absolute inset-0 gradient-hero" />
       </div>
 
@@ -52,15 +45,11 @@ const DashboardWelcome = ({
         <div className="text-center mb-12">
           {/* Logo */}
           <div className="mb-8 animate-fade-up">
-            <img 
-              src={dpLogo} 
-              alt="DP Automotive" 
-              className="h-20 w-auto mx-auto mb-4 brightness-0 invert"
-            />
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
+            <img src={dpLogo} alt="DP Automotive" className="h-20 w-auto mx-auto mb-4 brightness-0 invert" />
+            <h1 className="text-4xl mb-2 font-extralight text-gray-300 text-left md:text-2xl">
               Welcome back, {profile.full_name || 'User'}
             </h1>
-            <p className="text-white/80 text-lg">
+            <p className="text-white/80 text-base text-left">
               Management Dashboard - {new Date().toLocaleDateString()}
             </p>
           </div>
@@ -72,17 +61,8 @@ const DashboardWelcome = ({
                 Quick Vehicle Lookup
               </h3>
               <div className="flex gap-2">
-                <Input
-                  placeholder="Enter registration..."
-                  value={searchReg}
-                  onChange={(e) => setSearchReg(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="bg-white/20 border-white/30 text-white placeholder:text-white/60"
-                />
-                <Button 
-                  onClick={handleSearch}
-                  className="gradient-primary shadow-glow"
-                >
+                <Input placeholder="Enter registration..." value={searchReg} onChange={e => setSearchReg(e.target.value)} onKeyPress={handleKeyPress} className="bg-white/20 border-white/30 text-white placeholder:text-white/60" />
+                <Button onClick={handleSearch} className="gradient-primary shadow-glow">
                   <Search className="h-4 w-4" />
                 </Button>
               </div>
@@ -93,10 +73,7 @@ const DashboardWelcome = ({
         {/* Dashboard Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-up">
           {/* Today's Appointments */}
-          <Card 
-            className="bg-white/10 backdrop-blur-md border-white/20 cursor-pointer hover-lift"
-            onClick={() => onNavigateToTab('schedule')}
-          >
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 cursor-pointer hover-lift" onClick={() => onNavigateToTab('schedule')}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-white text-sm font-medium">
                 Today's Appointments
@@ -110,21 +87,16 @@ const DashboardWelcome = ({
               <p className="text-xs text-white/70">
                 {todayAppointments.length === 1 ? 'appointment' : 'appointments'} scheduled
               </p>
-              {todayAppointments.length > 0 && (
-                <div className="mt-2">
+              {todayAppointments.length > 0 && <div className="mt-2">
                   <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
                     Next: {todayAppointments[0]?.appointment_time}
                   </Badge>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
 
           {/* New Enquiries */}
-          <Card 
-            className="bg-white/10 backdrop-blur-md border-white/20 cursor-pointer hover-lift"
-            onClick={() => onNavigateToTab('enquiries')}
-          >
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 cursor-pointer hover-lift" onClick={() => onNavigateToTab('enquiries')}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-white text-sm font-medium">
                 New Enquiries
@@ -138,13 +110,11 @@ const DashboardWelcome = ({
               <p className="text-xs text-white/70">
                 Awaiting response
               </p>
-              {newEnquiries.length > 0 && (
-                <div className="mt-2">
+              {newEnquiries.length > 0 && <div className="mt-2">
                   <Badge variant="destructive" className="bg-red-500/20 text-red-200 border-red-400/30">
                     Action required
                   </Badge>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
 
@@ -189,35 +159,21 @@ const DashboardWelcome = ({
         <div className="mt-12 text-center animate-fade-up">
           <h3 className="text-white text-xl font-semibold mb-6">Quick Actions</h3>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button 
-              variant="outline" 
-              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
-              onClick={() => onNavigateToTab('schedule')}
-            >
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20" onClick={() => onNavigateToTab('schedule')}>
               <Calendar className="h-4 w-4 mr-2" />
               View Schedule
             </Button>
-            <Button 
-              variant="outline" 
-              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
-              onClick={() => onNavigateToTab('vehicle-lookup')}
-            >
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20" onClick={() => onNavigateToTab('vehicle-lookup')}>
               <Car className="h-4 w-4 mr-2" />
               Vehicle Lookup
             </Button>
-            <Button 
-              variant="outline" 
-              className="bg-white/10 text-white border-white/30 hover:bg-white/20"
-              onClick={() => onNavigateToTab('suppliers')}
-            >
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20" onClick={() => onNavigateToTab('suppliers')}>
               <Search className="h-4 w-4 mr-2" />
               Find Parts
             </Button>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default DashboardWelcome;
