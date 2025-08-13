@@ -52,12 +52,14 @@ const DashboardWelcome = ({
         <div className="text-center mb-12">
           {/* Logo */}
           <div className="mb-8 animate-fade-up">
-            <img 
-              src={dpLogo} 
-              alt="DP Automotive" 
-              className="h-20 w-auto mx-auto mb-4"
-            />
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 inline-block">
+              <img 
+                src={dpLogo} 
+                alt="DP Automotive" 
+                className="h-20 w-auto mx-auto mb-4"
+              />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 mt-6">
               Welcome back, {profile.full_name || 'User'}
             </h1>
             <p className="text-white/80 text-lg">

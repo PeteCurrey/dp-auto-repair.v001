@@ -17,6 +17,7 @@ import AnalyticsPanel from '@/components/dashboard/AnalyticsPanel';
 import SuppliersTab from '@/components/dashboard/SuppliersTab';
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import VehicleLookupTab from '@/components/dashboard/VehicleLookupTab';
+import SettingsTab from '@/components/dashboard/SettingsTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Profile {
@@ -204,7 +205,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-6 bg-white/10 backdrop-blur-md border-white/20">
+              <TabsList className="grid w-full grid-cols-7 lg:w-auto lg:grid-cols-7 bg-white/10 backdrop-blur-md border-white/20">
                 <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
@@ -228,6 +229,10 @@ const Dashboard = () => {
                 <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Package className="h-4 w-4" />
                   <span className="hidden sm:inline">Suppliers</span>
+                </TabsTrigger>
+                <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                  <Settings className="h-4 w-4" />
+                  <span className="hidden sm:inline">Settings</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -284,6 +289,12 @@ const Dashboard = () => {
             <TabsContent value="suppliers" className="mt-0">
               <div className="container mx-auto px-4 py-6">
                 <SuppliersTab />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="settings" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <SettingsTab profile={profile} onProfileUpdate={setProfile} />
               </div>
             </TabsContent>
             </Tabs>

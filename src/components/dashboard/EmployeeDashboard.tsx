@@ -214,43 +214,43 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
     <div className="space-y-6">
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">Today's Appointments</CardTitle>
+            <Clock className="h-4 w-4 text-primary-glow" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{todayAppointments.length}</div>
+            <div className="text-2xl font-bold text-white">{todayAppointments.length}</div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clients</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">Total Clients</CardTitle>
+            <Users className="h-4 w-4 text-primary-glow" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{clients.length}</div>
+            <div className="text-2xl font-bold text-white">{clients.length}</div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Vehicles Managed</CardTitle>
-            <Car className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">Vehicles Managed</CardTitle>
+            <Car className="h-4 w-4 text-primary-glow" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{vehicles.length}</div>
+            <div className="text-2xl font-bold text-white">{vehicles.length}</div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Services Completed</CardTitle>
-            <Wrench className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">Services Completed</CardTitle>
+            <Wrench className="h-4 w-4 text-primary-glow" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-white">
               {services.filter(s => s.status === 'completed').length}
             </div>
           </CardContent>
@@ -258,26 +258,26 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
       </div>
 
       {/* Quick Actions */}
-      <Card>
+      <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Manage your business operations</CardDescription>
+          <CardTitle className="text-white">Quick Actions</CardTitle>
+          <CardDescription className="text-white/80">Manage your business operations</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
-            <Button className="h-16 flex flex-col gap-2"
+            <Button className="h-16 flex flex-col gap-2 gradient-primary shadow-glow"
               onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}
             >
               <Calendar className="h-5 w-5" />
               Schedule Appointment
             </Button>
-            <Button variant="outline" className="h-16 flex flex-col gap-2"
+            <Button variant="outline" className="h-16 flex flex-col gap-2 bg-white/10 text-white border-white/30 hover:bg-white/20"
               onClick={() => logEvent('quick_action', { action: 'add_service_record' }, { profileId: profile.id })}
             >
               <Plus className="h-5 w-5" />
               Add Service Record
             </Button>
-            <Button variant="outline" className="h-16 flex flex-col gap-2"
+            <Button variant="outline" className="h-16 flex flex-col gap-2 bg-white/10 text-white border-white/30 hover:bg-white/20"
               onClick={() => logEvent('quick_action', { action: 'add_new_client' }, { profileId: profile.id })}
             >
               <Users className="h-5 w-5" />
@@ -289,20 +289,20 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="schedule" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="schedule" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-4 bg-white/10 backdrop-blur-md border-white/20">
+          <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
             <Calendar className="h-4 w-4" />
             Schedule
           </TabsTrigger>
-          <TabsTrigger value="enquiries" className="flex items-center gap-2">
+          <TabsTrigger value="enquiries" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
             <MessageSquare className="h-4 w-4" />
             Enquiries
           </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center gap-2">
+          <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
             <BarChart3 className="h-4 w-4" />
             Analytics
           </TabsTrigger>
-          <TabsTrigger value="suppliers" className="flex items-center gap-2">
+          <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
             <Settings className="h-4 w-4" />
             Suppliers
           </TabsTrigger>
@@ -311,20 +311,20 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
         <TabsContent value="schedule" className="space-y-4">
           {/* Schedule Sub-tabs */}
           <Tabs defaultValue="today" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="today">Today</TabsTrigger>
-              <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-              <TabsTrigger value="all">All Appointments</TabsTrigger>
+            <TabsList className="bg-white/10 backdrop-blur-md border-white/20">
+              <TabsTrigger value="today" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">Today</TabsTrigger>
+              <TabsTrigger value="upcoming" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">Upcoming</TabsTrigger>
+              <TabsTrigger value="all" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">All Appointments</TabsTrigger>
             </TabsList>
 
             <TabsContent value="today">
-              <Card>
+              <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-white">
                     <Clock className="h-5 w-5" />
                     Today's Appointments
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-white/80">
                     {todayAppointments.length} appointments scheduled for today
                   </CardDescription>
                 </CardHeader>
@@ -394,38 +394,38 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
             </TabsContent>
 
             <TabsContent value="upcoming">
-              <Card>
+              <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-white">
                     <Calendar className="h-5 w-5" />
                     Upcoming Appointments
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-white/80">
                     {upcomingAppointments.length} upcoming appointments
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   {upcomingAppointments.length > 0 ? (
                     <div className="space-y-3">
-                      {upcomingAppointments.map((appointment) => (
-                        <div key={appointment.id} className="flex items-center justify-between p-3 border rounded-lg">
-                          <div>
-                            <p className="font-medium">{appointment.service_type}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {appointment.vehicles?.make} {appointment.vehicles?.model} • {appointment.profiles?.full_name || appointment.profiles?.email}
-                            </p>
-                          </div>
-                          <Badge variant={getStatusBadgeVariant(appointment.status)}>
-                            {appointment.status}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-muted-foreground text-center py-8">No upcoming appointments</p>
+                       {upcomingAppointments.map((appointment) => (
+                         <div key={appointment.id} className="flex items-center justify-between p-3 border border-white/30 rounded-lg">
+                           <div>
+                             <p className="font-medium text-white">{appointment.service_type}</p>
+                             <p className="text-sm text-white/70">
+                               {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
+                             </p>
+                             <p className="text-sm text-white/70">
+                               {appointment.vehicles?.make} {appointment.vehicles?.model} • {appointment.profiles?.full_name || appointment.profiles?.email}
+                             </p>
+                           </div>
+                           <Badge variant={getStatusBadgeVariant(appointment.status)}>
+                             {appointment.status}
+                           </Badge>
+                         </div>
+                       ))}
+                     </div>
+                   ) : (
+                     <p className="text-white/70 text-center py-8">No upcoming appointments</p>
                   )}
                 </CardContent>
               </Card>
@@ -433,8 +433,11 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
 
             <TabsContent value="all">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">All Appointments</h2>
-                <Button onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}>
+                <h2 className="text-2xl font-bold text-white">All Appointments</h2>
+                <Button 
+                  onClick={() => logEvent('quick_action', { action: 'schedule_appointment' }, { profileId: profile.id })}
+                  className="gradient-primary shadow-glow"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Schedule Appointment
                 </Button>
@@ -442,12 +445,12 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
 
               <div className="space-y-4">
                 {appointments.map((appointment) => (
-                  <Card key={appointment.id}>
+                  <Card key={appointment.id} className="bg-white/20 backdrop-blur-md border-white/30 text-white">
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div>
-                          <CardTitle>{appointment.service_type}</CardTitle>
-                          <CardDescription>
+                          <CardTitle className="text-white">{appointment.service_type}</CardTitle>
+                          <CardDescription className="text-white/80">
                             {appointment.profiles?.full_name || appointment.profiles?.email}
                           </CardDescription>
                         </div>
@@ -458,19 +461,19 @@ const EmployeeDashboard = ({ profile }: { profile: Profile }) => {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        <p className="text-sm">
+                        <p className="text-sm text-white">
                           <strong>Date & Time:</strong> {formatDate(appointment.appointment_date)} at {appointment.appointment_time}
                         </p>
-                        <p className="text-sm">
+                        <p className="text-sm text-white">
                           <strong>Vehicle:</strong> {appointment.vehicles?.make} {appointment.vehicles?.model} ({appointment.vehicles?.registration})
                         </p>
                         {appointment.estimated_cost && (
-                          <p className="text-sm">
+                          <p className="text-sm text-white">
                             <strong>Estimated Cost:</strong> £{appointment.estimated_cost}
                           </p>
                         )}
                         {appointment.notes && (
-                          <p className="text-sm">
+                          <p className="text-sm text-white">
                             <strong>Notes:</strong> {appointment.notes}
                           </p>
                         )}
