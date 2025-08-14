@@ -114,7 +114,7 @@ const VehicleDialog = ({ open, onOpenChange, onVehicleCreated, clientId }: Vehic
 
     try {
       const vehicleData = {
-        owner_id: clientId, // This will link to the client's profile ID if provided
+        owner_id: clientId && clientId.trim() !== '' ? clientId : null, // Convert empty string to null
         make: formData.make,
         model: formData.model,
         year: parseInt(formData.year),

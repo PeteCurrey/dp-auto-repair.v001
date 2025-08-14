@@ -191,6 +191,8 @@ const QuoteForm = ({ quoteId, onSave, onCancel }: QuoteFormProps) => {
           .from("quotes")
           .update({
             ...formData,
+            client_id: formData.client_id && formData.client_id.trim() !== '' ? formData.client_id : null,
+            vehicle_id: formData.vehicle_id && formData.vehicle_id.trim() !== '' ? formData.vehicle_id : null,
             subtotal,
             tax_rate: taxRate,
             tax_amount: taxAmount,
@@ -226,6 +228,8 @@ const QuoteForm = ({ quoteId, onSave, onCancel }: QuoteFormProps) => {
           .from("quotes")
           .insert({
             ...formData,
+            client_id: formData.client_id && formData.client_id.trim() !== '' ? formData.client_id : null,
+            vehicle_id: formData.vehicle_id && formData.vehicle_id.trim() !== '' ? formData.vehicle_id : null,
             quote_number: newQuoteNumber,
             subtotal,
             tax_rate: taxRate,
