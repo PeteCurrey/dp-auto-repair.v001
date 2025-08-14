@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Shield, Database, FileText, Settings, BarChart3, AlertTriangle, HardDrive, Search, Download, Clipboard } from 'lucide-react';
+import LiveBusinessDashboard from '@/components/dashboard/LiveBusinessDashboard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -787,13 +788,13 @@ const AvirriaAdmin = () => {
           <TabsContent value="analytics" className="space-y-6">
             <Card className="bg-gray-100/50 backdrop-blur-md border-gray-300">
               <CardHeader>
-                <CardTitle className="text-gray-800">Enhanced Analytics</CardTitle>
+                <CardTitle className="text-gray-800">Live Business Dashboard</CardTitle>
                 <CardDescription className="text-gray-600">
-                  Comprehensive analytics beyond standard dashboard
+                  Real-time business metrics and performance indicators
                 </CardDescription>
               </CardHeader>
-              <CardContent className="text-gray-800">
-                <p className="text-gray-600">Enhanced analytics section - tracking landing page performance, conversion funnels, and campaign effectiveness.</p>
+              <CardContent>
+                <LiveBusinessDashboard />
               </CardContent>
             </Card>
           </TabsContent>

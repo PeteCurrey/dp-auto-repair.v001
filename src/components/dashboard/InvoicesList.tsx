@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Download } from "lucide-react";
+import { generateInvoicePDF } from "./PDFGenerator";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -123,6 +124,42 @@ const InvoicesList = ({ onEdit, onRefresh }: InvoicesListProps) => {
     }
   };
 
+  const handleDownloadPDF = async (invoice: Invoice) => {
+    try {
+      // Fetch invoice items
+      const { data: items, error: itemsError } = await supabase
+        .from('invoice_items')
+        .select('*')
+        .eq('invoice_id', invoice.id);
+
+      if (itemsError) throw itemsError;
+
+      const pdfData = {
+        invoice_number: invoice.invoice_number,
+        title: invoice.title,
+        description: '',
+        client: invoice.client || { email: '', business_name: '', contact_person: '' },
+        vehicle: invoice.vehicle ? { ...invoice.vehicle, year: 2020 } : undefined,
+        items: items || [],
+        subtotal: invoice.total_amount * 0.83, // Rough calculation
+        tax_rate: 20,
+        tax_amount: invoice.total_amount * 0.17,
+        total_amount: invoice.total_amount,
+        amount_due: invoice.amount_due,
+        due_date: invoice.due_date,
+        notes: '',
+        created_at: invoice.created_at,
+        status: invoice.status
+      };
+
+      await generateInvoicePDF(pdfData);
+      toast.success("PDF generated successfully");
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast.error("Failed to generate PDF");
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       draft: { variant: "secondary" as const, label: "Draft" },
@@ -218,6 +255,14 @@ const InvoicesList = ({ onEdit, onRefresh }: InvoicesListProps) => {
                         onClick={() => onEdit(invoice.id)}
                       >
                         <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDownloadPDF(invoice)}
+                        title="Download PDF"
+                      >
+                        <Download className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"

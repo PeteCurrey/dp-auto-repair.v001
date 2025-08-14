@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Edit, Trash2, FileText, Receipt } from "lucide-react";
+import { Edit, Trash2, FileText, Receipt, Download } from "lucide-react";
+import { generateQuotePDF } from "./PDFGenerator";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -130,6 +131,40 @@ const QuotesList = ({ onEdit, onRefresh }: QuotesListProps) => {
     }
   };
 
+  const handleDownloadPDF = async (quote: Quote) => {
+    try {
+      // Fetch quote items
+      const { data: items, error: itemsError } = await supabase
+        .from('quote_items')
+        .select('*')
+        .eq('quote_id', quote.id);
+
+      if (itemsError) throw itemsError;
+
+      const pdfData = {
+        quote_number: quote.quote_number,
+        title: quote.title,
+        description: '',
+        client: quote.client || { email: '', business_name: '', contact_person: '' },
+        vehicle: quote.vehicle ? { ...quote.vehicle, year: 2020 } : undefined,
+        items: items || [],
+        subtotal: quote.total_amount * 0.83, // Rough calculation
+        tax_rate: 20,
+        tax_amount: quote.total_amount * 0.17,
+        total_amount: quote.total_amount,
+        valid_until: quote.valid_until,
+        notes: '',
+        created_at: quote.created_at
+      };
+
+      await generateQuotePDF(pdfData);
+      toast.success("PDF generated successfully");
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast.error("Failed to generate PDF");
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       draft: { variant: "secondary" as const, label: "Draft" },
@@ -220,6 +255,14 @@ const QuotesList = ({ onEdit, onRefresh }: QuotesListProps) => {
                         onClick={() => onEdit(quote.id)}
                       >
                         <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDownloadPDF(quote)}
+                        title="Download PDF"
+                      >
+                        <Download className="h-4 w-4" />
                       </Button>
                       {quote.status === "accepted" && (
                         <Button
