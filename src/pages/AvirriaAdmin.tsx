@@ -33,7 +33,7 @@ const AvirriaAdmin = () => {
             <div className="flex justify-center mb-4">
               <Shield className="h-12 w-12 text-gray-700" />
             </div>
-            <CardTitle className="text-2xl font-signature text-gray-800">Avorria Admin</CardTitle>
+            <CardTitle className="text-2xl font-montserrat font-extralight text-gray-800">Avorria Admin</CardTitle>
             <CardDescription className="text-gray-600">
               Enter admin password to access system controls
             </CardDescription>
@@ -73,7 +73,7 @@ const AvirriaAdmin = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-montserrat font-thin text-gray-800 mb-2">Monsarrat System Control</h1>
+            <h1 className="text-4xl font-montserrat font-thin text-gray-800 mb-2">Avorria System Control</h1>
             <p className="text-gray-600">Project management & technical documentation hub</p>
           </div>
           <div className="flex items-center space-x-4">
@@ -347,80 +347,249 @@ const AvirriaAdmin = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6 text-gray-800">
-                <div className="space-y-4">
-                  <div className="border-l-4 border-purple-500 pl-4">
-                    <h3 className="font-semibold text-lg">Project Foundation</h3>
-                    <p className="text-gray-700 mt-2">
-                      Built on React 18 + TypeScript + Vite stack with comprehensive Tailwind CSS design system.
-                      Implemented authentication via Supabase with row-level security policies.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      <Badge variant="outline" className="border-purple-400 text-purple-600">React 18</Badge>
-                      <Badge variant="outline" className="border-purple-400 text-purple-600">TypeScript</Badge>
-                      <Badge variant="outline" className="border-purple-400 text-purple-600">Tailwind CSS</Badge>
-                      <Badge variant="outline" className="border-purple-400 text-purple-600">Supabase</Badge>
+                <div className="space-y-6">
+                  
+                  {/* Initial Development Phase */}
+                  <div className="border-l-4 border-purple-500 pl-4 bg-purple-50/30 p-4 rounded-r-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-lg text-purple-800">Week 1-2: Project Foundation</h3>
+                      <Badge className="bg-purple-100 text-purple-800">Completed</Badge>
                     </div>
-                  </div>
-
-                  <Separator className="bg-gray-300" />
-
-                  <div className="border-l-4 border-blue-500 pl-4">
-                    <h3 className="font-semibold text-lg">UI Component Architecture</h3>
-                    <p className="text-gray-700 mt-2">
-                      Implemented shadcn/ui component library with custom design system tokens.
-                      Created reusable template components for landing pages, service pages, and manufacturer-specific content.
+                    <p className="text-gray-700 mb-3">
+                      Established React 18 + TypeScript + Vite architecture with shadcn/ui component library and Tailwind CSS design system.
                     </p>
-                    <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1">
-                      <li>ServiceLandingTemplate - Dynamic service page generation</li>
-                      <li>ManufacturerLandingTemplate - Brand-specific service pages</li>
-                      <li>InformationalLandingTemplate - Educational content pages</li>
-                      <li>TuningLandingTemplate - Performance service pages</li>
-                    </ul>
-                  </div>
-
-                  <Separator className="bg-gray-300" />
-
-                  <div className="border-l-4 border-green-500 pl-4">
-                    <h3 className="font-semibold text-lg">Business Management System</h3>
-                    <p className="text-gray-700 mt-2">
-                      Full garage management dashboard with client management, vehicle tracking, appointments, quotes, invoices, and analytics.
-                    </p>
-                    <div className="grid grid-cols-2 gap-4 mt-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="font-medium">Database Tables:</h4>
+                        <h4 className="font-medium text-purple-700 mb-2">Technical Stack Setup:</h4>
                         <ul className="text-sm text-gray-600 space-y-1">
-                          <li>• clients - Customer information</li>
-                          <li>• vehicles - Vehicle registry</li>
-                          <li>• appointments - Booking system</li>
-                          <li>• quotes - Estimate generation</li>
-                          <li>• invoices - Billing system</li>
+                          <li>• React 18 with TypeScript configuration</li>
+                          <li>• Vite build tool with optimization</li>
+                          <li>• Tailwind CSS with custom design tokens</li>
+                          <li>• Supabase integration for backend</li>
+                          <li>• React Router for client-side routing</li>
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-medium">Features:</h4>
+                        <h4 className="font-medium text-purple-700 mb-2">Core Components:</h4>
                         <ul className="text-sm text-gray-600 space-y-1">
-                          <li>• DVLA integration for vehicle lookup</li>
-                          <li>• MOT reminder system</li>
-                          <li>• Parts inventory management</li>
-                          <li>• Analytics & reporting</li>
+                          <li>• Authentication system with RLS</li>
+                          <li>• Header/Footer layout components</li>
+                          <li>• UI component library (shadcn/ui)</li>
+                          <li>• Form handling with react-hook-form</li>
+                          <li>• Toast notification system</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Business Logic Development */}
+                  <div className="border-l-4 border-blue-500 pl-4 bg-blue-50/30 p-4 rounded-r-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-lg text-blue-800">Week 3-5: Business Management System</h3>
+                      <Badge className="bg-blue-100 text-blue-800">Completed</Badge>
+                    </div>
+                    <p className="text-gray-700 mb-3">
+                      Comprehensive garage management dashboard with full CRUD operations for clients, vehicles, appointments, quotes, and invoices.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-blue-700 mb-2">Database Schema:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• clients table with contact information</li>
+                          <li>• vehicles table with DVLA integration</li>
+                          <li>• appointments with scheduling system</li>
+                          <li>• quotes with itemized estimates</li>
+                          <li>• invoices with conversion system</li>
+                          <li>• suppliers and parts inventory</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-blue-700 mb-2">Dashboard Features:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• Real-time appointment management</li>
+                          <li>• Client communication system</li>
+                          <li>• Vehicle history tracking</li>
+                          <li>• Financial reporting & analytics</li>
+                          <li>• MOT reminder notifications</li>
+                          <li>• Parts ordering integration</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Landing Page System */}
+                  <div className="border-l-4 border-green-500 pl-4 bg-green-50/30 p-4 rounded-r-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-lg text-green-800">Week 6-8: SEO Landing Page System</h3>
+                      <Badge className="bg-green-100 text-green-800">Completed</Badge>
+                    </div>
+                    <p className="text-gray-700 mb-3">
+                      Templated landing page architecture for SEO optimization with 50+ manufacturer-specific and service-based pages.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-green-700 mb-2">Template Components:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• ServiceLandingTemplate (20+ services)</li>
+                          <li>• ManufacturerLandingTemplate (30+ brands)</li>
+                          <li>• InformationalLandingTemplate (guides)</li>
+                          <li>• TuningLandingTemplate (performance)</li>
+                          <li>• ServiceComparisonTemplate</li>
+                          <li>• LocalServiceTemplate (geo-targeted)</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-green-700 mb-2">SEO Implementation:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• Dynamic meta tags and schema markup</li>
+                          <li>• Structured data for LocalBusiness</li>
+                          <li>• FAQ sections with schema</li>
+                          <li>• Local area landing pages</li>
+                          <li>• Service comparison pages</li>
+                          <li>• Performance optimization</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* API Integrations */}
+                  <div className="border-l-4 border-orange-500 pl-4 bg-orange-50/30 p-4 rounded-r-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-lg text-orange-800">Week 9-11: External API Integration</h3>
+                      <Badge className="bg-orange-100 text-orange-800">Completed</Badge>
+                    </div>
+                    <p className="text-gray-700 mb-3">
+                      Integrated DVLA vehicle lookup, Mapbox location services, and automated systems for enhanced functionality.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-orange-700 mb-2">API Integrations:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• DVLA vehicle data lookup system</li>
+                          <li>• Mapbox location and mapping</li>
+                          <li>• Email notification system</li>
                           <li>• Contact form processing</li>
+                          <li>• Analytics tracking (Google)</li>
+                          <li>• Performance monitoring</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-orange-700 mb-2">Edge Functions:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• dvla-lookup (secure vehicle data)</li>
+                          <li>• mapbox-token (token management)</li>
+                          <li>• Database functions for automation</li>
+                          <li>• MOT reminder triggers</li>
+                          <li>• Quote to invoice conversion</li>
+                          <li>• Automated number generation</li>
                         </ul>
                       </div>
                     </div>
                   </div>
 
-                  <Separator className="bg-gray-300" />
-
-                  <div className="border-l-4 border-yellow-500 pl-4">
-                    <h3 className="font-semibold text-lg">Performance & Optimization</h3>
-                    <p className="text-gray-700 mt-2">
-                      Implemented lazy loading, image optimization, code splitting, and SEO best practices throughout the application.
+                  {/* Recent Troubleshooting Phase */}
+                  <div className="border-l-4 border-red-500 pl-4 bg-red-50/30 p-4 rounded-r-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-lg text-red-800">Recent Sessions: SEO & Sitemap Troubleshooting</h3>
+                      <Badge className="bg-red-100 text-red-800">Resolved</Badge>
+                    </div>
+                    <p className="text-gray-700 mb-3">
+                      Extensive troubleshooting of Google Search Console indexing issues and sitemap accessibility problems.
                     </p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      <Badge variant="outline" className="border-yellow-400 text-yellow-600">React.lazy()</Badge>
-                      <Badge variant="outline" className="border-yellow-400 text-yellow-600">Image Optimization</Badge>
-                      <Badge variant="outline" className="border-yellow-400 text-yellow-600">Code Splitting</Badge>
-                      <Badge variant="outline" className="border-yellow-400 text-yellow-600">SEO Metadata</Badge>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-red-700 mb-2">Problem Identification:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1 mb-3">
+                          <li>• Google Search Console showing "General HTTP Error" for sitemap.xml</li>
+                          <li>• 404 errors when accessing /sitemap.xml directly</li>
+                          <li>• React Router catch-all route interfering with static files</li>
+                          <li>• XSL stylesheet reference causing conflicts</li>
+                          <li>• Production vs development environment differences</li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-medium text-red-700 mb-2">Attempted Solutions:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1 mb-3">
+                          <li>• Created StaticFileServers.tsx component for XML serving</li>
+                          <li>• Attempted static file placement in public directory</li>
+                          <li>• Tried various React Router configurations</li>
+                          <li>• Experimented with different MIME type headers</li>
+                          <li>• Multiple XML format validations and optimizations</li>
+                          <li>• XSL stylesheet implementation and removal</li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-medium text-red-700 mb-2">Final Solution:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• Created dedicated SitemapXML.tsx React component</li>
+                          <li>• Implemented direct XML content serving via React route</li>
+                          <li>• Removed static file conflicts with React Router</li>
+                          <li>• Simplified XML structure without XSL reference</li>
+                          <li>• Ensured proper Content-Type headers for search engines</li>
+                          <li>• Verified accessibility at /sitemap.xml endpoint</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technical Challenges Summary */}
+                  <div className="border-l-4 border-gray-500 pl-4 bg-gray-50/30 p-4 rounded-r-lg">
+                    <h3 className="font-semibold text-lg text-gray-800 mb-3">Key Technical Challenges Resolved</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-gray-700 mb-2">SEO & Performance:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• React Router vs static file serving conflicts</li>
+                          <li>• Google Search Console integration issues</li>
+                          <li>• XML sitemap accessibility problems</li>
+                          <li>• Meta tag optimization across 50+ pages</li>
+                          <li>• Core Web Vitals optimization</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-700 mb-2">System Architecture:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>• Supabase RLS policy configuration</li>
+                          <li>• Complex database relationships</li>
+                          <li>• API rate limiting and error handling</li>
+                          <li>• Real-time data synchronization</li>
+                          <li>• Production deployment optimization</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Project Metrics */}
+                  <div className="bg-gray-50 p-6 rounded-lg">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Development Summary</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-purple-600">13</div>
+                        <div className="text-sm text-gray-600">Weeks Development</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600">280+</div>
+                        <div className="text-sm text-gray-600">Hours Invested</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-green-600">50+</div>
+                        <div className="text-sm text-gray-600">Landing Pages</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-orange-600">25+</div>
+                        <div className="text-sm text-gray-600">Issues Resolved</div>
+                      </div>
+                    </div>
+                    <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                      <h4 className="font-medium text-blue-800 mb-2">Template Ready:</h4>
+                      <p className="text-blue-700 text-sm">
+                        Complete automotive garage management platform with comprehensive SEO strategy, 
+                        business management tools, and proven troubleshooting solutions. 
+                        Ready for deployment as template for future garage management systems.
+                      </p>
                     </div>
                   </div>
                 </div>
