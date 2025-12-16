@@ -21,6 +21,7 @@ import SettingsTab from "@/components/dashboard/SettingsTab";
 import BusinessManagementTab from "@/components/dashboard/BusinessManagementTab";
 import ServicesManagementTab from "@/components/dashboard/ServicesManagementTab";
 import BlockedTimesTab from "@/components/dashboard/BlockedTimesTab";
+import { BusinessHoursTab } from "@/components/dashboard/BusinessHoursTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
 interface Profile {
@@ -265,6 +266,7 @@ const Dashboard = () => {
             <TabsContent value="services-mgmt" className="mt-0">
               <div className="container mx-auto px-4 py-6 space-y-6">
                 <ServicesManagementTab />
+                <BusinessHoursTab />
                 <BlockedTimesTab />
               </div>
             </TabsContent>
