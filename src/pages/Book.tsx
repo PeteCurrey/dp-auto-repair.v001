@@ -8,11 +8,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar } from '@/components/ui/calendar';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Clock, CheckCircle, ArrowLeft, ArrowRight, Calendar as CalendarIcon } from 'lucide-react';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
+import { AvailabilityCalendar } from '@/components/AvailabilityCalendar';
 
 interface BookableService {
   id: string;
@@ -60,6 +60,7 @@ const Book = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   
   // Customer details
   const [customerDetails, setCustomerDetails] = useState({
@@ -403,18 +404,21 @@ const Book = () => {
                       <CalendarIcon className="h-5 w-5" />
                       Select Date
                     </CardTitle>
+                    <CardDescription>Green days have good availability, amber has limited slots</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex justify-center">
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={(date) => {
+                  <CardContent>
+                    <AvailabilityCalendar
+                      currentMonth={currentMonth}
+                      onMonthChange={setCurrentMonth}
+                      selectedDate={selectedDate}
+                      onSelectDate={(date) => {
                         setSelectedDate(date);
                         setSelectedTime('');
                       }}
-                      disabled={isDateDisabled}
-                      fromDate={new Date()}
-                      toDate={addDays(new Date(), 60)}
+                      businessHours={businessHours}
+                      blockedTimes={blockedTimes}
+                      appointments={existingAppointments}
+                      serviceDuration={selectedService?.duration_minutes || 60}
                     />
                   </CardContent>
                 </Card>
@@ -425,6 +429,11 @@ const Book = () => {
                       <Clock className="h-5 w-5" />
                       Select Time
                     </CardTitle>
+                    {selectedDate && (
+                      <CardDescription>
+                        {format(selectedDate, 'EEEE, d MMMM yyyy')}
+                      </CardDescription>
+                    )}
                   </CardHeader>
                   <CardContent>
                     {!selectedDate ? (
