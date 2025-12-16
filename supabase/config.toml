@@ -1,7 +1,1 @@
-project_id = "axdeumsywjgknrjurgds"
-
-[functions.mapbox-token]
-verify_jwt = false
-
-[functions.dvla-lookup]
-verify_jwt = false
+project_id = "qgezrxxsuvqsrozbfrtd"

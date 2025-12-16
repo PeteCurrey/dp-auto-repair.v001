@@ -12,16 +12,15 @@ type Pageview = {
   created_at: string;
   path: string;
   referrer?: string | null;
-  session_id: string;
+  session_id: string | null;
 };
 
 type EventRow = {
   id: string;
   created_at: string;
-  name: string;
-  path?: string | null;
-  session_id: string;
-  metadata?: Record<string, any>;
+  event_name: string;
+  event_data?: any;
+  session_id: string | null;
 };
 
 const fetchLast30Days = async () => {
