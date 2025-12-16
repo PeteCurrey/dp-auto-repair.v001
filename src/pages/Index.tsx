@@ -5,7 +5,6 @@ import AboutSection from "@/components/AboutSection";
 import FAQSection from "@/components/FAQSection";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import Footer from "@/components/Footer";
-import PopularServices from "@/components/PopularServices";
 import ServiceCategoryNav from "@/components/ServiceCategoryNav";
 import { useSEO } from "@/hooks/useSEO";
 
@@ -90,9 +89,6 @@ const Index = () => {
         <Hero />
         <ServicesOverview />
         <AboutSection />
-        
-        {/* Popular Services Section */}
-        <PopularServices showLocation={true} />
         
         <section className="py-16">
           <div className="container mx-auto px-4">

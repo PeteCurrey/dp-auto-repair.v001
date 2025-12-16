@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, Plus } from 'lucide-react';
+import { Calendar, Car, Wrench, Bell, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import VehicleForm from '@/components/dashboard/VehicleForm';
 import AppointmentForm from '@/components/dashboard/AppointmentForm';
@@ -54,10 +54,9 @@ interface Service {
 interface Reminder {
   id: string;
   reminder_type: string;
-  title: string;
-  description: string | null;
-  due_date: string;
-  due_mileage: number | null;
+  reminder_date: string;
+  message: string | null;
+  is_sent: boolean;
   vehicles: Vehicle | null;
 }
 
@@ -103,31 +102,34 @@ const ClientDashboard = ({ profile }: { profile: Profile }) => {
       setAppointments(appointmentsData || []);
 
       // Fetch services
-      const { data: servicesData, error: servicesError } = await supabase
-        .from('services')
-        .select(`
-          *,
-          vehicles (*)
-        `)
-        .in('vehicle_id', vehiclesData?.map(v => v.id) || [])
-        .order('service_date', { ascending: false });
+      const vehicleIds = vehiclesData?.map(v => v.id) || [];
+      if (vehicleIds.length > 0) {
+        const { data: servicesData, error: servicesError } = await supabase
+          .from('services')
+          .select(`
+            *,
+            vehicles (*)
+          `)
+          .in('vehicle_id', vehicleIds)
+          .order('service_date', { ascending: false });
 
-      if (servicesError) throw servicesError;
-      setServices(servicesData || []);
+        if (servicesError) throw servicesError;
+        setServices(servicesData || []);
 
-      // Fetch reminders
-      const { data: remindersData, error: remindersError } = await supabase
-        .from('reminders')
-        .select(`
-          *,
-          vehicles (*)
-        `)
-        .in('vehicle_id', vehiclesData?.map(v => v.id) || [])
-        .eq('is_sent', false)
-        .order('due_date', { ascending: true });
+        // Fetch reminders
+        const { data: remindersData, error: remindersError } = await supabase
+          .from('reminders')
+          .select(`
+            *,
+            vehicles (*)
+          `)
+          .in('vehicle_id', vehicleIds)
+          .eq('is_sent', false)
+          .order('reminder_date', { ascending: true });
 
-      if (remindersError) throw remindersError;
-      setReminders(remindersData || []);
+        if (remindersError) throw remindersError;
+        setReminders(remindersData || []);
+      }
 
     } catch (error: any) {
       console.error('Error fetching dashboard data:', error);
@@ -250,13 +252,16 @@ const ClientDashboard = ({ profile }: { profile: Profile }) => {
                   {reminders.slice(0, 3).map((reminder) => (
                     <div key={reminder.id} className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
-                        <p className="font-medium">{reminder.title}</p>
+                        <p className="font-medium">{reminder.reminder_type}</p>
                         <p className="text-sm text-muted-foreground">
                           {reminder.vehicles?.make} {reminder.vehicles?.model} ({reminder.vehicles?.registration})
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          Due: {formatDate(reminder.due_date)}
+                          Due: {formatDate(reminder.reminder_date)}
                         </p>
+                        {reminder.message && (
+                          <p className="text-sm text-muted-foreground">{reminder.message}</p>
+                        )}
                       </div>
                       <Badge variant="secondary">{reminder.reminder_type}</Badge>
                     </div>
@@ -480,28 +485,49 @@ const ClientDashboard = ({ profile }: { profile: Profile }) => {
         </TabsContent>
       </Tabs>
 
-      {/* Forms */}
+      {/* Vehicle Form Dialog */}
       {showVehicleForm && (
-        <VehicleForm
-          profileId={profile.id}
-          onClose={() => setShowVehicleForm(false)}
-          onSuccess={() => {
-            setShowVehicleForm(false);
-            fetchDashboardData();
-          }}
-        />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-lg mx-4">
+            <CardHeader>
+              <CardTitle>Add Vehicle</CardTitle>
+              <CardDescription>Add a new vehicle to your account</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <VehicleForm 
+                onSuccess={() => {
+                  setShowVehicleForm(false);
+                  fetchDashboardData();
+                }}
+                onCancel={() => setShowVehicleForm(false)}
+                profileId={profile.id}
+              />
+            </CardContent>
+          </Card>
+        </div>
       )}
 
+      {/* Appointment Form Dialog */}
       {showAppointmentForm && (
-        <AppointmentForm
-          profileId={profile.id}
-          vehicles={vehicles}
-          onClose={() => setShowAppointmentForm(false)}
-          onSuccess={() => {
-            setShowAppointmentForm(false);
-            fetchDashboardData();
-          }}
-        />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>Book Appointment</CardTitle>
+              <CardDescription>Schedule a service appointment</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AppointmentForm 
+                onSuccess={() => {
+                  setShowAppointmentForm(false);
+                  fetchDashboardData();
+                }}
+                onCancel={() => setShowAppointmentForm(false)}
+                vehicles={vehicles}
+                clientId={profile.id}
+              />
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

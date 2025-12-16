@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
@@ -14,24 +13,20 @@ interface ClientFormProps {
 }
 
 interface ClientFormData {
-  business_name: string;
-  contact_person: string;
+  full_name: string;
   email: string;
   phone: string;
   address: string;
-  preferred_contact_method: string;
   notes: string;
 }
 
 const ClientForm = ({ onSave, onCancel }: ClientFormProps) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<ClientFormData>({
-    business_name: '',
-    contact_person: '',
+    full_name: '',
     email: '',
     phone: '',
     address: '',
-    preferred_contact_method: 'email',
     notes: ''
   });
 
@@ -42,8 +37,8 @@ const ClientForm = ({ onSave, onCancel }: ClientFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.email.trim()) {
-      toast.error("Email is required");
+    if (!formData.full_name.trim()) {
+      toast.error("Name is required");
       return;
     }
 
@@ -52,7 +47,13 @@ const ClientForm = ({ onSave, onCancel }: ClientFormProps) => {
     try {
       const { data, error } = await supabase
         .from('clients')
-        .insert(formData)
+        .insert({
+          full_name: formData.full_name,
+          email: formData.email || null,
+          phone: formData.phone || null,
+          address: formData.address || null,
+          notes: formData.notes || null
+        })
         .select()
         .single();
 
@@ -70,65 +71,36 @@ const ClientForm = ({ onSave, onCancel }: ClientFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="business_name">Business Name</Label>
-          <Input
-            id="business_name"
-            value={formData.business_name}
-            onChange={(e) => handleInputChange('business_name', e.target.value)}
-            placeholder="ABC Motors Ltd"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="contact_person">Contact Person</Label>
-          <Input
-            id="contact_person"
-            value={formData.contact_person}
-            onChange={(e) => handleInputChange('contact_person', e.target.value)}
-            placeholder="John Smith"
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="full_name">Full Name *</Label>
+        <Input
+          id="full_name"
+          value={formData.full_name}
+          onChange={(e) => handleInputChange('full_name', e.target.value)}
+          placeholder="John Smith"
+          required
+        />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email *</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
           value={formData.email}
           onChange={(e) => handleInputChange('email', e.target.value)}
           placeholder="john@example.com"
-          required
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
-          <Input
-            id="phone"
-            value={formData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
-            placeholder="01234 567890"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="preferred_contact_method">Preferred Contact</Label>
-          <Select 
-            value={formData.preferred_contact_method} 
-            onValueChange={(value) => handleInputChange('preferred_contact_method', value)}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="email">Email</SelectItem>
-              <SelectItem value="phone">Phone</SelectItem>
-              <SelectItem value="both">Both</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="phone">Phone</Label>
+        <Input
+          id="phone"
+          value={formData.phone}
+          onChange={(e) => handleInputChange('phone', e.target.value)}
+          placeholder="01234 567890"
+        />
       </div>
 
       <div className="space-y-2">
