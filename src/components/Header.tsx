@@ -174,8 +174,8 @@ const Header = () => {
                   asChild
                   className="gradient-primary text-black shadow-elegant text-sm font-extralight"
                 >
-                  <Link to="/contact">
-                    Book Service
+                  <Link to="/book">
+                    Book Now
                   </Link>
                 </Button>
               </div>
@@ -194,8 +194,8 @@ const Header = () => {
                   asChild
                   className="gradient-primary text-black shadow-elegant text-sm font-extralight"
                 >
-                  <Link to="/contact">
-                    Book Service
+                  <Link to="/book">
+                    Book Now
                   </Link>
                 </Button>
               </div>
@@ -263,8 +263,8 @@ const Header = () => {
                      asChild
                      className="gradient-primary text-black w-fit font-extralight"
                    >
-                     <Link to="/contact">
-                       Book Service
+                     <Link to="/book">
+                       Book Now
                      </Link>
                    </Button>
                 </div>
@@ -284,8 +284,8 @@ const Header = () => {
                      asChild
                      className="gradient-primary text-black w-fit font-extralight"
                    >
-                     <Link to="/contact">
-                       Book Service
+                     <Link to="/book">
+                       Book Now
                      </Link>
                    </Button>
                 </div>
