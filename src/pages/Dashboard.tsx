@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
@@ -19,6 +19,7 @@ import VehicleManagementTab from "@/components/dashboard/VehicleManagementTab";
 import SuppliersTab from "@/components/dashboard/SuppliersTab";
 import SettingsTab from "@/components/dashboard/SettingsTab";
 import BusinessManagementTab from "@/components/dashboard/BusinessManagementTab";
+import ServicesManagementTab from "@/components/dashboard/ServicesManagementTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
 interface Profile {
@@ -188,7 +189,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-9 lg:w-auto lg:grid-cols-9 bg-white/10 backdrop-blur-md border-white/20">
+              <TabsList className="grid w-full grid-cols-10 lg:w-auto lg:grid-cols-10 bg-white/10 backdrop-blur-md border-white/20">
                 <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
@@ -201,6 +202,10 @@ const Dashboard = () => {
                   <MessageSquare className="h-4 w-4" />
                   <span className="hidden sm:inline">Enquiries</span>
                 </TabsTrigger>
+                <TabsTrigger value="services-mgmt" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                  <ClipboardList className="h-4 w-4" />
+                  <span className="hidden sm:inline">Services</span>
+                </TabsTrigger>
                 <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <BarChart3 className="h-4 w-4" />
                   <span className="hidden sm:inline">Analytics</span>
@@ -211,11 +216,11 @@ const Dashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Car className="h-4 w-4" />
-                  <span className="hidden sm:inline">Vehicle Lookup</span>
+                  <span className="hidden sm:inline">Lookup</span>
                 </TabsTrigger>
                 <TabsTrigger value="vehicle-management" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Wrench className="h-4 w-4" />
-                  <span className="hidden sm:inline">Vehicle Mgmt</span>
+                  <span className="hidden sm:inline">Vehicles</span>
                 </TabsTrigger>
                 <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Package className="h-4 w-4" />
@@ -253,6 +258,12 @@ const Dashboard = () => {
             <TabsContent value="enquiries" className="mt-0">
               <div className="container mx-auto px-4 py-6">
                 <EnquiriesInbox profile={profile} />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="services-mgmt" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <ServicesManagementTab />
               </div>
             </TabsContent>
             
