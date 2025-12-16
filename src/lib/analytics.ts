@@ -61,21 +61,13 @@ export const logEvent = async (
   metadata?: Record<string, any>,
   options?: LogEventOptions
 ) => {
-  const path = window.location.pathname + window.location.search;
-  const referrer = document.referrer || undefined;
-  const user_agent = typeof navigator !== "undefined" ? navigator.userAgent : undefined;
   const session_id = getSessionId();
-  const utm = parseUtm(window.location.search);
 
   const insert = {
-    name,
-    path,
-    referrer,
-    user_agent,
+    event_name: name,
+    event_data: metadata || {},
     session_id,
     profile_id: options?.profileId || null,
-    metadata: metadata || {},
-    ...utm,
   };
 
   const { error } = await supabase.from("web_events").insert([insert]);

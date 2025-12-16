@@ -54,8 +54,7 @@ const FinancialDashboard = () => {
         .select(`
           *,
           clients:client_id (
-            business_name,
-            contact_person,
+            full_name,
             email
           )
         `);
@@ -68,8 +67,7 @@ const FinancialDashboard = () => {
         .select(`
           *,
           clients:client_id (
-            business_name,
-            contact_person,
+            full_name,
             email
           )
         `);
@@ -120,7 +118,7 @@ const FinancialDashboard = () => {
           amount: Number(inv.total_amount),
           status: inv.status,
           created_at: inv.created_at,
-          client_name: inv.clients?.business_name || inv.clients?.contact_person || inv.clients?.email,
+          client_name: (inv.clients as any)?.full_name || (inv.clients as any)?.email,
         })) || [];
 
       const recentQuotes = quotes
@@ -133,7 +131,7 @@ const FinancialDashboard = () => {
           amount: Number(quote.total_amount),
           status: quote.status,
           created_at: quote.created_at,
-          client_name: quote.clients?.business_name || quote.clients?.contact_person || quote.clients?.email,
+          client_name: (quote.clients as any)?.full_name || (quote.clients as any)?.email,
         })) || [];
 
       const recentTransactions = [...recentInvoices, ...recentQuotes]
