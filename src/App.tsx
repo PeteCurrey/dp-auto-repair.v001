@@ -8,6 +8,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import AvirriaAdmin from "@/pages/AvirriaAdmin";
+import Book from "@/pages/Book";
 
 // Tuning Landing Pages
 import EcuRemapChesterfield from "@/pages/EcuRemapChesterfield";
@@ -17,6 +18,13 @@ import CarTuningChesterfield from "@/pages/CarTuningChesterfield";
 import CarPerformanceGarageChesterfield from "@/pages/CarPerformanceGarageChesterfield";
 import CarEngineTuningChesterfield from "@/pages/CarEngineTuningChesterfield";
 import TuningGarageChesterfield from "@/pages/TuningGarageChesterfield";
+
+// Diagnostic Landing Pages
+import CarDiagnosticsChesterfield from "@/pages/CarDiagnosticsChesterfield";
+import EngineDiagnosticsChesterfield from "@/pages/EngineDiagnosticsChesterfield";
+import ElectricalDiagnosticsChesterfield from "@/pages/ElectricalDiagnosticsChesterfield";
+import FaultCodeDiagnosticsChesterfield from "@/pages/FaultCodeDiagnosticsChesterfield";
+import CheckEngineLightChesterfield from "@/pages/CheckEngineLightChesterfield";
 
 // Missing landing pages
 import MotDueChecker from "@/pages/MotDueChecker";
@@ -127,6 +135,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/avorria-admin" element={<AvirriaAdmin />} />
+            <Route path="/book" element={<Book />} />
           <Route path="/services" element={<Services />} />
           <Route path="/tuning" element={<Tuning />} />
           <Route path="/tuning/ecu-remapping" element={<EcuRemapping />} />
@@ -226,6 +235,13 @@ const App = () => (
           <Route path="/remapping-guide" element={<RemappingGuide />} />
           <Route path="/what-is-car-remapping" element={<WhatIsCarRemapping />} />
           <Route path="/car-garages-chesterfield" element={<CarGaragesChesterfield />} />
+          
+          {/* Diagnostic Landing Pages */}
+          <Route path="/car-diagnostics-chesterfield" element={<CarDiagnosticsChesterfield />} />
+          <Route path="/engine-diagnostics-chesterfield" element={<EngineDiagnosticsChesterfield />} />
+          <Route path="/electrical-diagnostics-chesterfield" element={<ElectricalDiagnosticsChesterfield />} />
+          <Route path="/fault-code-diagnostics-chesterfield" element={<FaultCodeDiagnosticsChesterfield />} />
+          <Route path="/check-engine-light-chesterfield" element={<CheckEngineLightChesterfield />} />
           
           {/* Sitemap route - must come before catch-all */}
           <Route path="/sitemap.xml" element={<SitemapXML />} />
