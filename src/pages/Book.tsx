@@ -254,8 +254,24 @@ const Book = () => {
 
       if (error) throw error;
 
-      setBookingReference(data.booking_reference || 'Confirmed');
+      const reference = data.booking_reference || 'Confirmed';
+      setBookingReference(reference);
       setStep('confirm');
+      
+      // Send confirmation email (non-blocking)
+      if (customerDetails.email) {
+        supabase.functions.invoke('send-booking-email', {
+          body: {
+            customerName: customerDetails.name,
+            customerEmail: customerDetails.email,
+            serviceType: selectedService.name,
+            appointmentDate: format(selectedDate, 'EEEE, d MMMM yyyy'),
+            appointmentTime: selectedTime,
+            bookingReference: reference,
+            vehicleInfo: customerDetails.vehicle_info
+          }
+        }).catch(err => console.log('Email notification skipped:', err.message));
+      }
       
       toast({
         title: "Booking Confirmed!",
