@@ -45,9 +45,9 @@ const Hero = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up">
             <Button size="lg" className="gradient-primary text-black shadow-glow hover-lift text-sm font-extralight" asChild>
-              <Link to="/contact">
+              <Link to="/book">
                 <Wrench className="w-5 h-5 mr-2" />
-                Book Service Now
+                Book Now
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="bg-white/40 text-black border-red-500 hover:bg-white/50 text-sm font-extralight" asChild>
