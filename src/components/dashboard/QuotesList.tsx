@@ -93,7 +93,7 @@ const QuotesList = ({ onEdit, onRefresh }: QuotesListProps) => {
   const convertToInvoice = async (quoteId: string) => {
     try {
       const { data, error } = await supabase.rpc("convert_quote_to_invoice", {
-        quote_uuid: quoteId,
+        quote_id: quoteId,
       });
 
       if (error) throw error;

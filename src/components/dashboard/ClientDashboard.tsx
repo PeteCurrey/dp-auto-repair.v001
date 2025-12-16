@@ -499,7 +499,7 @@ const ClientDashboard = ({ profile }: { profile: Profile }) => {
                   setShowVehicleForm(false);
                   fetchDashboardData();
                 }}
-                onCancel={() => setShowVehicleForm(false)}
+                onClose={() => setShowVehicleForm(false)}
                 profileId={profile.id}
               />
             </CardContent>
@@ -521,9 +521,9 @@ const ClientDashboard = ({ profile }: { profile: Profile }) => {
                   setShowAppointmentForm(false);
                   fetchDashboardData();
                 }}
-                onCancel={() => setShowAppointmentForm(false)}
+                onClose={() => setShowAppointmentForm(false)}
                 vehicles={vehicles}
-                clientId={profile.id}
+                profileId={profile.id}
               />
             </CardContent>
           </Card>

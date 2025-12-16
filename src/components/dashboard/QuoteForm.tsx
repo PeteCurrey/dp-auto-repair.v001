@@ -25,8 +25,7 @@ interface QuoteItem {
 
 interface Client {
   id: string;
-  business_name?: string;
-  contact_person?: string;
+  full_name?: string;
   email: string;
 }
 
@@ -72,8 +71,8 @@ const QuoteForm = ({ quoteId, onSave, onCancel }: QuoteFormProps) => {
     try {
       const { data, error } = await supabase
         .from("clients")
-        .select("id, business_name, contact_person, email")
-        .order("business_name");
+        .select("id, full_name, email")
+        .order("full_name");
 
       if (error) throw error;
       setClients(data || []);
@@ -329,7 +328,7 @@ const QuoteForm = ({ quoteId, onSave, onCancel }: QuoteFormProps) => {
                     <SelectContent>
                       {clients.map((client) => (
                         <SelectItem key={client.id} value={client.id}>
-                          {client.business_name || client.contact_person || client.email}
+                          {client.full_name || client.email}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -78,9 +78,9 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
   const checkAppointmentConflict = async (date: string, time: string, duration: number) => {
     const { data, error } = await supabase
       .rpc('check_appointment_conflict', {
-        appointment_date: date,
-        appointment_time: time,
-        duration_minutes: duration
+        p_date: date,
+        p_time: time,
+        p_duration: duration
       });
 
     if (error) {
