@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ServicesOverview from "@/components/ServicesOverview";
 import AboutSection from "@/components/AboutSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import Footer from "@/components/Footer";
@@ -116,6 +117,9 @@ const Index = () => {
         
         {/* Service Category Navigation */}
         <ServiceCategoryNav />
+        
+        {/* Testimonials & Trust Badges */}
+        <TestimonialsSection />
         
         <FAQSection faqs={faqs} className="bg-muted/30" />
       </main>

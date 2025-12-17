@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, Clock, ChevronDown, LogOut, User } from "lucide-react";
+import { Menu, X, Phone, Clock } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -158,6 +159,8 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            
+            <ThemeToggle />
             
             {user ? (
               <div className="flex items-center gap-4">

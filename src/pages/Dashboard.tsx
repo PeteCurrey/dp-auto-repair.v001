@@ -24,6 +24,8 @@ import BlockedTimesTab from "@/components/dashboard/BlockedTimesTab";
 import { BusinessHoursTab } from "@/components/dashboard/BusinessHoursTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
+
 interface Profile {
   id: string;
   user_id: string;
@@ -53,6 +55,10 @@ const Dashboard = () => {
 
   // Track pageviews on dashboard route (profileId optional)
   useAnalytics(profile?.id);
+  
+  // Enable realtime notifications for admin/employee
+  useRealtimeNotifications();
+
   useEffect(() => {
     if (!loading && !user) {
       navigate('/auth');
