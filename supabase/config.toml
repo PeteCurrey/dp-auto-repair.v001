@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.send-sms-reminder]
 verify_jwt = false
+
+[functions.send-mot-reminder]
+verify_jwt = false

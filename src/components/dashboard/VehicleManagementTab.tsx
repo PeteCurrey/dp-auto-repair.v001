@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, AlertTriangle, Car, Clock, TrendingUp, Users } from 'lucide-react';
+import { Calendar, AlertTriangle, Car, Clock, TrendingUp, Users, Mail, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -15,6 +15,8 @@ interface MOTReminder {
   client_email: string | null;
   client_phone: string | null;
   created_at: string;
+  make: string | null;
+  model: string | null;
 }
 
 interface VehicleLookup {
@@ -35,6 +37,7 @@ const VehicleManagementTab = () => {
   const [motReminders, setMotReminders] = useState<MOTReminder[]>([]);
   const [recentLookups, setRecentLookups] = useState<VehicleLookup[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sendingReminders, setSendingReminders] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -45,7 +48,6 @@ const VehicleManagementTab = () => {
     try {
       setLoading(true);
 
-      // Fetch MOT reminders
       const { data: remindersData, error: remindersError } = await supabase
         .from('mot_reminders')
         .select('*')
@@ -54,7 +56,6 @@ const VehicleManagementTab = () => {
       if (remindersError) throw remindersError;
       setMotReminders(remindersData || []);
 
-      // Fetch recent vehicle lookups
       const { data: lookupsData, error: lookupsError } = await supabase
         .from('vehicle_lookups')
         .select('*')
@@ -76,13 +77,32 @@ const VehicleManagementTab = () => {
     }
   };
 
-  const markReminderSent = async (reminderId: string) => {
-    // Note: mot_reminders is a VIEW - we need to update the underlying reminders table
-    // For now, just update local state as a UI feedback
-    toast({
-      title: "Info",
-      description: "Reminder tracking is view-only. Please manage reminders through the client dashboard."
-    });
+  const sendMOTReminders = async () => {
+    try {
+      setSendingReminders(true);
+      
+      const { data, error } = await supabase.functions.invoke('send-mot-reminder', {
+        body: { sendAll: true }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "MOT Reminders Sent",
+        description: data.message || `Sent ${data.sent} reminder emails.`
+      });
+
+      fetchVehicleData();
+    } catch (error: any) {
+      console.error('Error sending MOT reminders:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to send MOT reminders.",
+        variant: "destructive"
+      });
+    } finally {
+      setSendingReminders(false);
+    }
   };
 
   const getDaysUntilExpiry = (expiryDate: string) => {
@@ -165,16 +185,30 @@ const VehicleManagementTab = () => {
         </Card>
       </div>
 
-      {/* MOT Reminders Section */}
       <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-white">
-            <AlertTriangle className="h-5 w-5 text-red-400" />
-            MOT Reminders
-          </CardTitle>
-          <CardDescription className="text-white/80">
-            Vehicles requiring MOT renewal attention
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-white">
+                <AlertTriangle className="h-5 w-5 text-red-400" />
+                MOT Reminders
+              </CardTitle>
+              <CardDescription className="text-white/80">
+                Vehicles requiring MOT renewal attention (expiring within 4 weeks)
+              </CardDescription>
+            </div>
+            <Button 
+              onClick={sendMOTReminders} 
+              disabled={sendingReminders || urgentReminders.length === 0}
+              className="gradient-primary shadow-glow"
+            >
+              {sendingReminders ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</>
+              ) : (
+                <><Mail className="h-4 w-4 mr-2" /> Send All Reminders</>
+              )}
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           {motReminders.length > 0 ? (

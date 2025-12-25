@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
@@ -23,6 +23,7 @@ import ServicesManagementTab from "@/components/dashboard/ServicesManagementTab"
 import BlockedTimesTab from "@/components/dashboard/BlockedTimesTab";
 import { BusinessHoursTab } from "@/components/dashboard/BusinessHoursTab";
 import ApiKeysTab from "@/components/dashboard/ApiKeysTab";
+import EmployeeSchedulingTab from "@/components/dashboard/EmployeeSchedulingTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
@@ -198,7 +199,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-11 lg:w-auto lg:grid-cols-11 bg-white/10 backdrop-blur-md border-white/20">
+              <TabsList className="grid w-full grid-cols-12 lg:w-auto lg:grid-cols-12 bg-white/10 backdrop-blur-md border-white/20">
                 <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
@@ -206,6 +207,10 @@ const Dashboard = () => {
                 <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Calendar className="h-4 w-4" />
                   <span className="hidden sm:inline">Schedule</span>
+                </TabsTrigger>
+                <TabsTrigger value="staff" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                  <Users className="h-4 w-4" />
+                  <span className="hidden sm:inline">Staff</span>
                 </TabsTrigger>
                 <TabsTrigger value="enquiries" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <MessageSquare className="h-4 w-4" />
@@ -265,6 +270,12 @@ const Dashboard = () => {
             <TabsContent value="schedule" className="mt-0">
               <div className="container mx-auto px-4 py-6">
                 <EmployeeDashboard profile={profile} />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="staff" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <EmployeeSchedulingTab />
               </div>
             </TabsContent>
             
