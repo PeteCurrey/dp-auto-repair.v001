@@ -32,6 +32,7 @@ export type Database = {
           notes: string | null
           service_type: string
           status: string
+          technician_id: string | null
           updated_at: string
           vehicle_id: string | null
         }
@@ -52,6 +53,7 @@ export type Database = {
           notes?: string | null
           service_type: string
           status?: string
+          technician_id?: string | null
           updated_at?: string
           vehicle_id?: string | null
         }
@@ -72,6 +74,7 @@ export type Database = {
           notes?: string | null
           service_type?: string
           status?: string
+          technician_id?: string | null
           updated_at?: string
           vehicle_id?: string | null
         }
@@ -88,6 +91,13 @@ export type Database = {
             columns: ["managed_client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -305,6 +315,98 @@ export type Database = {
           {
             foreignKeyName: "contact_submissions_assigned_to_fkey"
             columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employee_schedules: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          employee_id: string
+          end_time: string | null
+          id: string
+          is_available: boolean | null
+          start_time: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          employee_id: string
+          end_time?: string | null
+          id?: string
+          is_available?: boolean | null
+          start_time?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          employee_id?: string
+          end_time?: string | null
+          id?: string
+          is_available?: boolean | null
+          start_time?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_schedules_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employee_time_off: {
+        Row: {
+          approved: boolean | null
+          approved_by: string | null
+          created_at: string
+          employee_id: string
+          end_date: string
+          id: string
+          reason: string | null
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          approved?: boolean | null
+          approved_by?: string | null
+          created_at?: string
+          employee_id: string
+          end_date: string
+          id?: string
+          reason?: string | null
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          approved?: boolean | null
+          approved_by?: string | null
+          created_at?: string
+          employee_id?: string
+          end_date?: string
+          id?: string
+          reason?: string | null
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_time_off_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_time_off_employee_id_fkey"
+            columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1034,6 +1136,10 @@ export type Database = {
           p_exclude_id?: string
           p_time: string
         }
+        Returns: boolean
+      }
+      check_employee_availability: {
+        Args: { p_date: string; p_employee_id: string; p_time: string }
         Returns: boolean
       }
       convert_quote_to_invoice: { Args: { quote_id: string }; Returns: string }
