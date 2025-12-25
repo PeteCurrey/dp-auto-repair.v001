@@ -119,6 +119,36 @@ const VehicleManagementTab = () => {
     return 'outline';
   };
 
+  const markReminderSent = async (vehicleId: string) => {
+    try {
+      const { error } = await supabase
+        .from('reminders')
+        .upsert({
+          vehicle_id: vehicleId,
+          reminder_type: 'mot',
+          reminder_date: new Date().toISOString().split('T')[0],
+          is_sent: true,
+          message: 'MOT reminder manually marked as sent'
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Reminder marked as sent."
+      });
+
+      fetchVehicleData();
+    } catch (error: any) {
+      console.error('Error marking reminder:', error);
+      toast({
+        title: "Error",
+        description: "Failed to mark reminder as sent.",
+        variant: "destructive"
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="space-y-6">
