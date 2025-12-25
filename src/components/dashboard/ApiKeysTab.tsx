@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Key, Eye, EyeOff, Save, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Key, Eye, EyeOff, Save, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ApiKey {
   name: string;
@@ -48,22 +49,55 @@ const ApiKeysTab = () => {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [showValues, setShowValues] = useState<Record<string, boolean>>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load saved API keys from localStorage (in production, these would be stored securely in Supabase secrets)
-    const savedKeys = localStorage.getItem('admin_api_keys');
-    const parsedKeys = savedKeys ? JSON.parse(savedKeys) : {};
-    
-    const initialKeys = API_KEYS_CONFIG.map(config => ({
-      ...config,
-      value: parsedKeys[config.envVar] || '',
-      isSet: !!parsedKeys[config.envVar],
-      masked: true,
-    }));
-    
-    setApiKeys(initialKeys);
+    fetchApiKeys();
   }, []);
+
+  const fetchApiKeys = async () => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('admin_settings')
+        .select('setting_key, setting_value')
+        .eq('is_secret', true);
+
+      if (error) throw error;
+
+      const savedKeys: Record<string, string> = {};
+      data?.forEach(row => {
+        savedKeys[row.setting_key] = row.setting_value || '';
+      });
+
+      const initialKeys = API_KEYS_CONFIG.map(config => ({
+        ...config,
+        value: savedKeys[config.envVar] || '',
+        isSet: !!savedKeys[config.envVar],
+        masked: true,
+      }));
+
+      setApiKeys(initialKeys);
+    } catch (error) {
+      console.error('Error fetching API keys:', error);
+      // Fallback to localStorage if not authorized
+      const savedKeys = localStorage.getItem('admin_api_keys');
+      const parsedKeys = savedKeys ? JSON.parse(savedKeys) : {};
+      
+      const initialKeys = API_KEYS_CONFIG.map(config => ({
+        ...config,
+        value: parsedKeys[config.envVar] || '',
+        isSet: !!parsedKeys[config.envVar],
+        masked: true,
+      }));
+      
+      setApiKeys(initialKeys);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleValueChange = (envVar: string, value: string) => {
     setApiKeys(prev => prev.map(key => 
@@ -76,8 +110,28 @@ const ApiKeysTab = () => {
     setShowValues(prev => ({ ...prev, [envVar]: !prev[envVar] }));
   };
 
-  const saveApiKeys = () => {
+  const saveApiKeys = async () => {
+    setIsSaving(true);
     try {
+      // Save to database
+      for (const key of apiKeys) {
+        if (key.value) {
+          const { error } = await supabase
+            .from('admin_settings')
+            .upsert({
+              setting_key: key.envVar,
+              setting_value: key.value,
+              is_secret: true,
+              description: key.description
+            }, {
+              onConflict: 'setting_key'
+            });
+
+          if (error) throw error;
+        }
+      }
+
+      // Also save to localStorage as backup
       const keysToSave = apiKeys.reduce((acc, key) => {
         if (key.value) {
           acc[key.envVar] = key.value;
@@ -90,15 +144,29 @@ const ApiKeysTab = () => {
       
       toast({
         title: "API Keys Saved",
-        description: "Your API keys have been saved securely. Edge functions will use these values.",
+        description: "Your API keys have been saved securely to the database.",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving API keys:', error);
+      
+      // Fallback to localStorage only
+      const keysToSave = apiKeys.reduce((acc, key) => {
+        if (key.value) {
+          acc[key.envVar] = key.value;
+        }
+        return acc;
+      }, {} as Record<string, string>);
+      
+      localStorage.setItem('admin_api_keys', JSON.stringify(keysToSave));
+      setHasChanges(false);
+      
       toast({
-        title: "Error",
-        description: "Failed to save API keys. Please try again.",
-        variant: "destructive",
+        title: "API Keys Saved Locally",
+        description: "Keys saved to browser storage. For production use, configure in Lovable Cloud secrets.",
+        variant: "default",
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -119,6 +187,14 @@ const ApiKeysTab = () => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <Card className="bg-white/20 backdrop-blur-md border-white/30 text-white">
@@ -129,7 +205,7 @@ const ApiKeysTab = () => {
           </CardTitle>
           <CardDescription className="text-white/80">
             Configure third-party API keys for email notifications, SMS reminders, and vehicle lookups.
-            These keys are stored locally and used by edge functions.
+            These keys are stored securely in the database and used by backend functions.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -140,7 +216,7 @@ const ApiKeysTab = () => {
                 <h4 className="font-medium text-amber-200">Security Notice</h4>
                 <p className="text-sm text-amber-200/80 mt-1">
                   API keys are sensitive credentials. Never share them publicly. For production use, 
-                  contact your developer to store these securely in Supabase Edge Function secrets.
+                  these keys should also be configured in Lovable Cloud secrets via the backend panel.
                 </p>
               </div>
             </div>
@@ -185,10 +261,14 @@ const ApiKeysTab = () => {
           <div className="flex items-center gap-4 pt-4">
             <Button 
               onClick={saveApiKeys}
-              disabled={!hasChanges}
+              disabled={!hasChanges || isSaving}
               className="gradient-primary shadow-glow"
             >
-              <Save className="h-4 w-4 mr-2" />
+              {isSaving ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4 mr-2" />
+              )}
               Save API Keys
             </Button>
             {hasChanges && (
