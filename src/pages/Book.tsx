@@ -10,7 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Clock, CheckCircle, ArrowLeft, ArrowRight, Calendar as CalendarIcon } from 'lucide-react';
+import { Loader2, Clock, CheckCircle, ArrowLeft, ArrowRight, Calendar as CalendarIcon, MessageSquare } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import { AvailabilityCalendar } from '@/components/AvailabilityCalendar';
 
@@ -68,7 +69,8 @@ const Book = () => {
     email: '',
     phone: '',
     vehicle_info: '',
-    notes: ''
+    notes: '',
+    sendSms: false
   });
   
   // Booking result
@@ -271,6 +273,20 @@ const Book = () => {
             vehicleInfo: customerDetails.vehicle_info
           }
         }).catch(err => console.log('Email notification skipped:', err.message));
+      }
+
+      // Send SMS reminder if opted in
+      if (customerDetails.sendSms && customerDetails.phone) {
+        supabase.functions.invoke('send-sms-reminder', {
+          body: {
+            customerPhone: customerDetails.phone,
+            customerName: customerDetails.name,
+            serviceType: selectedService.name,
+            appointmentDate: format(selectedDate, 'EEEE, d MMMM yyyy'),
+            appointmentTime: selectedTime,
+            bookingReference: reference
+          }
+        }).catch(err => console.log('SMS notification skipped:', err.message));
       }
       
       toast({
@@ -554,6 +570,18 @@ const Book = () => {
                       rows={3}
                     />
                   </div>
+
+                  <div className="flex items-center space-x-2 pt-2">
+                    <Checkbox
+                      id="send_sms"
+                      checked={customerDetails.sendSms}
+                      onCheckedChange={(checked) => setCustomerDetails(prev => ({ ...prev, sendSms: checked === true }))}
+                    />
+                    <Label htmlFor="send_sms" className="flex items-center gap-2 cursor-pointer text-sm">
+                      <MessageSquare className="h-4 w-4" />
+                      Send me SMS reminders about this appointment
+                    </Label>
+                  </div>
                 </CardContent>
               </Card>
               
@@ -621,7 +649,7 @@ const Book = () => {
                   setSelectedService(null);
                   setSelectedDate(undefined);
                   setSelectedTime('');
-                  setCustomerDetails({ name: '', email: '', phone: '', vehicle_info: '', notes: '' });
+                  setCustomerDetails({ name: '', email: '', phone: '', vehicle_info: '', notes: '', sendSms: false });
                   setBookingReference('');
                 }}>
                   Book Another

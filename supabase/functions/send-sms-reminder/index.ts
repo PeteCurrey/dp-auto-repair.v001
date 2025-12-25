@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -20,14 +21,39 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const accountSid = Deno.env.get("TWILIO_ACCOUNT_SID");
-    const authToken = Deno.env.get("TWILIO_AUTH_TOKEN");
-    const twilioPhone = Deno.env.get("TWILIO_PHONE_NUMBER");
+    // Try to get Twilio credentials from environment first, then from database
+    let accountSid = Deno.env.get("TWILIO_ACCOUNT_SID");
+    let authToken = Deno.env.get("TWILIO_AUTH_TOKEN");
+    let twilioPhone = Deno.env.get("TWILIO_PHONE_NUMBER");
+
+    // If not in environment, try to fetch from admin_settings table
+    if (!accountSid || !authToken || !twilioPhone) {
+      console.log("Twilio env vars not set, checking database...");
+      
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+      const { data: settings, error: settingsError } = await supabase
+        .from("admin_settings")
+        .select("setting_key, setting_value")
+        .in("setting_key", ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE_NUMBER"]);
+
+      if (settingsError) {
+        console.error("Error fetching settings:", settingsError);
+      } else if (settings) {
+        settings.forEach((s: any) => {
+          if (s.setting_key === "TWILIO_ACCOUNT_SID") accountSid = s.setting_value;
+          if (s.setting_key === "TWILIO_AUTH_TOKEN") authToken = s.setting_value;
+          if (s.setting_key === "TWILIO_PHONE_NUMBER") twilioPhone = s.setting_value;
+        });
+      }
+    }
 
     if (!accountSid || !authToken || !twilioPhone) {
       console.error("Twilio credentials not configured");
       return new Response(
-        JSON.stringify({ error: "SMS service not configured" }),
+        JSON.stringify({ error: "SMS service not configured. Please add Twilio API keys in Settings > API Keys." }),
         { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }

@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageSquare } from 'lucide-react';
+
+interface Technician {
+  id: string;
+  full_name: string;
+  email: string;
+}
 
 interface Vehicle {
   id: string;
@@ -49,6 +56,8 @@ const timeSlots = [
 
 const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: AppointmentFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [technicians, setTechnicians] = useState<Technician[]>([]);
+  const [sendSmsReminder, setSendSmsReminder] = useState(false);
   const [formData, setFormData] = useState({
     vehicle_id: '',
     service_type: '',
@@ -56,10 +65,27 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
     appointment_time: '',
     duration_minutes: '60',
     notes: '',
-    estimated_cost: ''
+    estimated_cost: '',
+    technician_id: '',
+    customer_phone: ''
   });
   
   const { toast } = useToast();
+
+  useEffect(() => {
+    fetchTechnicians();
+  }, []);
+
+  const fetchTechnicians = async () => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, full_name, email')
+      .in('user_type', ['employee', 'admin']);
+    
+    if (!error && data) {
+      setTechnicians(data);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -122,15 +148,37 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
         duration_minutes: parseInt(formData.duration_minutes),
         notes: formData.notes || null,
         estimated_cost: formData.estimated_cost ? parseFloat(formData.estimated_cost) : null,
+        technician_id: formData.technician_id || null,
+        customer_phone: formData.customer_phone || null,
         status: 'scheduled'
       };
 
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('appointments')
-        .insert(appointmentData);
+        .insert(appointmentData)
+        .select('booking_reference')
+        .single();
 
       if (error) {
         throw error;
+      }
+
+      // Send SMS reminder if enabled and phone number provided
+      if (sendSmsReminder && formData.customer_phone) {
+        try {
+          await supabase.functions.invoke('send-sms-reminder', {
+            body: {
+              customerPhone: formData.customer_phone,
+              customerName: 'Customer',
+              serviceType: formData.service_type,
+              appointmentDate: formData.appointment_date,
+              appointmentTime: formData.appointment_time,
+              bookingReference: data.booking_reference || 'N/A'
+            }
+          });
+        } catch (smsError) {
+          console.log('SMS notification skipped:', smsError);
+        }
       }
 
       toast({
@@ -260,6 +308,35 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="technician_id">Assign Technician</Label>
+            <Select value={formData.technician_id} onValueChange={(value) => handleSelectChange(value, 'technician_id')}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a technician (optional)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">Unassigned</SelectItem>
+                {technicians.map((tech) => (
+                  <SelectItem key={tech.id} value={tech.id}>
+                    {tech.full_name || tech.email}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="customer_phone">Customer Phone (for SMS reminders)</Label>
+            <Input
+              id="customer_phone"
+              name="customer_phone"
+              type="tel"
+              placeholder="+44..."
+              value={formData.customer_phone}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="notes">Notes (Optional)</Label>
             <Textarea
               id="notes"
@@ -269,6 +346,18 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
               onChange={handleInputChange}
               rows={3}
             />
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="send_sms"
+              checked={sendSmsReminder}
+              onCheckedChange={(checked) => setSendSmsReminder(checked === true)}
+            />
+            <Label htmlFor="send_sms" className="flex items-center gap-2 cursor-pointer">
+              <MessageSquare className="h-4 w-4" />
+              Send SMS reminder to customer
+            </Label>
           </div>
 
           <div className="flex gap-2 pt-4">
