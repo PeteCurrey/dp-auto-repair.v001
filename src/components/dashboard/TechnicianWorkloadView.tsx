@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, DragEvent } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, ChevronLeft, ChevronRight, Users, Clock, Wrench } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, Users, Clock, Wrench, GripVertical } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isSameDay, parseISO, addDays } from 'date-fns';
 
@@ -36,6 +36,8 @@ const TechnicianWorkloadView = () => {
   const [selectedTechnician, setSelectedTechnician] = useState<string>('all');
   const [currentWeekStart, setCurrentWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [loading, setLoading] = useState(true);
+  const [draggedAppointment, setDraggedAppointment] = useState<string | null>(null);
+  const [dropTarget, setDropTarget] = useState<{ techId: string | null; date: string } | null>(null);
   const { toast } = useToast();
 
   const weekDays = useMemo(() => {
@@ -96,6 +98,84 @@ const TechnicianWorkloadView = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDragStart = (e: DragEvent<HTMLDivElement>, appointmentId: string) => {
+    e.dataTransfer.setData('appointmentId', appointmentId);
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggedAppointment(appointmentId);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedAppointment(null);
+    setDropTarget(null);
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLDivElement>, techId: string | null, date: Date) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDropTarget({ techId, date: format(date, 'yyyy-MM-dd') });
+  };
+
+  const handleDragLeave = () => {
+    setDropTarget(null);
+  };
+
+  const handleDrop = async (e: DragEvent<HTMLDivElement>, targetTechId: string | null, targetDate: Date) => {
+    e.preventDefault();
+    const appointmentId = e.dataTransfer.getData('appointmentId');
+    
+    if (!appointmentId) return;
+
+    const appointment = appointments.find(apt => apt.id === appointmentId);
+    if (!appointment) return;
+
+    // Check if anything actually changed
+    const targetDateStr = format(targetDate, 'yyyy-MM-dd');
+    if (appointment.technician_id === targetTechId && appointment.appointment_date === targetDateStr) {
+      setDraggedAppointment(null);
+      setDropTarget(null);
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('appointments')
+        .update({ 
+          technician_id: targetTechId,
+          appointment_date: targetDateStr
+        })
+        .eq('id', appointmentId);
+
+      if (error) throw error;
+
+      // Update local state
+      setAppointments(prev => prev.map(apt => 
+        apt.id === appointmentId 
+          ? { ...apt, technician_id: targetTechId, appointment_date: targetDateStr }
+          : apt
+      ));
+
+      const techName = targetTechId 
+        ? technicians.find(t => t.id === targetTechId)?.full_name || 'technician'
+        : 'Unassigned';
+
+      toast({
+        title: "Appointment reassigned",
+        description: `Moved to ${techName} on ${format(targetDate, 'EEE, MMM d')}`,
+      });
+
+    } catch (error: any) {
+      console.error('Error reassigning appointment:', error);
+      toast({
+        title: "Error",
+        description: "Failed to reassign appointment.",
+        variant: "destructive"
+      });
+    }
+
+    setDraggedAppointment(null);
+    setDropTarget(null);
   };
 
   const getAppointmentsForDay = (technicianId: string | null, date: Date) => {
@@ -267,11 +347,24 @@ const TechnicianWorkloadView = () => {
         </Card>
       )}
 
+      {/* Drag & Drop Instructions */}
+      <Card className="bg-primary/10 backdrop-blur-md border-primary/30">
+        <CardContent className="py-3 px-4">
+          <div className="flex items-center gap-2 text-sm text-white/80">
+            <GripVertical className="h-4 w-4" />
+            <span>Drag appointments to reassign them to different technicians or days</span>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Calendar Grid */}
       <Card className="bg-white/20 backdrop-blur-md border-white/30 overflow-hidden">
         <CardContent className="p-0">
           {/* Day Headers */}
-          <div className="grid grid-cols-7 border-b border-white/20">
+          <div className="grid grid-cols-8 border-b border-white/20">
+            <div className="p-3 text-center border-r border-white/20 bg-white/5">
+              <div className="text-xs text-white/60 uppercase">Technician</div>
+            </div>
             {weekDays.map(day => (
               <div
                 key={day.toISOString()}
@@ -289,69 +382,133 @@ const TechnicianWorkloadView = () => {
 
           {/* Technician Rows */}
           {filteredTechnicians.map(tech => (
-            <div key={tech.id} className="border-b border-white/20 last:border-b-0">
-              <div className="grid grid-cols-7">
-                {weekDays.map(day => {
-                  const dayAppointments = getAppointmentsForDay(tech.id, day);
-                  return (
-                    <div
-                      key={`${tech.id}-${day.toISOString()}`}
-                      className={`min-h-24 p-2 border-r border-white/10 last:border-r-0 ${
-                        isSameDay(day, new Date()) ? 'bg-primary/5' : ''
-                      }`}
-                    >
-                      {dayAppointments.length === 0 ? (
-                        <div className="text-xs text-white/30 text-center mt-6">No appointments</div>
-                      ) : (
-                        <div className="space-y-1">
-                          {dayAppointments.map(apt => (
-                            <div
-                              key={apt.id}
-                              className={`${getStatusColor(apt.status)} rounded p-1.5 text-xs cursor-pointer hover:opacity-80 transition-opacity`}
-                              title={`${apt.service_type} - ${apt.customer_name || 'Customer'}\n${apt.vehicles?.registration || ''}`}
-                            >
-                              <div className="font-medium text-white truncate">
-                                {apt.appointment_time.slice(0, 5)}
-                              </div>
-                              <div className="text-white/80 truncate">
-                                {apt.service_type}
-                              </div>
-                              {apt.vehicles && (
-                                <div className="text-white/60 truncate">
-                                  {apt.vehicles.registration}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-              {/* Technician Label (fixed left) */}
-              <div className="absolute left-0 top-0 h-full w-32 bg-white/10 border-r border-white/20 flex items-center px-3 hidden">
+            <div key={tech.id} className="grid grid-cols-8 border-b border-white/20 last:border-b-0">
+              {/* Technician Name Column */}
+              <div className="p-2 border-r border-white/20 bg-white/5 flex items-center">
                 <span className="text-sm font-medium text-white truncate">
                   {tech.full_name || tech.email}
                 </span>
               </div>
+              
+              {/* Day Columns */}
+              {weekDays.map(day => {
+                const dayAppointments = getAppointmentsForDay(tech.id, day);
+                const isDropTarget = dropTarget?.techId === tech.id && dropTarget?.date === format(day, 'yyyy-MM-dd');
+                
+                return (
+                  <div
+                    key={`${tech.id}-${day.toISOString()}`}
+                    className={`min-h-24 p-2 border-r border-white/10 last:border-r-0 transition-colors ${
+                      isSameDay(day, new Date()) ? 'bg-primary/5' : ''
+                    } ${isDropTarget ? 'bg-primary/30 ring-2 ring-primary ring-inset' : ''}`}
+                    onDragOver={(e) => handleDragOver(e, tech.id, day)}
+                    onDragLeave={handleDragLeave}
+                    onDrop={(e) => handleDrop(e, tech.id, day)}
+                  >
+                    {dayAppointments.length === 0 ? (
+                      <div className="text-xs text-white/30 text-center mt-6">
+                        {isDropTarget ? 'Drop here' : 'No appointments'}
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        {dayAppointments.map(apt => (
+                          <div
+                            key={apt.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, apt.id)}
+                            onDragEnd={handleDragEnd}
+                            className={`${getStatusColor(apt.status)} rounded p-1.5 text-xs cursor-grab active:cursor-grabbing hover:opacity-90 transition-all ${
+                              draggedAppointment === apt.id ? 'opacity-50 scale-95' : ''
+                            }`}
+                            title={`${apt.service_type} - ${apt.customer_name || 'Customer'}\n${apt.vehicles?.registration || ''}\nDrag to reassign`}
+                          >
+                            <div className="flex items-center gap-1">
+                              <GripVertical className="h-3 w-3 text-white/60 flex-shrink-0" />
+                              <div className="flex-1 min-w-0">
+                                <div className="font-medium text-white truncate">
+                                  {apt.appointment_time.slice(0, 5)}
+                                </div>
+                                <div className="text-white/80 truncate">
+                                  {apt.service_type}
+                                </div>
+                                {apt.vehicles && (
+                                  <div className="text-white/60 truncate">
+                                    {apt.vehicles.registration}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ))}
 
-          {/* Show row for each technician with their name */}
-          {selectedTechnician === 'all' && (
-            <div className="border-t border-white/20">
-              {technicians.map(tech => {
-                const hasAppointments = weekDays.some(day => 
-                  getAppointmentsForDay(tech.id, day).length > 0
-                );
-                if (!hasAppointments) return null;
+          {/* Unassigned Row */}
+          {getUnassignedAppointments().length > 0 && (
+            <div className="grid grid-cols-8 border-t border-yellow-500/30 bg-yellow-500/10">
+              <div className="p-2 border-r border-white/20 bg-yellow-500/20 flex items-center">
+                <span className="text-sm font-medium text-yellow-100 truncate flex items-center gap-1">
+                  <Wrench className="h-3 w-3" />
+                  Unassigned
+                </span>
+              </div>
+              
+              {weekDays.map(day => {
+                const dayAppointments = getAppointmentsForDay(null, day);
+                const isDropTarget = dropTarget?.techId === null && dropTarget?.date === format(day, 'yyyy-MM-dd');
                 
                 return (
-                  <div key={`label-${tech.id}`} className="px-3 py-1 bg-white/5">
-                    <span className="text-xs font-medium text-white/70">
-                      {tech.full_name || tech.email}
-                    </span>
+                  <div
+                    key={`unassigned-${day.toISOString()}`}
+                    className={`min-h-24 p-2 border-r border-white/10 last:border-r-0 transition-colors ${
+                      isDropTarget ? 'bg-primary/30 ring-2 ring-primary ring-inset' : ''
+                    }`}
+                    onDragOver={(e) => handleDragOver(e, null, day)}
+                    onDragLeave={handleDragLeave}
+                    onDrop={(e) => handleDrop(e, null, day)}
+                  >
+                    {dayAppointments.length === 0 ? (
+                      <div className="text-xs text-white/30 text-center mt-6">
+                        {isDropTarget ? 'Drop here' : '-'}
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        {dayAppointments.map(apt => (
+                          <div
+                            key={apt.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, apt.id)}
+                            onDragEnd={handleDragEnd}
+                            className={`bg-yellow-500/60 rounded p-1.5 text-xs cursor-grab active:cursor-grabbing hover:opacity-90 transition-all ${
+                              draggedAppointment === apt.id ? 'opacity-50 scale-95' : ''
+                            }`}
+                            title={`${apt.service_type} - ${apt.customer_name || 'Customer'}\n${apt.vehicles?.registration || ''}\nDrag to assign`}
+                          >
+                            <div className="flex items-center gap-1">
+                              <GripVertical className="h-3 w-3 text-white/60 flex-shrink-0" />
+                              <div className="flex-1 min-w-0">
+                                <div className="font-medium text-white truncate">
+                                  {apt.appointment_time.slice(0, 5)}
+                                </div>
+                                <div className="text-white/80 truncate">
+                                  {apt.service_type}
+                                </div>
+                                {apt.vehicles && (
+                                  <div className="text-white/60 truncate">
+                                    {apt.vehicles.registration}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 );
               })}
