@@ -24,6 +24,7 @@ import BlockedTimesTab from "@/components/dashboard/BlockedTimesTab";
 import { BusinessHoursTab } from "@/components/dashboard/BusinessHoursTab";
 import ApiKeysTab from "@/components/dashboard/ApiKeysTab";
 import EmployeeSchedulingTab from "@/components/dashboard/EmployeeSchedulingTab";
+import TechnicianWorkloadView from "@/components/dashboard/TechnicianWorkloadView";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
@@ -274,7 +275,8 @@ const Dashboard = () => {
             </TabsContent>
             
             <TabsContent value="staff" className="mt-0">
-              <div className="container mx-auto px-4 py-6">
+              <div className="container mx-auto px-4 py-6 space-y-6">
+                <TechnicianWorkloadView />
                 <EmployeeSchedulingTab />
               </div>
             </TabsContent>
