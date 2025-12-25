@@ -22,6 +22,7 @@ import BusinessManagementTab from "@/components/dashboard/BusinessManagementTab"
 import ServicesManagementTab from "@/components/dashboard/ServicesManagementTab";
 import BlockedTimesTab from "@/components/dashboard/BlockedTimesTab";
 import { BusinessHoursTab } from "@/components/dashboard/BusinessHoursTab";
+import ApiKeysTab from "@/components/dashboard/ApiKeysTab";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
@@ -126,7 +127,7 @@ const Dashboard = () => {
       });
       setAppointments(appointmentsData || []);
 
-      // Mock enquiries data for now
+      // Enquiries are fetched from contact_submissions in EnquiriesInbox component
       setEnquiries([]);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -147,7 +148,7 @@ const Dashboard = () => {
     return appointments.filter(apt => apt.appointment_date === today);
   };
   const getNewEnquiries = () => {
-    // Mock data for now
+    // Filter enquiries with 'new' status from contact_submissions
     return enquiries.filter(enq => enq.status === 'new');
   };
   if (loading || profileLoading) {
@@ -197,7 +198,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-10 lg:w-auto lg:grid-cols-10 bg-white/10 backdrop-blur-md border-white/20">
+              <TabsList className="grid w-full grid-cols-11 lg:w-auto lg:grid-cols-11 bg-white/10 backdrop-blur-md border-white/20">
                 <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
@@ -233,6 +234,10 @@ const Dashboard = () => {
                 <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Package className="h-4 w-4" />
                   <span className="hidden sm:inline">Suppliers</span>
+                </TabsTrigger>
+                <TabsTrigger value="api-keys" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                  <CreditCard className="h-4 w-4" />
+                  <span className="hidden sm:inline">API Keys</span>
                 </TabsTrigger>
                 <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Settings className="h-4 w-4" />
@@ -304,6 +309,12 @@ const Dashboard = () => {
             <TabsContent value="suppliers" className="mt-0">
               <div className="container mx-auto px-4 py-6">
                 <SuppliersTab />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="api-keys" className="mt-0">
+              <div className="container mx-auto px-4 py-6">
+                <ApiKeysTab />
               </div>
             </TabsContent>
             

@@ -42,12 +42,12 @@ const SettingsTab = ({ profile, onProfileUpdate }: SettingsTabProps) => {
   });
 
   const [businessInfo, setBusinessInfo] = useState<BusinessInfo>({
-    name: 'DP Automotive',
-    address: 'Chesterfield, Derbyshire',
-    phone: '',
-    email: 'info@dpautomotive.co.uk',
-    description: 'Professional automotive services including diagnostics, repairs, and performance tuning.',
-    website: 'https://dpautomotive.co.uk'
+    name: 'DP Auto Repair & Diagnostics',
+    address: 'Unit 5 Vanguard Trading Estate, Chesterfield, S40 2TZ',
+    phone: '01246 233483',
+    email: 'hello@dpautorepair.co.uk',
+    description: 'Professional automotive repair and diagnostics in Chesterfield. ASE certified technicians with 15+ years experience.',
+    website: 'https://dpautorepair.co.uk'
   });
 
   const [loading, setLoading] = useState(false);
