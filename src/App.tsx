@@ -11,6 +11,9 @@ import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import AvirriaAdmin from "@/pages/AvirriaAdmin";
 import Book from "@/pages/Book";
+import StaffLogin from "@/pages/StaffLogin";
+import CustomerLogin from "@/pages/CustomerLogin";
+import CustomerPortal from "@/pages/CustomerPortal";
 
 // Tuning Landing Pages
 import EcuRemapChesterfield from "@/pages/EcuRemapChesterfield";
@@ -137,6 +140,9 @@ const App = () => (
             <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/staff-login" element={<StaffLogin />} />
+            <Route path="/customer-login" element={<CustomerLogin />} />
+            <Route path="/customer-portal" element={<CustomerPortal />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/avorria-admin" element={<AvirriaAdmin />} />
             <Route path="/book" element={<Book />} />
