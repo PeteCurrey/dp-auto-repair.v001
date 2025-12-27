@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserRole } from '@/hooks/useUserRole';
 import { supabase } from '@/integrations/supabase/client';
@@ -7,10 +7,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, Home, Clock, FileText, Settings } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, Home, FileText, Settings, Crown, CheckCircle, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import heroImage from "@/assets/hero-garage.jpg";
+
+// Stripe products configuration
+const SERVICE_PLANS = {
+  basic: {
+    price_id: "price_1Six4NRohlQl0pB8TtblkZcE",
+    product_id: "prod_TgJhA5YNAvJK6d",
+    name: "Basic Service Plan",
+    price: 19.99,
+    features: ["MOT reminders", "Priority booking", "10% discount on labour"],
+  },
+  premium: {
+    price_id: "price_1SixcYRohlQl0pB80hQkwioW",
+    product_id: "prod_TgKHAJPFMgfVQT",
+    name: "Premium Service Plan",
+    price: 39.99,
+    features: ["MOT reminders", "Priority booking", "15% discount on labour", "Free vehicle health checks", "Annual service reminder"],
+  },
+};
 
 interface Profile {
   id: string;
@@ -39,15 +57,61 @@ interface Appointment {
   vehicle_id: string | null;
 }
 
+interface Invoice {
+  id: string;
+  invoice_number: string;
+  title: string;
+  total_amount: number;
+  amount_due: number;
+  status: string;
+  created_at: string;
+  due_date: string | null;
+}
+
+interface Subscription {
+  subscribed: boolean;
+  product_id: string | null;
+  plan_name: string | null;
+  subscription_end: string | null;
+}
+
 const CustomerPortal = () => {
   const { user, signOut, loading } = useAuth();
   const { isStaff, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [dataLoading, setDataLoading] = useState(true);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState<string | null>(null);
+
+  // Handle URL params for success/cancel messages
+  useEffect(() => {
+    if (searchParams.get('success') === 'true') {
+      toast({
+        title: "Subscription Activated!",
+        description: "Thank you for subscribing to our service plan.",
+      });
+    }
+    if (searchParams.get('payment') === 'success') {
+      toast({
+        title: "Payment Successful!",
+        description: "Your invoice has been paid. Thank you!",
+      });
+    }
+    if (searchParams.get('canceled') === 'true' || searchParams.get('payment') === 'canceled') {
+      toast({
+        title: "Cancelled",
+        description: "The checkout process was cancelled.",
+        variant: "destructive",
+      });
+    }
+  }, [searchParams, toast]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -55,7 +119,6 @@ const CustomerPortal = () => {
     }
   }, [user, loading, navigate]);
 
-  // Redirect staff to staff dashboard
   useEffect(() => {
     if (!roleLoading && isStaff) {
       navigate('/dashboard');
@@ -65,6 +128,7 @@ const CustomerPortal = () => {
   useEffect(() => {
     if (user) {
       fetchCustomerData();
+      checkSubscription();
     }
   }, [user]);
 
@@ -72,7 +136,6 @@ const CustomerPortal = () => {
     if (!user) return;
     
     try {
-      // Fetch or create profile
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('*')
@@ -80,7 +143,6 @@ const CustomerPortal = () => {
         .single();
 
       if (profileError && profileError.code === 'PGRST116') {
-        // Create profile
         const { data: newProfile } = await supabase
           .from('profiles')
           .insert({
@@ -96,7 +158,6 @@ const CustomerPortal = () => {
         setProfile(profileData);
       }
 
-      // Fetch customer's vehicles
       if (profileData) {
         const { data: vehiclesData } = await supabase
           .from('vehicles')
@@ -104,13 +165,28 @@ const CustomerPortal = () => {
           .eq('owner_id', profileData.id);
         setVehicles(vehiclesData || []);
 
-        // Fetch customer's appointments
         const { data: appointmentsData } = await supabase
           .from('appointments')
           .select('*')
           .eq('client_id', profileData.id)
           .order('appointment_date', { ascending: false });
         setAppointments(appointmentsData || []);
+
+        // Fetch invoices for this client
+        const { data: clientData } = await supabase
+          .from('clients')
+          .select('id')
+          .eq('email', user.email)
+          .single();
+
+        if (clientData) {
+          const { data: invoicesData } = await supabase
+            .from('invoices')
+            .select('id, invoice_number, title, total_amount, amount_due, status, created_at, due_date')
+            .eq('client_id', clientData.id)
+            .order('created_at', { ascending: false });
+          setInvoices(invoicesData || []);
+        }
       }
     } catch (error) {
       console.error('Error fetching customer data:', error);
@@ -121,6 +197,111 @@ const CustomerPortal = () => {
       });
     } finally {
       setDataLoading(false);
+    }
+  };
+
+  const checkSubscription = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const { data, error } = await supabase.functions.invoke('check-subscription', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+      setSubscription(data);
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
+
+  const handleSubscribe = async (planKey: 'basic' | 'premium') => {
+    setSubscriptionLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const plan = SERVICE_PLANS[planKey];
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId: plan.price_id, mode: 'subscription' },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error creating checkout:', error);
+      toast({
+        title: "Error",
+        description: "Failed to start checkout. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    setSubscriptionLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const { data, error } = await supabase.functions.invoke('customer-portal', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error opening customer portal:', error);
+      toast({
+        title: "Error",
+        description: "Failed to open subscription management. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
+
+  const handlePayInvoice = async (invoiceId: string) => {
+    setPaymentLoading(invoiceId);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const { data, error } = await supabase.functions.invoke('create-invoice-payment', {
+        body: { invoiceId },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      toast({
+        title: "Error",
+        description: "Failed to start payment. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setPaymentLoading(null);
     }
   };
 
@@ -135,7 +316,11 @@ const CustomerPortal = () => {
       confirmed: 'default',
       in_progress: 'secondary',
       completed: 'outline',
-      cancelled: 'destructive'
+      cancelled: 'destructive',
+      draft: 'secondary',
+      sent: 'default',
+      paid: 'outline',
+      overdue: 'destructive',
     };
     return <Badge variant={variants[status] || 'default'}>{status.replace('_', ' ')}</Badge>;
   };
@@ -153,6 +338,10 @@ const CustomerPortal = () => {
       const motDate = new Date(v.mot_expiry);
       return motDate <= thirtyDaysFromNow;
     });
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount);
   };
 
   if (loading || dataLoading || roleLoading) {
@@ -181,6 +370,12 @@ const CustomerPortal = () => {
             <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
               Customer Portal
             </Badge>
+            {subscription?.subscribed && (
+              <Badge className="bg-amber-500 text-black">
+                <Crown className="h-3 w-3 mr-1" />
+                {subscription.plan_name}
+              </Badge>
+            )}
           </div>
           <div className="flex items-center space-x-4">
             <div className="text-right">
@@ -234,11 +429,13 @@ const CustomerPortal = () => {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Service History</CardTitle>
-              <Wrench className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Outstanding Invoices</CardTitle>
+              <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{appointments.filter(a => a.status === 'completed').length}</div>
+              <div className="text-2xl font-bold">
+                {formatCurrency(invoices.filter(i => i.status !== 'paid').reduce((sum, i) => sum + i.amount_due, 0))}
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -261,6 +458,10 @@ const CustomerPortal = () => {
             <TabsTrigger value="invoices" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Invoices
+            </TabsTrigger>
+            <TabsTrigger value="plans" className="flex items-center gap-2">
+              <Crown className="h-4 w-4" />
+              Service Plans
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
@@ -432,13 +633,129 @@ const CustomerPortal = () => {
                 <CardDescription>View and pay your invoices</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  <CreditCard className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                  <p>Payment system coming soon</p>
-                  <p className="text-sm">You'll be able to view and pay invoices here</p>
-                </div>
+                {invoices.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <FileText className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                    <p>No invoices yet</p>
+                    <p className="text-sm">Your invoices will appear here after services are completed</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {invoices.map((invoice) => (
+                      <div key={invoice.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div>
+                          <p className="font-medium">{invoice.invoice_number}</p>
+                          <p className="text-sm text-muted-foreground">{invoice.title}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {format(new Date(invoice.created_at), 'PP')}
+                            {invoice.due_date && ` • Due: ${format(new Date(invoice.due_date), 'PP')}`}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <p className="font-bold">{formatCurrency(invoice.amount_due)}</p>
+                            {getStatusBadge(invoice.status)}
+                          </div>
+                          {invoice.status !== 'paid' && (
+                            <Button 
+                              onClick={() => handlePayInvoice(invoice.id)}
+                              disabled={paymentLoading === invoice.id}
+                            >
+                              {paymentLoading === invoice.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <>
+                                  <CreditCard className="h-4 w-4 mr-2" />
+                                  Pay Now
+                                </>
+                              )}
+                            </Button>
+                          )}
+                          {invoice.status === 'paid' && (
+                            <Badge variant="outline" className="text-green-600 border-green-600">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Paid
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="plans">
+            <div className="space-y-6">
+              {subscription?.subscribed && (
+                <Card className="border-amber-500 bg-amber-500/5">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Crown className="h-5 w-5 text-amber-500" />
+                      Your Current Plan: {subscription.plan_name}
+                    </CardTitle>
+                    <CardDescription>
+                      {subscription.subscription_end && (
+                        <>Renews on {format(new Date(subscription.subscription_end), 'PPP')}</>
+                      )}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button onClick={handleManageSubscription} disabled={subscriptionLoading}>
+                      {subscriptionLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      ) : null}
+                      Manage Subscription
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Object.entries(SERVICE_PLANS).map(([key, plan]) => {
+                  const isCurrentPlan = subscription?.product_id === plan.product_id;
+                  return (
+                    <Card key={key} className={isCurrentPlan ? "border-amber-500 ring-2 ring-amber-500/20" : ""}>
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <CardTitle>{plan.name}</CardTitle>
+                          {isCurrentPlan && (
+                            <Badge className="bg-amber-500 text-black">Current Plan</Badge>
+                          )}
+                        </div>
+                        <CardDescription>
+                          <span className="text-3xl font-bold text-foreground">£{plan.price}</span>
+                          <span className="text-muted-foreground">/month</span>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <ul className="space-y-2">
+                          {plan.features.map((feature, idx) => (
+                            <li key={idx} className="flex items-center gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {!isCurrentPlan && (
+                          <Button 
+                            className="w-full" 
+                            onClick={() => handleSubscribe(key as 'basic' | 'premium')}
+                            disabled={subscriptionLoading}
+                          >
+                            {subscriptionLoading ? (
+                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                            ) : null}
+                            Subscribe Now
+                          </Button>
+                        )}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="settings">
@@ -448,20 +765,38 @@ const CustomerPortal = () => {
                 <CardDescription>Manage your account preferences</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium">Full Name</label>
-                    <p className="text-muted-foreground">{profile.full_name || 'Not set'}</p>
+                    <p className="text-sm text-muted-foreground">Full Name</p>
+                    <p className="font-medium">{profile.full_name || 'Not set'}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium">Email</label>
-                    <p className="text-muted-foreground">{profile.email}</p>
+                    <p className="text-sm text-muted-foreground">Email</p>
+                    <p className="font-medium">{profile.email}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium">Phone</label>
-                    <p className="text-muted-foreground">{profile.phone || 'Not set'}</p>
+                    <p className="text-sm text-muted-foreground">Phone</p>
+                    <p className="font-medium">{profile.phone || 'Not set'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Member Since</p>
+                    <p className="font-medium">{format(new Date(), 'MMMM yyyy')}</p>
                   </div>
                 </div>
+                {subscription?.subscribed && (
+                  <div className="pt-4 border-t">
+                    <p className="text-sm text-muted-foreground mb-2">Subscription</p>
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-amber-500 text-black">
+                        <Crown className="h-3 w-3 mr-1" />
+                        {subscription.plan_name}
+                      </Badge>
+                      <Button variant="outline" size="sm" onClick={handleManageSubscription} disabled={subscriptionLoading}>
+                        Manage
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
