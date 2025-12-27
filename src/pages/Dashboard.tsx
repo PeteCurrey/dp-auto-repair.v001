@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users, Shield } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users, Shield, Key } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
@@ -28,6 +28,7 @@ import EmployeeSchedulingTab from "@/components/dashboard/EmployeeSchedulingTab"
 import TechnicianWorkloadView from "@/components/dashboard/TechnicianWorkloadView";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import UserManagementTab from '@/components/dashboard/UserManagementTab';
+import POSTab from '@/components/dashboard/POSTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
 
@@ -208,59 +209,65 @@ const Dashboard = () => {
       backgroundImage: `url(${heroImage})`
     }}>
           <div className="absolute inset-0 gradient-hero opacity-90" />
-          <div className="relative z-10 container mx-auto px-4">
+          <div className="relative z-10 container mx-auto px-4 py-2">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-13 lg:grid-cols-13' : 'grid-cols-12 lg:grid-cols-12'} bg-white/10 backdrop-blur-md border-white/20`}>
-                <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+              <TabsList className="flex flex-wrap gap-1 w-full bg-white/10 backdrop-blur-md border-white/20 h-auto p-2">
+                <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
                 </TabsTrigger>
-                <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Calendar className="h-4 w-4" />
                   <span className="hidden sm:inline">Schedule</span>
                 </TabsTrigger>
-                <TabsTrigger value="staff" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="staff" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Users className="h-4 w-4" />
                   <span className="hidden sm:inline">Staff</span>
                 </TabsTrigger>
-                <TabsTrigger value="enquiries" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="enquiries" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <MessageSquare className="h-4 w-4" />
                   <span className="hidden sm:inline">Enquiries</span>
                 </TabsTrigger>
-                <TabsTrigger value="services-mgmt" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="services-mgmt" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <ClipboardList className="h-4 w-4" />
                   <span className="hidden sm:inline">Services</span>
                 </TabsTrigger>
-                <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <BarChart3 className="h-4 w-4" />
                   <span className="hidden sm:inline">Analytics</span>
                 </TabsTrigger>
-                <TabsTrigger value="business" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="business" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <FileText className="h-4 w-4" />
                   <span className="hidden sm:inline">Business</span>
                 </TabsTrigger>
-                <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="vehicle-lookup" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Car className="h-4 w-4" />
                   <span className="hidden sm:inline">Lookup</span>
                 </TabsTrigger>
-                <TabsTrigger value="vehicle-management" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="vehicle-management" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Wrench className="h-4 w-4" />
                   <span className="hidden sm:inline">Vehicles</span>
                 </TabsTrigger>
-                <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="suppliers" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Package className="h-4 w-4" />
                   <span className="hidden sm:inline">Suppliers</span>
                 </TabsTrigger>
-                <TabsTrigger value="api-keys" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                <TabsTrigger value="pos" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <CreditCard className="h-4 w-4" />
-                  <span className="hidden sm:inline">API Keys</span>
+                  <span className="hidden sm:inline">POS</span>
                 </TabsTrigger>
-                <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                {isAdmin && (
+                  <TabsTrigger value="api-keys" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
+                    <Key className="h-4 w-4" />
+                    <span className="hidden sm:inline">API Keys</span>
+                  </TabsTrigger>
+                )}
+                <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Settings className="h-4 w-4" />
                   <span className="hidden sm:inline">Settings</span>
                 </TabsTrigger>
                 {isAdmin && (
-                  <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                  <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                     <Shield className="h-4 w-4" />
                     <span className="hidden sm:inline">Users</span>
                   </TabsTrigger>
@@ -341,9 +348,9 @@ const Dashboard = () => {
               </div>
             </TabsContent>
             
-            <TabsContent value="api-keys" className="mt-0">
+            <TabsContent value="pos" className="mt-0">
               <div className="container mx-auto px-4 py-6">
-                <ApiKeysTab />
+                <POSTab />
               </div>
             </TabsContent>
             
@@ -352,6 +359,14 @@ const Dashboard = () => {
                 <SettingsTab profile={profile} onProfileUpdate={setProfile} />
               </div>
             </TabsContent>
+            
+            {isAdmin && (
+              <TabsContent value="api-keys" className="mt-0">
+                <div className="container mx-auto px-4 py-6">
+                  <ApiKeysTab />
+                </div>
+              </TabsContent>
+            )}
             
             {isAdmin && (
               <TabsContent value="users" className="mt-0">
