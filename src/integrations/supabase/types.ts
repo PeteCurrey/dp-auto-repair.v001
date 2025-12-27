@@ -819,6 +819,36 @@ export type Database = {
           },
         ]
       }
+      role_permissions: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          id: string
+          permission_key: string
+          permission_type: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          permission_key: string
+          permission_type?: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          permission_key?: string
+          permission_type?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           cost: number | null
@@ -1206,7 +1236,14 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "employee" | "client"
+      app_role:
+        | "admin"
+        | "employee"
+        | "client"
+        | "mechanic"
+        | "receptionist"
+        | "sales"
+        | "accounts"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1334,7 +1371,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "employee", "client"],
+      app_role: [
+        "admin",
+        "employee",
+        "client",
+        "mechanic",
+        "receptionist",
+        "sales",
+        "accounts",
+      ],
     },
   },
 } as const
