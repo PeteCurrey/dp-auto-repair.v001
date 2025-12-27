@@ -36,6 +36,7 @@ export const useUserRole = () => {
 
     const fetchRoles = async () => {
       try {
+        console.log('Fetching roles for user:', user.id);
         const { data, error } = await supabase
           .from('user_roles')
           .select('role')
@@ -47,11 +48,14 @@ export const useUserRole = () => {
           return;
         }
 
+        console.log('User roles data:', data);
         const roles = (data || []).map(r => r.role as AppRole);
         const isAdmin = roles.includes('admin');
         const isEmployee = roles.includes('employee');
         const isStaff = isAdmin || isEmployee;
 
+        console.log('Role state:', { roles, isAdmin, isEmployee, isStaff });
+        
         setState({
           roles,
           isAdmin,
