@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import heroImage from "@/assets/hero-garage.jpg";
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users, Shield } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
@@ -26,6 +27,7 @@ import ApiKeysTab from "@/components/dashboard/ApiKeysTab";
 import EmployeeSchedulingTab from "@/components/dashboard/EmployeeSchedulingTab";
 import TechnicianWorkloadView from "@/components/dashboard/TechnicianWorkloadView";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
+import UserManagementTab from '@/components/dashboard/UserManagementTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
 
@@ -45,6 +47,7 @@ const Dashboard = () => {
     signOut,
     loading
   } = useAuth();
+  const { isAdmin, isStaff, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
   const {
     toast
@@ -153,7 +156,7 @@ const Dashboard = () => {
     // Filter enquiries with 'new' status from contact_submissions
     return enquiries.filter(enq => enq.status === 'new');
   };
-  if (loading || profileLoading) {
+  if (loading || profileLoading || roleLoading) {
     return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
@@ -164,7 +167,13 @@ const Dashboard = () => {
   if (!user || !profile) {
     return null;
   }
-  const isEmployee = profile.user_type === 'employee' || profile.user_type === 'admin';
+  
+  // Get role label for display
+  const getRoleLabel = () => {
+    if (isAdmin) return 'Admin';
+    if (isStaff) return 'Employee';
+    return 'Client';
+  };
   return <div className="min-h-screen bg-muted/30">
       {/* Header with background */}
       <header className="relative border-b" style={{
@@ -176,8 +185,9 @@ const Dashboard = () => {
             <Link to="/" className="hover:opacity-80 transition-opacity">
               <h1 className="text-2xl font-extralight text-gray-300">DP Automotive</h1>
             </Link>
-            <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-              {profile.user_type.charAt(0).toUpperCase() + profile.user_type.slice(1)}
+            <Badge variant="secondary" className="bg-white/20 text-white border-white/30 flex items-center gap-1">
+              {isAdmin && <Shield className="h-3 w-3" />}
+              {getRoleLabel()}
             </Badge>
           </div>
           <div className="flex items-center space-x-4">
@@ -194,13 +204,13 @@ const Dashboard = () => {
       </header>
 
       {/* Navigation Tabs with background */}
-      {isEmployee && <div className="relative border-b" style={{
+      {isStaff && <div className="relative border-b" style={{
       backgroundImage: `url(${heroImage})`
     }}>
           <div className="absolute inset-0 gradient-hero opacity-90" />
           <div className="relative z-10 container mx-auto px-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-12 lg:w-auto lg:grid-cols-12 bg-white/10 backdrop-blur-md border-white/20">
+              <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-13 lg:grid-cols-13' : 'grid-cols-12 lg:grid-cols-12'} bg-white/10 backdrop-blur-md border-white/20`}>
                 <TabsTrigger value="home" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
                   <Home className="h-4 w-4" />
                   <span className="hidden sm:inline">Home</span>
@@ -249,6 +259,12 @@ const Dashboard = () => {
                   <Settings className="h-4 w-4" />
                   <span className="hidden sm:inline">Settings</span>
                 </TabsTrigger>
+                {isAdmin && (
+                  <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white">
+                    <Shield className="h-4 w-4" />
+                    <span className="hidden sm:inline">Users</span>
+                  </TabsTrigger>
+                )}
               </TabsList>
             </Tabs>
           </div>
@@ -262,7 +278,7 @@ const Dashboard = () => {
       }}>
           <div className="absolute inset-0 gradient-hero opacity-90" />
         </div>
-        {isEmployee ? <div className="relative z-10">
+        {isStaff ? <div className="relative z-10">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsContent value="home" className="mt-0">
               <DashboardWelcome profile={profile} todayAppointments={getTodayAppointments()} newEnquiries={getNewEnquiries()} onVehicleSearch={handleVehicleSearch} onNavigateToTab={handleNavigateToTab} />
@@ -336,6 +352,14 @@ const Dashboard = () => {
                 <SettingsTab profile={profile} onProfileUpdate={setProfile} />
               </div>
             </TabsContent>
+            
+            {isAdmin && (
+              <TabsContent value="users" className="mt-0">
+                <div className="container mx-auto px-4 py-6">
+                  <UserManagementTab />
+                </div>
+              </TabsContent>
+            )}
             </Tabs>
           </div> : <div className="relative z-10 container mx-auto px-4 py-6">
             <ClientDashboard profile={profile} />
