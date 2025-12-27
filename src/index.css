@@ -42,7 +42,7 @@
     /* Automotive Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-dark: linear-gradient(135deg, hsl(var(--secondary)), hsl(0 0% 20%));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--secondary) / 0.9), hsl(var(--primary) / 0.8));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 8% / 0.92), hsl(0 0% 15% / 0.88));
     
     /* Professional Shadows */
     --shadow-elegant: 0 10px 30px -5px hsl(var(--primary) / 0.2);

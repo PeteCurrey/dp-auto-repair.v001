@@ -126,13 +126,13 @@ export const BusinessHoursTab = () => {
   }
 
   return (
-    <Card>
+    <Card className="bg-white/10 backdrop-blur-md border-white/20">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-white">
           <Clock className="h-5 w-5" />
           Business Hours
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-white/70">
           Configure opening times and booking slot intervals for each day
         </CardDescription>
       </CardHeader>
@@ -141,16 +141,16 @@ export const BusinessHoursTab = () => {
           {hours.map((hour) => (
             <div
               key={hour.day_of_week}
-              className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-lg border bg-card"
+              className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-lg border border-white/20 bg-white/5"
             >
-              <div className="w-24 font-medium">{DAYS[hour.day_of_week]}</div>
+              <div className="w-24 font-medium text-white">{DAYS[hour.day_of_week]}</div>
               
               <div className="flex items-center gap-2">
                 <Switch
                   checked={!hour.is_closed}
                   onCheckedChange={(checked) => updateHour(hour.day_of_week, 'is_closed', !checked)}
                 />
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-white/60">
                   {hour.is_closed ? 'Closed' : 'Open'}
                 </span>
               </div>
@@ -158,27 +158,27 @@ export const BusinessHoursTab = () => {
               {!hour.is_closed && (
                 <>
                   <div className="flex items-center gap-2">
-                    <Label className="text-sm whitespace-nowrap">Open:</Label>
+                    <Label className="text-sm whitespace-nowrap text-white/80">Open:</Label>
                     <Input
                       type="time"
                       value={hour.open_time || ''}
                       onChange={(e) => updateHour(hour.day_of_week, 'open_time', e.target.value)}
-                      className="w-32"
+                      className="w-32 bg-white/10 border-white/20 text-white"
                     />
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Label className="text-sm whitespace-nowrap">Close:</Label>
+                    <Label className="text-sm whitespace-nowrap text-white/80">Close:</Label>
                     <Input
                       type="time"
                       value={hour.close_time || ''}
                       onChange={(e) => updateHour(hour.day_of_week, 'close_time', e.target.value)}
-                      className="w-32"
+                      className="w-32 bg-white/10 border-white/20 text-white"
                     />
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Label className="text-sm whitespace-nowrap">Slot:</Label>
+                    <Label className="text-sm whitespace-nowrap text-white/80">Slot:</Label>
                     <Input
                       type="number"
                       min={15}
@@ -186,9 +186,9 @@ export const BusinessHoursTab = () => {
                       step={15}
                       value={hour.slot_interval_minutes}
                       onChange={(e) => updateHour(hour.day_of_week, 'slot_interval_minutes', parseInt(e.target.value) || 30)}
-                      className="w-20"
+                      className="w-20 bg-white/10 border-white/20 text-white"
                     />
-                    <span className="text-sm text-muted-foreground">min</span>
+                    <span className="text-sm text-white/60">min</span>
                   </div>
                 </>
               )}
