@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users, Shield, Key } from 'lucide-react';
+import { Calendar, Car, Wrench, CreditCard, Bell, LogOut, User, Settings, Home, MessageSquare, BarChart3, Package, FileText, ClipboardList, Users, Shield } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClientDashboard from '@/components/dashboard/ClientDashboard';
 import EmployeeDashboard from '@/components/dashboard/EmployeeDashboard';
@@ -23,12 +23,9 @@ import BusinessManagementTab from "@/components/dashboard/BusinessManagementTab"
 import ServicesManagementTab from "@/components/dashboard/ServicesManagementTab";
 import BlockedTimesTab from "@/components/dashboard/BlockedTimesTab";
 import { BusinessHoursTab } from "@/components/dashboard/BusinessHoursTab";
-import ApiKeysTab from "@/components/dashboard/ApiKeysTab";
 import EmployeeSchedulingTab from "@/components/dashboard/EmployeeSchedulingTab";
 import TechnicianWorkloadView from "@/components/dashboard/TechnicianWorkloadView";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
-import UserManagementTab from '@/components/dashboard/UserManagementTab';
-import RolePermissionsTab from '@/components/dashboard/RolePermissionsTab';
 import POSTab from '@/components/dashboard/POSTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
@@ -257,28 +254,10 @@ const Dashboard = () => {
                   <CreditCard className="h-4 w-4" />
                   <span className="hidden sm:inline">POS</span>
                 </TabsTrigger>
-                {isAdmin && (
-                  <TabsTrigger value="api-keys" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
-                    <Key className="h-4 w-4" />
-                    <span className="hidden sm:inline">API Keys</span>
-                  </TabsTrigger>
-                )}
                 <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
                   <Settings className="h-4 w-4" />
                   <span className="hidden sm:inline">Settings</span>
                 </TabsTrigger>
-                {isAdmin && (
-                  <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
-                    <Users className="h-4 w-4" />
-                    <span className="hidden sm:inline">Users</span>
-                  </TabsTrigger>
-                )}
-                {isAdmin && (
-                  <TabsTrigger value="permissions" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
-                    <Shield className="h-4 w-4" />
-                    <span className="hidden sm:inline">Permissions</span>
-                  </TabsTrigger>
-                )}
               </TabsList>
             </Tabs>
           </div>
@@ -366,30 +345,6 @@ const Dashboard = () => {
                 <SettingsTab profile={profile} onProfileUpdate={setProfile} />
               </div>
             </TabsContent>
-            
-            {isAdmin && (
-              <TabsContent value="api-keys" className="mt-0">
-                <div className="container mx-auto px-4 py-6">
-                  <ApiKeysTab />
-                </div>
-              </TabsContent>
-            )}
-            
-            {isAdmin && (
-              <TabsContent value="users" className="mt-0">
-                <div className="container mx-auto px-4 py-6">
-                  <UserManagementTab />
-                </div>
-              </TabsContent>
-            )}
-            
-            {isAdmin && (
-              <TabsContent value="permissions" className="mt-0">
-                <div className="container mx-auto px-4 py-6">
-                  <RolePermissionsTab />
-                </div>
-              </TabsContent>
-            )}
             </Tabs>
           </div> : <div className="relative z-10 container mx-auto px-4 py-6">
             <ClientDashboard profile={profile} />
