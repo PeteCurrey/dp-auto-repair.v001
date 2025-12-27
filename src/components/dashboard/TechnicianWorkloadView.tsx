@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, ChevronLeft, ChevronRight, Users, Clock, Wrench, GripVertical } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Calendar, ChevronLeft, ChevronRight, Users, Clock, Wrench, GripVertical, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, isSameDay, parseISO, addDays } from 'date-fns';
 
@@ -38,6 +39,13 @@ const TechnicianWorkloadView = () => {
   const [loading, setLoading] = useState(true);
   const [draggedAppointment, setDraggedAppointment] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<{ techId: string | null; date: string } | null>(null);
+  const [conflictDialog, setConflictDialog] = useState<{
+    open: boolean;
+    appointmentId: string;
+    targetTechId: string | null;
+    targetDate: Date;
+    conflicts: Appointment[];
+  } | null>(null);
   const { toast } = useToast();
 
   const weekDays = useMemo(() => {
@@ -121,6 +129,35 @@ const TechnicianWorkloadView = () => {
     setDropTarget(null);
   };
 
+  // Check for time overlaps between two appointments
+  const checkTimeOverlap = (apt1: Appointment, apt2: Appointment) => {
+    const parseTime = (time: string) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+    
+    const start1 = parseTime(apt1.appointment_time);
+    const end1 = start1 + apt1.duration_minutes;
+    const start2 = parseTime(apt2.appointment_time);
+    const end2 = start2 + apt2.duration_minutes;
+    
+    return start1 < end2 && start2 < end1;
+  };
+
+  // Find conflicts for a given appointment being moved
+  const findConflicts = (appointment: Appointment, targetTechId: string | null, targetDateStr: string) => {
+    if (!targetTechId) return []; // Unassigned has no conflicts
+    
+    return appointments.filter(apt => 
+      apt.id !== appointment.id &&
+      apt.technician_id === targetTechId &&
+      apt.appointment_date === targetDateStr &&
+      apt.status !== 'cancelled' &&
+      apt.status !== 'completed' &&
+      checkTimeOverlap(appointment, apt)
+    );
+  };
+
   const handleDrop = async (e: DragEvent<HTMLDivElement>, targetTechId: string | null, targetDate: Date) => {
     e.preventDefault();
     const appointmentId = e.dataTransfer.getData('appointmentId');
@@ -138,6 +175,28 @@ const TechnicianWorkloadView = () => {
       return;
     }
 
+    // Check for conflicts
+    const conflicts = findConflicts(appointment, targetTechId, targetDateStr);
+    
+    if (conflicts.length > 0) {
+      setConflictDialog({
+        open: true,
+        appointmentId,
+        targetTechId,
+        targetDate,
+        conflicts
+      });
+      setDraggedAppointment(null);
+      setDropTarget(null);
+      return;
+    }
+
+    await executeReassignment(appointmentId, targetTechId, targetDate);
+  };
+
+  const executeReassignment = async (appointmentId: string, targetTechId: string | null, targetDate: Date) => {
+    const targetDateStr = format(targetDate, 'yyyy-MM-dd');
+    
     try {
       const { error } = await supabase
         .from('appointments')
@@ -176,6 +235,17 @@ const TechnicianWorkloadView = () => {
 
     setDraggedAppointment(null);
     setDropTarget(null);
+    setConflictDialog(null);
+  };
+
+  const handleConfirmConflict = () => {
+    if (conflictDialog) {
+      executeReassignment(
+        conflictDialog.appointmentId,
+        conflictDialog.targetTechId,
+        conflictDialog.targetDate
+      );
+    }
   };
 
   const getAppointmentsForDay = (technicianId: string | null, date: Date) => {
@@ -575,6 +645,42 @@ const TechnicianWorkloadView = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Conflict Warning Dialog */}
+      <AlertDialog open={conflictDialog?.open} onOpenChange={(open) => !open && setConflictDialog(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-yellow-500" />
+              Scheduling Conflict Detected
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>
+                  This appointment overlaps with {conflictDialog?.conflicts.length === 1 ? 'another appointment' : `${conflictDialog?.conflicts.length} other appointments`} for this technician:
+                </p>
+                <div className="space-y-2 p-3 bg-muted rounded-md">
+                  {conflictDialog?.conflicts.map(conflict => (
+                    <div key={conflict.id} className="flex items-center justify-between text-sm">
+                      <span className="font-medium">{conflict.appointment_time.slice(0, 5)} - {conflict.service_type}</span>
+                      <Badge variant="outline">{conflict.duration_minutes} min</Badge>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Are you sure you want to proceed? This may result in scheduling conflicts.
+                </p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmConflict} className="bg-yellow-600 hover:bg-yellow-700">
+              Proceed Anyway
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

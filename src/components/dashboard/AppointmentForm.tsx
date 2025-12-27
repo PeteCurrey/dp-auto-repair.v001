@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,14 +6,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, MessageSquare } from 'lucide-react';
+import { Loader2, MessageSquare, Lightbulb, TrendingUp } from 'lucide-react';
+import { format, startOfWeek, endOfWeek } from 'date-fns';
 
 interface Technician {
   id: string;
-  full_name: string;
+  full_name: string | null;
   email: string;
+  appointmentCount?: number;
+  totalMinutes?: number;
 }
 
 interface Vehicle {
@@ -73,19 +77,69 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchTechnicians();
-  }, []);
+    fetchTechniciansWithWorkload();
+  }, [formData.appointment_date]);
 
-  const fetchTechnicians = async () => {
-    const { data, error } = await supabase
+  const fetchTechniciansWithWorkload = async () => {
+    // Fetch technicians
+    const { data: techData, error: techError } = await supabase
       .from('profiles')
       .select('id, full_name, email')
       .in('user_type', ['employee', 'admin']);
     
-    if (!error && data) {
-      setTechnicians(data);
+    if (techError || !techData) {
+      console.error('Error fetching technicians:', techError);
+      return;
     }
+
+    // If we have a date selected, fetch workload for that week
+    if (formData.appointment_date) {
+      const selectedDate = new Date(formData.appointment_date);
+      const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+      const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
+
+      const { data: appointments, error: apptError } = await supabase
+        .from('appointments')
+        .select('technician_id, duration_minutes')
+        .gte('appointment_date', format(weekStart, 'yyyy-MM-dd'))
+        .lte('appointment_date', format(weekEnd, 'yyyy-MM-dd'))
+        .not('status', 'in', '("cancelled","completed")');
+
+      if (!apptError && appointments) {
+        const workloadMap = new Map<string, { count: number; minutes: number }>();
+        
+        appointments.forEach(apt => {
+          if (apt.technician_id) {
+            const current = workloadMap.get(apt.technician_id) || { count: 0, minutes: 0 };
+            workloadMap.set(apt.technician_id, {
+              count: current.count + 1,
+              minutes: current.minutes + (apt.duration_minutes || 60)
+            });
+          }
+        });
+
+        const techniciansWithWorkload = techData.map(tech => ({
+          ...tech,
+          appointmentCount: workloadMap.get(tech.id)?.count || 0,
+          totalMinutes: workloadMap.get(tech.id)?.minutes || 0
+        }));
+
+        setTechnicians(techniciansWithWorkload);
+        return;
+      }
+    }
+
+    setTechnicians(techData.map(tech => ({ ...tech, appointmentCount: 0, totalMinutes: 0 })));
   };
+
+  // Calculate suggested technician (least busy)
+  const suggestedTechnician = useMemo(() => {
+    if (technicians.length === 0) return null;
+    return technicians.reduce((least, tech) => {
+      if (!least) return tech;
+      return (tech.totalMinutes || 0) < (least.totalMinutes || 0) ? tech : least;
+    }, technicians[0]);
+  }, [technicians]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -309,17 +363,43 @@ const AppointmentForm = ({ profileId, vehicles, onClose, onSuccess }: Appointmen
 
           <div className="space-y-2">
             <Label htmlFor="technician_id">Assign Technician</Label>
+            {suggestedTechnician && formData.appointment_date && !formData.technician_id && (
+              <div className="flex items-center gap-2 p-2 rounded-md bg-primary/10 border border-primary/20 text-sm">
+                <Lightbulb className="h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Suggested:</span>
+                <button
+                  type="button"
+                  onClick={() => handleSelectChange(suggestedTechnician.id, 'technician_id')}
+                  className="font-medium text-primary hover:underline"
+                >
+                  {suggestedTechnician.full_name || suggestedTechnician.email}
+                </button>
+                <Badge variant="secondary" className="text-xs">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  Least busy
+                </Badge>
+              </div>
+            )}
             <Select value={formData.technician_id} onValueChange={(value) => handleSelectChange(value, 'technician_id')}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a technician (optional)" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">Unassigned</SelectItem>
-                {technicians.map((tech) => (
-                  <SelectItem key={tech.id} value={tech.id}>
-                    {tech.full_name || tech.email}
-                  </SelectItem>
-                ))}
+                {technicians
+                  .sort((a, b) => (a.totalMinutes || 0) - (b.totalMinutes || 0))
+                  .map((tech) => (
+                    <SelectItem key={tech.id} value={tech.id}>
+                      <div className="flex items-center justify-between gap-2 w-full">
+                        <span>{tech.full_name || tech.email}</span>
+                        {formData.appointment_date && (
+                          <span className="text-xs text-muted-foreground">
+                            ({tech.appointmentCount || 0} appts / {((tech.totalMinutes || 0) / 60).toFixed(1)}h)
+                          </span>
+                        )}
+                      </div>
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
