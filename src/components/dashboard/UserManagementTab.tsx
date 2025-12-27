@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Users, Shield, UserCog, UserCheck } from 'lucide-react';
+import { Users, Shield, UserCog, UserCheck, Wrench, Phone, DollarSign, Calculator } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import AddStaffDialog from './AddStaffDialog';
 
-type AppRole = 'admin' | 'employee' | 'client';
+type AppRole = 'admin' | 'employee' | 'client' | 'mechanic' | 'receptionist' | 'sales' | 'accounts';
 
 interface UserWithRole {
   id: string;
@@ -19,6 +19,16 @@ interface UserWithRole {
   created_at: string;
   roles: AppRole[];
 }
+
+const ROLE_OPTIONS: { value: AppRole; label: string }[] = [
+  { value: 'admin', label: 'Admin' },
+  { value: 'employee', label: 'Employee' },
+  { value: 'mechanic', label: 'Mechanic' },
+  { value: 'receptionist', label: 'Receptionist' },
+  { value: 'sales', label: 'Sales' },
+  { value: 'accounts', label: 'Accounts' },
+  { value: 'client', label: 'Client' },
+];
 
 const UserManagementTab = () => {
   const { user: currentUser } = useAuth();
@@ -93,6 +103,13 @@ const UserManagementTab = () => {
 
       if (insertError) throw insertError;
 
+      // Update profile user_type
+      const userType = newRole === 'client' ? 'client' : (newRole === 'admin' ? 'admin' : 'employee');
+      await supabase
+        .from('profiles')
+        .update({ user_type: userType })
+        .eq('user_id', userId);
+
       toast({
         title: 'Role Updated',
         description: `User role has been updated to ${newRole}`,
@@ -117,6 +134,10 @@ const UserManagementTab = () => {
       case 'admin':
         return 'destructive';
       case 'employee':
+      case 'mechanic':
+      case 'receptionist':
+      case 'sales':
+      case 'accounts':
         return 'default';
       default:
         return 'secondary';
@@ -129,6 +150,14 @@ const UserManagementTab = () => {
         return <Shield className="h-3 w-3" />;
       case 'employee':
         return <UserCog className="h-3 w-3" />;
+      case 'mechanic':
+        return <Wrench className="h-3 w-3" />;
+      case 'receptionist':
+        return <Phone className="h-3 w-3" />;
+      case 'sales':
+        return <DollarSign className="h-3 w-3" />;
+      case 'accounts':
+        return <Calculator className="h-3 w-3" />;
       default:
         return <UserCheck className="h-3 w-3" />;
     }
@@ -136,8 +165,16 @@ const UserManagementTab = () => {
 
   const getCurrentRole = (roles: AppRole[]): AppRole => {
     if (roles.includes('admin')) return 'admin';
+    if (roles.includes('mechanic')) return 'mechanic';
+    if (roles.includes('receptionist')) return 'receptionist';
+    if (roles.includes('sales')) return 'sales';
+    if (roles.includes('accounts')) return 'accounts';
     if (roles.includes('employee')) return 'employee';
     return 'client';
+  };
+
+  const formatRoleName = (role: AppRole): string => {
+    return role.charAt(0).toUpperCase() + role.slice(1);
   };
 
   if (loading) {
@@ -155,13 +192,18 @@ const UserManagementTab = () => {
   return (
     <Card className="bg-white/10 backdrop-blur-md border-white/20">
       <CardHeader>
-        <CardTitle className="text-white flex items-center gap-2">
-          <Users className="h-5 w-5" />
-          User Management
-        </CardTitle>
-        <CardDescription className="text-white/70">
-          Manage user roles and permissions. Admins have full access, employees can manage bookings and clients.
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              User Management
+            </CardTitle>
+            <CardDescription className="text-white/70">
+              Manage staff members and their roles. Each role has configurable permissions.
+            </CardDescription>
+          </div>
+          <AddStaffDialog onStaffAdded={fetchUsers} />
+        </div>
       </CardHeader>
       <CardContent>
         <Table>
@@ -193,7 +235,7 @@ const UserManagementTab = () => {
                   <TableCell>
                     <Badge variant={getRoleBadgeVariant(currentRole)} className="flex items-center gap-1 w-fit">
                       {getRoleIcon(currentRole)}
-                      {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
+                      {formatRoleName(currentRole)}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-white/60">
@@ -205,13 +247,15 @@ const UserManagementTab = () => {
                       onValueChange={(value: AppRole) => updateUserRole(user.user_id, value)}
                       disabled={isCurrentUser || updating === user.user_id}
                     >
-                      <SelectTrigger className="w-32 bg-white/10 border-white/20 text-white">
+                      <SelectTrigger className="w-36 bg-white/10 border-white/20 text-white">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="employee">Employee</SelectItem>
-                        <SelectItem value="client">Client</SelectItem>
+                        {ROLE_OPTIONS.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </TableCell>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-export type AppRole = 'admin' | 'employee' | 'client';
+export type AppRole = 'admin' | 'employee' | 'client' | 'mechanic' | 'receptionist' | 'sales' | 'accounts';
 
 interface UserRoleState {
   roles: AppRole[];
@@ -51,7 +51,11 @@ export const useUserRole = () => {
         console.log('User roles data:', data);
         const roles = (data || []).map(r => r.role as AppRole);
         const isAdmin = roles.includes('admin');
-        const isEmployee = roles.includes('employee');
+        const isEmployee = roles.includes('employee') || 
+          roles.includes('mechanic') || 
+          roles.includes('receptionist') || 
+          roles.includes('sales') || 
+          roles.includes('accounts');
         const isStaff = isAdmin || isEmployee;
 
         console.log('Role state:', { roles, isAdmin, isEmployee, isStaff });

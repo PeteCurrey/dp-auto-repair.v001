@@ -28,6 +28,7 @@ import EmployeeSchedulingTab from "@/components/dashboard/EmployeeSchedulingTab"
 import TechnicianWorkloadView from "@/components/dashboard/TechnicianWorkloadView";
 import DashboardWelcome from '@/components/dashboard/DashboardWelcome';
 import UserManagementTab from '@/components/dashboard/UserManagementTab';
+import RolePermissionsTab from '@/components/dashboard/RolePermissionsTab';
 import POSTab from '@/components/dashboard/POSTab';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useRealtimeNotifications } from '@/hooks/useRealtimeNotifications';
@@ -268,8 +269,14 @@ const Dashboard = () => {
                 </TabsTrigger>
                 {isAdmin && (
                   <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
-                    <Shield className="h-4 w-4" />
+                    <Users className="h-4 w-4" />
                     <span className="hidden sm:inline">Users</span>
+                  </TabsTrigger>
+                )}
+                {isAdmin && (
+                  <TabsTrigger value="permissions" className="flex items-center gap-2 data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80 hover:text-white px-3 py-2">
+                    <Shield className="h-4 w-4" />
+                    <span className="hidden sm:inline">Permissions</span>
                   </TabsTrigger>
                 )}
               </TabsList>
@@ -372,6 +379,14 @@ const Dashboard = () => {
               <TabsContent value="users" className="mt-0">
                 <div className="container mx-auto px-4 py-6">
                   <UserManagementTab />
+                </div>
+              </TabsContent>
+            )}
+            
+            {isAdmin && (
+              <TabsContent value="permissions" className="mt-0">
+                <div className="container mx-auto px-4 py-6">
+                  <RolePermissionsTab />
                 </div>
               </TabsContent>
             )}
