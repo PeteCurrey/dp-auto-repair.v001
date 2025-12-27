@@ -6,10 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { User, Building, Save, Lock, Bell, Mail, Palette, Shield, Clock, Globe } from 'lucide-react';
+import { User, Building, Save, Lock, Bell, Mail, Shield, Clock, Users, Key } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserRole } from '@/hooks/useUserRole';
+import ApiKeysTab from './ApiKeysTab';
+import UserManagementTab from './UserManagementTab';
+import RolePermissionsTab from './RolePermissionsTab';
 
 interface Profile {
   id: string;
@@ -221,25 +224,43 @@ const SettingsTab = ({ profile, onProfileUpdate }: SettingsTabProps) => {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="profile" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-white/10 border-white/20">
-              <TabsTrigger value="profile" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+            <TabsList className="flex flex-wrap gap-1 bg-white/10 border-white/20 h-auto p-1">
+              <TabsTrigger value="profile" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
                 <User className="h-4 w-4 mr-2" />
                 Profile
               </TabsTrigger>
               {isStaff && (
-                <TabsTrigger value="business" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                <TabsTrigger value="business" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
                   <Building className="h-4 w-4 mr-2" />
                   Business
                 </TabsTrigger>
               )}
-              <TabsTrigger value="notifications" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+              <TabsTrigger value="notifications" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
                 <Bell className="h-4 w-4 mr-2" />
                 Notifications
               </TabsTrigger>
-              <TabsTrigger value="security" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+              <TabsTrigger value="security" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
                 <Lock className="h-4 w-4 mr-2" />
                 Security
               </TabsTrigger>
+              {isAdmin && (
+                <TabsTrigger value="users" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
+                  <Users className="h-4 w-4 mr-2" />
+                  Users
+                </TabsTrigger>
+              )}
+              {isAdmin && (
+                <TabsTrigger value="permissions" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
+                  <Shield className="h-4 w-4 mr-2" />
+                  Permissions
+                </TabsTrigger>
+              )}
+              {isAdmin && (
+                <TabsTrigger value="api-keys" className="text-white/80 data-[state=active]:bg-white/20 data-[state=active]:text-white px-3 py-2">
+                  <Key className="h-4 w-4 mr-2" />
+                  API Keys
+                </TabsTrigger>
+              )}
             </TabsList>
 
             {/* Profile Tab */}
@@ -537,6 +558,27 @@ const SettingsTab = ({ profile, onProfileUpdate }: SettingsTabProps) => {
                 </p>
               </div>
             </TabsContent>
+
+            {/* Users Tab - Admin Only */}
+            {isAdmin && (
+              <TabsContent value="users" className="mt-6">
+                <UserManagementTab />
+              </TabsContent>
+            )}
+
+            {/* Permissions Tab - Admin Only */}
+            {isAdmin && (
+              <TabsContent value="permissions" className="mt-6">
+                <RolePermissionsTab />
+              </TabsContent>
+            )}
+
+            {/* API Keys Tab - Admin Only */}
+            {isAdmin && (
+              <TabsContent value="api-keys" className="mt-6">
+                <ApiKeysTab />
+              </TabsContent>
+            )}
           </Tabs>
         </CardContent>
       </Card>
