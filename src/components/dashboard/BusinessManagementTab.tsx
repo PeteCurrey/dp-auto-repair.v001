@@ -145,7 +145,7 @@ const BusinessManagementTab = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Business Management</h2>
+        <h2 className="text-2xl font-bold text-white">Business Management</h2>
         <div className="flex gap-2">
           <Button
             onClick={() => setShowQuoteForm(true)}
@@ -166,62 +166,62 @@ const BusinessManagementTab = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="quotes">Quotes</TabsTrigger>
-          <TabsTrigger value="invoices">Invoices</TabsTrigger>
-          <TabsTrigger value="financial">Financial</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-white/10 border-white/20">
+          <TabsTrigger value="dashboard" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80">Dashboard</TabsTrigger>
+          <TabsTrigger value="quotes" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80">Quotes</TabsTrigger>
+          <TabsTrigger value="invoices" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80">Invoices</TabsTrigger>
+          <TabsTrigger value="financial" className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/80">Financial</TabsTrigger>
         </TabsList>
 
         <TabsContent value="dashboard" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card>
+            <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Quotes</CardTitle>
-                <FileText className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-white">Total Quotes</CardTitle>
+                <FileText className="h-4 w-4 text-white/60" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats.totalQuotes}</div>
+                <div className="text-2xl font-bold text-white">{stats.totalQuotes}</div>
                 <div className="flex items-center gap-2 mt-2">
-                  <Badge variant="secondary">{stats.activeQuotes} active</Badge>
+                  <Badge variant="secondary" className="bg-white/20 text-white">{stats.activeQuotes} active</Badge>
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
-                <Receipt className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-white">Total Invoices</CardTitle>
+                <Receipt className="h-4 w-4 text-white/60" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats.totalInvoices}</div>
+                <div className="text-2xl font-bold text-white">{stats.totalInvoices}</div>
                 <div className="flex items-center gap-2 mt-2">
-                  <Badge variant="destructive">{stats.unpaidInvoices} unpaid</Badge>
+                  <Badge variant="destructive" className="bg-red-500/20 text-red-200">{stats.unpaidInvoices} unpaid</Badge>
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Monthly Revenue</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-white">Monthly Revenue</CardTitle>
+                <TrendingUp className="h-4 w-4 text-white/60" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{formatCurrency(stats.monthlyRevenue)}</div>
-                <div className="text-xs text-muted-foreground mt-2">
+                <div className="text-2xl font-bold text-white">{formatCurrency(stats.monthlyRevenue)}</div>
+                <div className="text-xs text-white/60 mt-2">
                   Current month
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white/10 backdrop-blur-md border-white/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Outstanding Amount</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-white">Outstanding Amount</CardTitle>
+                <DollarSign className="h-4 w-4 text-white/60" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{formatCurrency(stats.outstandingAmount)}</div>
-                <div className="text-xs text-muted-foreground mt-2">
+                <div className="text-2xl font-bold text-white">{formatCurrency(stats.outstandingAmount)}</div>
+                <div className="text-xs text-white/60 mt-2">
                   Awaiting payment
                 </div>
               </CardContent>
