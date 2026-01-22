@@ -7,6 +7,8 @@ import { Calendar, MessageSquare, Search, Car, Users, TrendingUp, Clock, Wrench,
 import { supabase } from '@/integrations/supabase/client';
 import heroImage from "@/assets/hero-garage.jpg";
 import dpLogo from "/lovable-uploads/1eaab9f6-6ddb-41c1-a642-f8a3b7cca707.png";
+import NotificationsPanel from './NotificationsPanel';
+import DailyJobSheet from './DailyJobSheet';
 
 interface DashboardWelcomeProps {
   profile: any;
@@ -331,8 +333,8 @@ const DashboardWelcome = ({
           </Card>
         </div>
 
-        {/* Quick Actions & Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-up">
+        {/* Quick Actions & Notifications */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-up">
           {/* Quick Actions */}
           <Card className="bg-white/10 backdrop-blur-md border-white/20">
             <CardHeader className="pb-3">
@@ -444,6 +446,14 @@ const DashboardWelcome = ({
               )}
             </CardContent>
           </Card>
+
+          {/* Notifications Panel */}
+          <NotificationsPanel onNavigateToTab={onNavigateToTab} />
+        </div>
+
+        {/* Daily Job Sheet */}
+        <div className="mt-6 animate-fade-up">
+          <DailyJobSheet />
         </div>
       </div>
     </div>
