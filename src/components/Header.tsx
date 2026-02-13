@@ -218,7 +218,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-white/20 bg-gray-900/95 backdrop-blur-md rounded-b-lg">
+          <div className="lg:hidden absolute left-0 right-0 top-full py-4 border-t border-white/20 bg-gray-900/95 backdrop-blur-md rounded-b-lg z-50">
             <nav className="flex flex-col gap-4 px-4">
               <div>
                 <div className="text-xs font-thin text-white/60 mb-2">Services</div>
