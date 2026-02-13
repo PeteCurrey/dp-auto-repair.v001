@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.send-mot-reminder]
 verify_jwt = false
+
+[functions.remap-lookup]
+verify_jwt = false
