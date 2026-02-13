@@ -216,149 +216,159 @@ const Header = () => {
           >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
-          </div>
-
-        {/* Full-Screen Mobile Navigation Overlay */}
-        {isMenuOpen && (
-          <div className="lg:hidden fixed inset-0 top-[calc(4rem+2.5rem)] z-50 bg-gray-950/98 backdrop-blur-xl animate-fade-in overflow-y-auto">
-            <nav className="flex flex-col gap-1 px-6 py-6 max-w-md mx-auto">
-              
-              {/* Services Accordion */}
-              <div className="border-b border-white/10">
-                <button
-                  onClick={() => setServicesOpen(!servicesOpen)}
-                  className="flex items-center justify-between w-full py-4 text-left"
-                >
-                  <div className="flex items-center gap-3">
-                    <Wrench className="h-5 w-5 text-primary" />
-                    <span className="text-base font-medium text-white">Services</span>
-                  </div>
-                  <ChevronDown className={`h-4 w-4 text-white/60 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
-                </button>
-                <div className={`overflow-hidden transition-all duration-300 ease-out ${servicesOpen ? 'max-h-[500px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
-                  <div className="flex flex-col gap-1 pl-8">
-                    {serviceItems.map((item, index) => {
-                      const icons = [Settings, Snowflake, CircleDot, Disc3, Wrench, Cog, Gauge, Settings];
-                      const Icon = icons[index] || Settings;
-                      return (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 ${
-                            isActive(item.href) ? "text-primary bg-white/5" : "text-white/80"
-                          }`}
-                          onClick={() => { setIsMenuOpen(false); setServicesOpen(false); }}
-                        >
-                          <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
-                          {item.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              {/* Tuning Accordion */}
-              <div className="border-b border-white/10">
-                <button
-                  onClick={() => setTuningOpen(!tuningOpen)}
-                  className="flex items-center justify-between w-full py-4 text-left"
-                >
-                  <div className="flex items-center gap-3">
-                    <Gauge className="h-5 w-5 text-primary" />
-                    <span className="text-base font-medium text-white">Tuning</span>
-                  </div>
-                  <ChevronDown className={`h-4 w-4 text-white/60 transition-transform duration-300 ${tuningOpen ? 'rotate-180' : ''}`} />
-                </button>
-                <div className={`overflow-hidden transition-all duration-300 ease-out ${tuningOpen ? 'max-h-[300px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
-                  <div className="flex flex-col gap-1 pl-8">
-                    {tuningItems.map((item, index) => {
-                      const icons = [Cog, Flame, Package];
-                      const Icon = icons[index] || Cog;
-                      return (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 ${
-                            isActive(item.href) ? "text-primary bg-white/5" : "text-white/80"
-                          }`}
-                          onClick={() => { setIsMenuOpen(false); setTuningOpen(false); }}
-                        >
-                          <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
-                          {item.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              {/* Direct Nav Links */}
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`flex items-center gap-3 py-4 border-b border-white/10 text-base font-medium transition-colors hover:text-primary ${
-                    isActive(item.href) ? "text-primary" : "text-white"
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name === "MOT" ? <FileText className="h-5 w-5 text-primary" /> : <Car className="h-5 w-5 text-primary" />}
-                  {item.name}
-                </Link>
-              ))}
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col gap-3 pt-6">
-                {user ? (
-                  <>
-                    <Button 
-                      asChild
-                      variant="outline" 
-                      className="bg-white/10 text-white border-white/20 hover:bg-white/20 w-full h-12 font-medium text-base"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <Link to="/dashboard">Dashboard</Link>
-                    </Button>
-                    <Button 
-                      asChild
-                      className="gradient-primary text-white w-full h-12 font-medium text-base shadow-glow"
-                    >
-                      <Link to="/book" onClick={() => setIsMenuOpen(false)}>Book Now</Link>
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button 
-                      asChild
-                      variant="outline" 
-                      className="bg-white/10 text-white border-white/20 hover:bg-white/20 w-full h-12 font-medium text-base"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <Link to="/auth">Client Login</Link>
-                    </Button>
-                    <Button 
-                      asChild
-                      className="gradient-primary text-white w-full h-12 font-medium text-base shadow-glow"
-                    >
-                      <Link to="/book" onClick={() => setIsMenuOpen(false)}>Book Now</Link>
-                    </Button>
-                  </>
-                )}
-              </div>
-
-              {/* Contact Info */}
-              <div className="flex items-center justify-center gap-2 pt-6 mt-2 border-t border-white/10">
-                <Phone className="h-4 w-4 text-primary" />
-                <a href="tel:+441246233483" className="text-sm text-white/70 hover:text-primary transition-colors">
-                  (01246) 233483
-                </a>
-              </div>
-            </nav>
-          </div>
-        )}
+           </div>
         </div>
       </div>
+
+      {/* Full-Screen Mobile Navigation Overlay - outside backdrop-blur container */}
+      {isMenuOpen && (
+        <div className="lg:hidden fixed inset-0 top-0 z-[60] bg-gray-950/98 backdrop-blur-xl animate-fade-in overflow-y-auto pt-4">
+          <div className="flex justify-end px-6 mb-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/20"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </Button>
+          </div>
+          <nav className="flex flex-col gap-1 px-6 pb-6 max-w-md mx-auto">
+            
+            {/* Services Accordion */}
+            <div className="border-b border-white/10">
+              <button
+                onClick={() => setServicesOpen(!servicesOpen)}
+                className="flex items-center justify-between w-full py-4 text-left"
+              >
+                <div className="flex items-center gap-3">
+                  <Wrench className="h-5 w-5 text-primary" />
+                  <span className="text-base font-medium text-white">Services</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 text-white/60 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <div className={`overflow-hidden transition-all duration-300 ease-out ${servicesOpen ? 'max-h-[500px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
+                <div className="flex flex-col gap-1 pl-8">
+                  {serviceItems.map((item, index) => {
+                    const icons = [Settings, Snowflake, CircleDot, Disc3, Wrench, Cog, Gauge, Settings];
+                    const Icon = icons[index] || Settings;
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 ${
+                          isActive(item.href) ? "text-primary bg-white/5" : "text-white/80"
+                        }`}
+                        onClick={() => { setIsMenuOpen(false); setServicesOpen(false); }}
+                      >
+                        <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
+                        {item.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Tuning Accordion */}
+            <div className="border-b border-white/10">
+              <button
+                onClick={() => setTuningOpen(!tuningOpen)}
+                className="flex items-center justify-between w-full py-4 text-left"
+              >
+                <div className="flex items-center gap-3">
+                  <Gauge className="h-5 w-5 text-primary" />
+                  <span className="text-base font-medium text-white">Tuning</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 text-white/60 transition-transform duration-300 ${tuningOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <div className={`overflow-hidden transition-all duration-300 ease-out ${tuningOpen ? 'max-h-[300px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
+                <div className="flex flex-col gap-1 pl-8">
+                  {tuningItems.map((item, index) => {
+                    const icons = [Cog, Flame, Package];
+                    const Icon = icons[index] || Cog;
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 ${
+                          isActive(item.href) ? "text-primary bg-white/5" : "text-white/80"
+                        }`}
+                        onClick={() => { setIsMenuOpen(false); setTuningOpen(false); }}
+                      >
+                        <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
+                        {item.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Direct Nav Links */}
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`flex items-center gap-3 py-4 border-b border-white/10 text-base font-medium transition-colors hover:text-primary ${
+                  isActive(item.href) ? "text-primary" : "text-white"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.name === "MOT" ? <FileText className="h-5 w-5 text-primary" /> : <Car className="h-5 w-5 text-primary" />}
+                {item.name}
+              </Link>
+            ))}
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-3 pt-6">
+              {user ? (
+                <>
+                  <Button 
+                    asChild
+                    variant="outline" 
+                    className="bg-white/10 text-white border-white/20 hover:bg-white/20 w-full h-12 font-medium text-base"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Link to="/dashboard">Dashboard</Link>
+                  </Button>
+                  <Button 
+                    asChild
+                    className="gradient-primary text-white w-full h-12 font-medium text-base shadow-glow"
+                  >
+                    <Link to="/book" onClick={() => setIsMenuOpen(false)}>Book Now</Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button 
+                    asChild
+                    variant="outline" 
+                    className="bg-white/10 text-white border-white/20 hover:bg-white/20 w-full h-12 font-medium text-base"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Link to="/auth">Client Login</Link>
+                  </Button>
+                  <Button 
+                    asChild
+                    className="gradient-primary text-white w-full h-12 font-medium text-base shadow-glow"
+                  >
+                    <Link to="/book" onClick={() => setIsMenuOpen(false)}>Book Now</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+
+            {/* Contact Info */}
+            <div className="flex items-center justify-center gap-2 pt-6 mt-2 border-t border-white/10">
+              <Phone className="h-4 w-4 text-primary" />
+              <a href="tel:+441246233483" className="text-sm text-white/70 hover:text-primary transition-colors">
+                (01246) 233483
+              </a>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
