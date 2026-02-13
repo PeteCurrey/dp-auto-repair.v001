@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, Clock } from "lucide-react";
+import { Menu, X, Phone, Clock, ChevronDown, Wrench, Gauge, Car, FileText, Snowflake, CircleDot, Settings, Disc3, Flame, Cog, Package } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -15,6 +15,8 @@ import {
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [tuningOpen, setTuningOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
@@ -216,100 +218,142 @@ const Header = () => {
           </Button>
           </div>
 
-        {/* Mobile Navigation */}
+        {/* Full-Screen Mobile Navigation Overlay */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute left-0 right-0 top-full py-4 border-t border-white/20 bg-gray-900/95 backdrop-blur-md rounded-b-lg z-50">
-            <nav className="flex flex-col gap-4 px-4">
-              <div>
-                <div className="text-xs font-thin text-white/60 mb-2">Services</div>
-                <div className="flex flex-col gap-2 pl-4">
-                  {serviceItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`text-xs font-thin transition-colors hover:text-primary ${
-                        isActive(item.href) ? "text-primary" : "text-white/90"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+          <div className="lg:hidden fixed inset-0 top-[calc(4rem+2.5rem)] z-50 bg-gray-950/98 backdrop-blur-xl animate-fade-in overflow-y-auto">
+            <nav className="flex flex-col gap-1 px-6 py-6 max-w-md mx-auto">
+              
+              {/* Services Accordion */}
+              <div className="border-b border-white/10">
+                <button
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                  className="flex items-center justify-between w-full py-4 text-left"
+                >
+                  <div className="flex items-center gap-3">
+                    <Wrench className="h-5 w-5 text-primary" />
+                    <span className="text-base font-medium text-white">Services</span>
+                  </div>
+                  <ChevronDown className={`h-4 w-4 text-white/60 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ease-out ${servicesOpen ? 'max-h-[500px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
+                  <div className="flex flex-col gap-1 pl-8">
+                    {serviceItems.map((item, index) => {
+                      const icons = [Settings, Snowflake, CircleDot, Disc3, Wrench, Cog, Gauge, Settings];
+                      const Icon = icons[index] || Settings;
+                      return (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 ${
+                            isActive(item.href) ? "text-primary bg-white/5" : "text-white/80"
+                          }`}
+                          onClick={() => { setIsMenuOpen(false); setServicesOpen(false); }}
+                        >
+                          <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
+                          {item.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="text-xs font-thin text-white/60 mb-2">Tuning</div>
-                <div className="flex flex-col gap-2 pl-4">
-                  {tuningItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`text-xs font-thin transition-colors hover:text-primary ${
-                        isActive(item.href) ? "text-primary" : "text-white/90"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+
+              {/* Tuning Accordion */}
+              <div className="border-b border-white/10">
+                <button
+                  onClick={() => setTuningOpen(!tuningOpen)}
+                  className="flex items-center justify-between w-full py-4 text-left"
+                >
+                  <div className="flex items-center gap-3">
+                    <Gauge className="h-5 w-5 text-primary" />
+                    <span className="text-base font-medium text-white">Tuning</span>
+                  </div>
+                  <ChevronDown className={`h-4 w-4 text-white/60 transition-transform duration-300 ${tuningOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ease-out ${tuningOpen ? 'max-h-[300px] opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
+                  <div className="flex flex-col gap-1 pl-8">
+                    {tuningItems.map((item, index) => {
+                      const icons = [Cog, Flame, Package];
+                      const Icon = icons[index] || Cog;
+                      return (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm transition-all duration-200 hover:bg-white/5 ${
+                            isActive(item.href) ? "text-primary bg-white/5" : "text-white/80"
+                          }`}
+                          onClick={() => { setIsMenuOpen(false); setTuningOpen(false); }}
+                        >
+                          <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
+                          {item.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
+
+              {/* Direct Nav Links */}
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`text-xs font-thin transition-colors hover:text-primary ${
-                    isActive(item.href) ? "text-primary" : "text-white/90"
+                  className={`flex items-center gap-3 py-4 border-b border-white/10 text-base font-medium transition-colors hover:text-primary ${
+                    isActive(item.href) ? "text-primary" : "text-white"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
+                  {item.name === "MOT" ? <FileText className="h-5 w-5 text-primary" /> : <Car className="h-5 w-5 text-primary" />}
                   {item.name}
                 </Link>
               ))}
-              
-              {user ? (
-                <div className="flex flex-col gap-4">
-                   <Button 
-                     asChild
-                     variant="outline" 
-                     className="bg-white/10 text-white border-red-500 hover:bg-white/20 w-fit font-extralight"
-                     onClick={() => setIsMenuOpen(false)}
-                   >
-                     <Link to="/dashboard">
-                       Dashboard
-                     </Link>
-                   </Button>
-                   <Button 
-                     asChild
-                      className="gradient-primary text-white w-fit font-extralight"
-                   >
-                     <Link to="/book">
-                       Book Now
-                     </Link>
-                   </Button>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-4">
-                   <Button 
-                     asChild
-                     variant="outline" 
-                     className="bg-white/10 text-white border-red-500 hover:bg-white/20 w-fit font-extralight"
-                     onClick={() => setIsMenuOpen(false)}
-                   >
-                     <Link to="/auth">
-                       Client Login
-                     </Link>
-                   </Button>
-                   <Button 
-                     asChild
-                     className="gradient-primary text-white w-fit font-extralight"
-                   >
-                     <Link to="/book">
-                       Book Now
-                     </Link>
-                   </Button>
-                </div>
-              )}
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col gap-3 pt-6">
+                {user ? (
+                  <>
+                    <Button 
+                      asChild
+                      variant="outline" 
+                      className="bg-white/10 text-white border-white/20 hover:bg-white/20 w-full h-12 font-medium text-base"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Link to="/dashboard">Dashboard</Link>
+                    </Button>
+                    <Button 
+                      asChild
+                      className="gradient-primary text-white w-full h-12 font-medium text-base shadow-glow"
+                    >
+                      <Link to="/book" onClick={() => setIsMenuOpen(false)}>Book Now</Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      asChild
+                      variant="outline" 
+                      className="bg-white/10 text-white border-white/20 hover:bg-white/20 w-full h-12 font-medium text-base"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Link to="/auth">Client Login</Link>
+                    </Button>
+                    <Button 
+                      asChild
+                      className="gradient-primary text-white w-full h-12 font-medium text-base shadow-glow"
+                    >
+                      <Link to="/book" onClick={() => setIsMenuOpen(false)}>Book Now</Link>
+                    </Button>
+                  </>
+                )}
+              </div>
+
+              {/* Contact Info */}
+              <div className="flex items-center justify-center gap-2 pt-6 mt-2 border-t border-white/10">
+                <Phone className="h-4 w-4 text-primary" />
+                <a href="tel:+441246233483" className="text-sm text-white/70 hover:text-primary transition-colors">
+                  (01246) 233483
+                </a>
+              </div>
             </nav>
           </div>
         )}
