@@ -218,17 +218,17 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-white/20">
-            <nav className="flex flex-col gap-4">
+          <div className="lg:hidden py-4 border-t border-white/20 bg-gray-900/95 backdrop-blur-md rounded-b-lg">
+            <nav className="flex flex-col gap-4 px-4">
               <div>
-                <div className="text-xs font-thin text-foreground/70 mb-2">Services</div>
+                <div className="text-xs font-thin text-white/60 mb-2">Services</div>
                 <div className="flex flex-col gap-2 pl-4">
                   {serviceItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={`text-xs font-thin transition-colors hover:text-primary ${
-                        isActive(item.href) ? "text-primary" : "text-foreground/80"
+                        isActive(item.href) ? "text-primary" : "text-white/90"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -238,14 +238,14 @@ const Header = () => {
                 </div>
               </div>
               <div>
-                <div className="text-xs font-thin text-foreground/70 mb-2">Tuning</div>
+                <div className="text-xs font-thin text-white/60 mb-2">Tuning</div>
                 <div className="flex flex-col gap-2 pl-4">
                   {tuningItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={`text-xs font-thin transition-colors hover:text-primary ${
-                        isActive(item.href) ? "text-primary" : "text-foreground/80"
+                        isActive(item.href) ? "text-primary" : "text-white/90"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -259,7 +259,7 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   className={`text-xs font-thin transition-colors hover:text-primary ${
-                    isActive(item.href) ? "text-primary" : "text-foreground"
+                    isActive(item.href) ? "text-primary" : "text-white/90"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -272,7 +272,7 @@ const Header = () => {
                    <Button 
                      asChild
                      variant="outline" 
-                     className="bg-white/10 text-black border-red-500 hover:bg-white/20 w-fit font-extralight"
+                     className="bg-white/10 text-white border-red-500 hover:bg-white/20 w-fit font-extralight"
                      onClick={() => setIsMenuOpen(false)}
                    >
                      <Link to="/dashboard">
@@ -281,7 +281,7 @@ const Header = () => {
                    </Button>
                    <Button 
                      asChild
-                     className="gradient-primary text-black w-fit font-extralight"
+                      className="gradient-primary text-white w-fit font-extralight"
                    >
                      <Link to="/book">
                        Book Now
@@ -293,7 +293,7 @@ const Header = () => {
                    <Button 
                      asChild
                      variant="outline" 
-                     className="bg-white/10 text-black border-red-500 hover:bg-white/20 w-fit font-extralight"
+                     className="bg-white/10 text-white border-red-500 hover:bg-white/20 w-fit font-extralight"
                      onClick={() => setIsMenuOpen(false)}
                    >
                      <Link to="/auth">
@@ -302,7 +302,7 @@ const Header = () => {
                    </Button>
                    <Button 
                      asChild
-                     className="gradient-primary text-black w-fit font-extralight"
+                     className="gradient-primary text-white w-fit font-extralight"
                    >
                      <Link to="/book">
                        Book Now
