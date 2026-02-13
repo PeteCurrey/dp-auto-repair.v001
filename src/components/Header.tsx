@@ -104,13 +104,13 @@ const Header = () => {
                     Services
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid w-[400px] gap-3 p-4">
+                    <div className="grid w-[400px] gap-1 p-4 bg-popover text-popover-foreground">
                       {serviceItems.map((item) => (
                         <NavigationMenuLink key={item.name} asChild>
                           <Link
                             to={item.href}
                             className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${
-                              isActive(item.href) ? "bg-accent text-accent-foreground" : ""
+                              isActive(item.href) ? "bg-accent text-accent-foreground" : "text-popover-foreground"
                             }`}
                           >
                             <div className="text-sm font-medium leading-none">{item.name}</div>
@@ -130,13 +130,13 @@ const Header = () => {
                     Tuning
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid w-[300px] gap-3 p-4">
+                    <div className="grid w-[300px] gap-1 p-4 bg-popover text-popover-foreground">
                       {tuningItems.map((item) => (
                         <NavigationMenuLink key={item.name} asChild>
                           <Link
                             to={item.href}
                             className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${
-                              isActive(item.href) ? "bg-accent text-accent-foreground" : ""
+                              isActive(item.href) ? "bg-accent text-accent-foreground" : "text-popover-foreground"
                             }`}
                           >
                             <div className="text-sm font-medium leading-none">{item.name}</div>
@@ -221,14 +221,31 @@ const Header = () => {
           <div className="lg:hidden py-4 border-t border-white/20">
             <nav className="flex flex-col gap-4">
               <div>
-                <div className="text-xs font-thin text-white mb-2">Services</div>
+                <div className="text-xs font-thin text-foreground/70 mb-2">Services</div>
                 <div className="flex flex-col gap-2 pl-4">
                   {serviceItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
                       className={`text-xs font-thin transition-colors hover:text-primary ${
-                        isActive(item.href) ? "text-primary" : "text-white/80"
+                        isActive(item.href) ? "text-primary" : "text-foreground/80"
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-thin text-foreground/70 mb-2">Tuning</div>
+                <div className="flex flex-col gap-2 pl-4">
+                  {tuningItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={`text-xs font-thin transition-colors hover:text-primary ${
+                        isActive(item.href) ? "text-primary" : "text-foreground/80"
                       }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -242,7 +259,7 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   className={`text-xs font-thin transition-colors hover:text-primary ${
-                    isActive(item.href) ? "text-primary" : "text-white"
+                    isActive(item.href) ? "text-primary" : "text-foreground"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
