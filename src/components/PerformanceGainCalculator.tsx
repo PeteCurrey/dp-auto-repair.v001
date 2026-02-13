@@ -7,11 +7,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowRight, Gauge, Zap, Search, Sparkles, Info } from "lucide-react";
+import { ArrowRight, Gauge, Zap, Search, Sparkles, Info, Fuel, Leaf } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { REMAP_DB } from "@/data/remap-db";
 import { toast } from "sonner";
+
+// Economy remap fuel saving estimates by engine type (percentage improvement)
+const economySavings: Record<EnginePreset, { mpgGainPct: number; co2ReductionPct: number; annualSavingGbp: number }> = {
+  petrol_turbo: { mpgGainPct: 10, co2ReductionPct: 8, annualSavingGbp: 220 },
+  diesel_turbo: { mpgGainPct: 15, co2ReductionPct: 12, annualSavingGbp: 340 },
+  petrol_na: { mpgGainPct: 5, co2ReductionPct: 4, annualSavingGbp: 110 },
+};
 
 const presets = {
   "petrol_turbo": { s1: { p: 0.2, t: 0.25 }, s2: { p: 0.3, t: 0.35 }, s3: { p: 0.35, t: 0.4 }, s4: { p: 0.38, t: 0.45 } },
@@ -139,10 +147,16 @@ export default function PerformanceGainCalculator({ className }: { className?: s
   const [model, setModel] = useState<string>("");
   const [variant, setVariant] = useState<string>("");
 
+  // Economy remap toggle
+  const [economyMode, setEconomyMode] = useState(false);
+
   // AI search state
   const [aiQuery, setAiQuery] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiGains, setAiGains] = useState<Gains | null>(null);
+
+  // Track the active engine type for economy calculations
+  const [aiEngineType, setAiEngineType] = useState<EnginePreset>("diesel_turbo");
 
   const makes = useMemo(() => Object.keys(REMAP_DB).sort(), []);
   const models = useMemo(() => (make ? (REMAP_DB[make]?.models ?? []).map((m) => m.name) : []), [make]);
@@ -158,6 +172,8 @@ export default function PerformanceGainCalculator({ className }: { className?: s
   const maxPower = Math.max(gains.originalPower, ...gains.stages.map(s => s.power.final)) * 1.15;
   const maxTorque = Math.max(gains.originalTorque, ...gains.stages.map(s => s.torque.final)) * 1.15;
 
+  const activeEngineType = mode === "ai" ? aiEngineType : engine;
+  const ecoData = economySavings[activeEngineType];
   const handleAiSearch = async () => {
     if (!aiQuery.trim()) return;
     setAiLoading(true);
@@ -179,6 +195,7 @@ export default function PerformanceGainCalculator({ className }: { className?: s
       }
 
       const data: AiVehicleData = await resp.json();
+      setAiEngineType(data.engineType);
       const result = computeAiGains(data);
       setAiGains(result);
     } catch (e) {
@@ -330,6 +347,44 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                 <p className="mt-1 text-2xl font-semibold">Stage {gains.recommendedStage}</p>
                 <p className="text-muted-foreground text-sm">Estimates vary by vehicle condition and hardware. Dyno validation recommended.</p>
               </div>
+
+              {/* Economy remap toggle */}
+              <div className="flex items-center justify-between rounded-md p-4 bg-accent/10 border border-accent/20">
+                <div className="flex items-center gap-2">
+                  <Leaf className="w-4 h-4 text-accent-foreground" />
+                  <div>
+                    <Label htmlFor="eco-toggle" className="text-sm font-medium cursor-pointer">Economy Remap</Label>
+                    <p className="text-xs text-muted-foreground">Show estimated fuel savings</p>
+                  </div>
+                </div>
+                <Switch id="eco-toggle" checked={economyMode} onCheckedChange={setEconomyMode} />
+              </div>
+
+              {economyMode && (
+                <div className="rounded-md p-4 bg-accent/5 border border-accent/20 space-y-3">
+                  <div className="flex items-center gap-2 text-sm font-medium">
+                    <Fuel className="w-4 h-4 text-primary" />
+                    Estimated Fuel Savings
+                  </div>
+                  <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="rounded-lg bg-background p-3 border">
+                      <div className="text-lg font-bold text-primary">+{ecoData.mpgGainPct}%</div>
+                      <div className="text-[10px] text-muted-foreground">MPG Improvement</div>
+                    </div>
+                    <div className="rounded-lg bg-background p-3 border">
+                      <div className="text-lg font-bold text-primary">-{ecoData.co2ReductionPct}%</div>
+                      <div className="text-[10px] text-muted-foreground">CO₂ Reduction</div>
+                    </div>
+                    <div className="rounded-lg bg-background p-3 border">
+                      <div className="text-lg font-bold text-primary">£{ecoData.annualSavingGbp}</div>
+                      <div className="text-[10px] text-muted-foreground">Est. Annual Saving</div>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">
+                    Economy remap optimises fuelling and shift points for efficiency. Savings based on 10,000 miles/year at average UK fuel prices. Actual results vary by driving style.
+                  </p>
+                </div>
+              )}
 
               <div className="flex gap-3">
                 <Button className="gradient-primary text-primary-foreground" asChild>
