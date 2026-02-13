@@ -206,25 +206,25 @@ export default function PerformanceGainCalculator({ className }: { className?: s
   };
 
   return (
-    <section className={cn("py-16", className)} aria-labelledby="calc-heading">
+    <section className={cn("py-10 md:py-16", className)} aria-labelledby="calc-heading">
       <div className="container mx-auto px-4 max-w-5xl">
-        <Card className="shadow-card border-0">
-          <CardHeader>
-            <CardTitle id="calc-heading" className="text-2xl flex items-center gap-2">
-              <Gauge className="w-6 h-6 text-primary" />
+        <Card className="shadow-card border-0 overflow-hidden">
+          <CardHeader className="px-4 md:px-6">
+            <CardTitle id="calc-heading" className="text-xl md:text-2xl flex items-center gap-2">
+              <Gauge className="w-5 h-5 md:w-6 md:h-6 text-primary" />
               Performance Gain Calculator
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid md:grid-cols-2 gap-8">
+          <CardContent className="grid md:grid-cols-2 gap-6 md:gap-8 px-4 md:px-6">
             {/* Left: Inputs */}
             <div className="space-y-4">
               <Tabs value={mode} onValueChange={(v) => { setMode(v as typeof mode); if (v !== "ai") setAiGains(null); }} className="space-y-4">
-                <TabsList className="grid grid-cols-3 w-full">
-                  <TabsTrigger value="vehicle">By Vehicle</TabsTrigger>
-                  <TabsTrigger value="ai" className="flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" /> AI Search
+                <TabsList className="grid grid-cols-3 w-full h-auto">
+                  <TabsTrigger value="vehicle" className="text-xs sm:text-sm py-2">By Vehicle</TabsTrigger>
+                  <TabsTrigger value="ai" className="flex items-center gap-1 text-xs sm:text-sm py-2">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span>AI Search</span>
                   </TabsTrigger>
-                  <TabsTrigger value="manual">Manual</TabsTrigger>
+                  <TabsTrigger value="manual" className="text-xs sm:text-sm py-2">Manual</TabsTrigger>
                 </TabsList>
 
                 {/* Vehicle tab (unchanged logic) */}
@@ -266,16 +266,17 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                     <p className="text-xs text-muted-foreground">
                       Enter any make, model or engine — e.g. "BMW 320d F30" or "2018 Golf GTI"
                     </p>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <Input
                         id="ai-search"
-                        placeholder="e.g. Audi S3 8V, Ford Fiesta ST 2019..."
+                        placeholder="e.g. Audi S3 8V, Fiesta ST 2019..."
                         value={aiQuery}
                         onChange={(e) => setAiQuery(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") handleAiSearch(); }}
                         disabled={aiLoading}
+                        className="min-w-0"
                       />
-                      <Button onClick={handleAiSearch} disabled={aiLoading || !aiQuery.trim()} className="shrink-0">
+                      <Button onClick={handleAiSearch} disabled={aiLoading || !aiQuery.trim()} className="shrink-0 w-full sm:w-auto">
                         <Search className="w-4 h-4 mr-1" />
                         {aiLoading ? "Searching…" : "Search"}
                       </Button>
@@ -349,70 +350,70 @@ export default function PerformanceGainCalculator({ className }: { className?: s
               </div>
 
               {/* Economy remap toggle */}
-              <div className="flex items-center justify-between rounded-md p-4 bg-accent/10 border border-accent/20">
-                <div className="flex items-center gap-2">
-                  <Leaf className="w-4 h-4 text-accent-foreground" />
-                  <div>
+              <div className="flex items-center justify-between rounded-md p-3 md:p-4 bg-accent/10 border border-accent/20 gap-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Leaf className="w-4 h-4 text-accent-foreground shrink-0" />
+                  <div className="min-w-0">
                     <Label htmlFor="eco-toggle" className="text-sm font-medium cursor-pointer">Economy Remap</Label>
-                    <p className="text-xs text-muted-foreground">Show estimated fuel savings</p>
+                    <p className="text-xs text-muted-foreground hidden sm:block">Show estimated fuel savings</p>
                   </div>
                 </div>
                 <Switch id="eco-toggle" checked={economyMode} onCheckedChange={setEconomyMode} />
               </div>
 
               {economyMode && (
-                <div className="rounded-md p-4 bg-accent/5 border border-accent/20 space-y-3">
+                <div className="rounded-md p-3 md:p-4 bg-accent/5 border border-accent/20 space-y-3">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Fuel className="w-4 h-4 text-primary" />
                     Estimated Fuel Savings
                   </div>
-                  <div className="grid grid-cols-3 gap-3 text-center">
-                    <div className="rounded-lg bg-background p-3 border">
-                      <div className="text-lg font-bold text-primary">+{ecoData.mpgGainPct}%</div>
-                      <div className="text-[10px] text-muted-foreground">MPG Improvement</div>
+                  <div className="grid grid-cols-3 gap-2 md:gap-3 text-center">
+                    <div className="rounded-lg bg-background p-2 md:p-3 border">
+                      <div className="text-base md:text-lg font-bold text-primary">+{ecoData.mpgGainPct}%</div>
+                      <div className="text-[9px] md:text-[10px] text-muted-foreground leading-tight">MPG Improvement</div>
                     </div>
-                    <div className="rounded-lg bg-background p-3 border">
-                      <div className="text-lg font-bold text-primary">-{ecoData.co2ReductionPct}%</div>
-                      <div className="text-[10px] text-muted-foreground">CO₂ Reduction</div>
+                    <div className="rounded-lg bg-background p-2 md:p-3 border">
+                      <div className="text-base md:text-lg font-bold text-primary">-{ecoData.co2ReductionPct}%</div>
+                      <div className="text-[9px] md:text-[10px] text-muted-foreground leading-tight">CO₂ Reduction</div>
                     </div>
-                    <div className="rounded-lg bg-background p-3 border">
-                      <div className="text-lg font-bold text-primary">£{ecoData.annualSavingGbp}</div>
-                      <div className="text-[10px] text-muted-foreground">Est. Annual Saving</div>
+                    <div className="rounded-lg bg-background p-2 md:p-3 border">
+                      <div className="text-base md:text-lg font-bold text-primary">£{ecoData.annualSavingGbp}</div>
+                      <div className="text-[9px] md:text-[10px] text-muted-foreground leading-tight">Est. Annual Saving</div>
                     </div>
                   </div>
                   <p className="text-[10px] text-muted-foreground">
-                    Economy remap optimises fuelling and shift points for efficiency. Savings based on 10,000 miles/year at average UK fuel prices. Actual results vary by driving style.
+                    Economy remap optimises fuelling and shift points for efficiency. Savings based on 10,000 miles/year at average UK fuel prices.
                   </p>
                 </div>
               )}
 
-              <div className="flex gap-3">
-                <Button className="gradient-primary text-primary-foreground" asChild>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button className="gradient-primary text-primary-foreground w-full sm:w-auto" asChild>
                   <Link to="/contact"><ArrowRight className="w-4 h-4 mr-2" />Get Remap Quote</Link>
                 </Button>
-                <Button variant="outline" asChild>
+                <Button variant="outline" className="w-full sm:w-auto" asChild>
                   <Link to="/contact">Book Consultation</Link>
                 </Button>
               </div>
             </div>
 
             {/* Right: Results with progress bars */}
-            <div className="space-y-6">
+            <div className="space-y-5 md:space-y-6">
               {/* Summary cards */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-lg border p-4">
-                  <div className="text-sm text-muted-foreground">Original</div>
-                  <div className="mt-1 text-2xl font-semibold">{gains.originalPower} hp</div>
-                  <div className="text-sm">{gains.originalTorque} Nm</div>
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div className="rounded-lg border p-3 md:p-4">
+                  <div className="text-xs md:text-sm text-muted-foreground">Original</div>
+                  <div className="mt-1 text-xl md:text-2xl font-semibold">{gains.originalPower} hp</div>
+                  <div className="text-xs md:text-sm">{gains.originalTorque} Nm</div>
                 </div>
-                <div className="rounded-lg border p-4 border-primary/30 bg-primary/5">
-                  <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Gauge className="w-4 h-4 text-primary" /> Best result
+                <div className="rounded-lg border p-3 md:p-4 border-primary/30 bg-primary/5">
+                  <div className="text-xs md:text-sm text-muted-foreground flex items-center gap-1 md:gap-2">
+                    <Gauge className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" /> Best result
                   </div>
-                  <div className="mt-1 text-2xl font-semibold text-primary">
+                  <div className="mt-1 text-xl md:text-2xl font-semibold text-primary">
                     {gains.stages[gains.stages.length - 1].power.final} hp
                   </div>
-                  <div className="text-sm">{gains.stages[gains.stages.length - 1].torque.final} Nm</div>
+                  <div className="text-xs md:text-sm">{gains.stages[gains.stages.length - 1].torque.final} Nm</div>
                 </div>
               </div>
 
