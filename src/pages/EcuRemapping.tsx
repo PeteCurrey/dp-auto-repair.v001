@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Gauge, Cpu, ArrowRight, Zap, Shield, Clock, Flame, Settings, Activity } from "lucide-react";
+import ecuHero from "@/assets/ecu-remapping-hero.jpg";
 import { Link } from "react-router-dom";
 import { useSEO } from "@/hooks/useSEO";
 import PerformanceGainCalculator from "@/components/PerformanceGainCalculator";
@@ -44,12 +45,10 @@ const EcuRemapping = () => {
       <main>
         {/* Hero Section - Dramatic dark overlay */}
         <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-          {/* Background with gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary/95 to-secondary/90" />
-          {/* Subtle grid pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 49px, hsl(0 0% 100%) 49px, hsl(0 0% 100%) 50px), repeating-linear-gradient(90deg, transparent, transparent 49px, hsl(0 0% 100%) 49px, hsl(0 0% 100%) 50px)',
-          }} />
+          {/* Background image */}
+          <img src={ecuHero} alt="ECU remapping diagnostics laptop connected to engine bay" className="absolute inset-0 w-full h-full object-cover" />
+          {/* Dark gradient overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary/85 via-secondary/75 to-secondary/90" />
           {/* Glow accent */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px]" />
           
