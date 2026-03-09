@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import ScrollToTop from "@/components/ScrollToTop";
 import { AuthProvider } from "@/hooks/useAuth";
 import AIChatWidget from "@/components/AIChatWidget";
+import PageTransition from "@/components/PageTransition";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import AvirriaAdmin from "@/pages/AvirriaAdmin";
