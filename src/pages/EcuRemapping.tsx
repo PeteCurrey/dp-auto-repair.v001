@@ -167,7 +167,9 @@ const EcuRemapping = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={150}>
-              <PerformanceGainCalculator />
+              <div id="performance-calculator">
+                <PerformanceGainCalculator />
+              </div>
             </ScrollReveal>
           </div>
         </section>
