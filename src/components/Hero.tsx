@@ -74,6 +74,9 @@ const Hero = () => {
             <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm text-sm font-extralight" asChild>
               <Link to="/tuning">Tuning</Link>
             </Button>
+            <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm text-sm font-extralight" asChild>
+              <Link to="/ecu-remapping#performance-calculator">Performance Calculator</Link>
+            </Button>
           </div>
         </div>
       </div>
