@@ -211,7 +211,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden text-white hover:bg-white/20"
+            className="lg:hidden text-foreground hover:bg-black/10"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
