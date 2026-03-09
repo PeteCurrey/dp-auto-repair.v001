@@ -115,7 +115,7 @@ const Header = () => {
                   <NavigationMenuTrigger
                     onClick={() => navigate('/services')}
                     className={`text-sm font-extralight transition-colors hover:text-primary bg-transparent ${
-                      isServiceActive() ? "text-primary" : "text-foreground"
+                      isServiceActive() ? "text-primary" : scrolled ? "text-foreground" : "text-white"
                     }`}
                   >
                     Services
@@ -141,7 +141,7 @@ const Header = () => {
                   <NavigationMenuTrigger
                     onClick={() => navigate('/tuning')}
                     className={`text-sm font-extralight transition-colors hover:text-primary bg-transparent ${
-                      isActive("/tuning") ? "text-primary" : "text-foreground"
+                      isActive("/tuning") ? "text-primary" : scrolled ? "text-foreground" : "text-white"
                     }`}
                   >
                     Tuning
@@ -170,7 +170,7 @@ const Header = () => {
                 key={item.name}
                 to={item.href}
                 className={`text-sm font-extralight transition-colors hover:text-primary ${
-                  isActive(item.href) ? "text-primary" : "text-foreground"
+                  isActive(item.href) ? "text-primary" : scrolled ? "text-foreground" : "text-white"
                 }`}
               >
                 {item.name}
@@ -184,7 +184,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-black border-red-500 hover:bg-white/20 text-sm font-extralight"
+                   className={`bg-white/10 border-white/30 hover:bg-white/20 text-sm font-extralight ${scrolled ? 'text-foreground border-primary' : 'text-white'}`}
                 >
                   <Link to="/dashboard">
                     Dashboard
@@ -192,7 +192,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   asChild
-                  className="gradient-primary text-black shadow-elegant text-sm font-extralight"
+                   className="gradient-primary text-primary-foreground shadow-elegant text-sm font-extralight"
                 >
                   <Link to="/book">
                     Book Now
@@ -204,7 +204,7 @@ const Header = () => {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-white/10 text-black border-red-500 hover:bg-white/20 text-sm font-extralight"
+                  className={`bg-white/10 border-white/30 hover:bg-white/20 text-sm font-extralight ${scrolled ? 'text-foreground border-primary' : 'text-white'}`}
                 >
                   <Link to="/auth">
                     Client Login
@@ -212,7 +212,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   asChild
-                  className="gradient-primary text-black shadow-elegant text-sm font-extralight"
+                  className="gradient-primary text-primary-foreground shadow-elegant text-sm font-extralight"
                 >
                   <Link to="/book">
                     Book Now
