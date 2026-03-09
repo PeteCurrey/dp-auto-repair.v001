@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone, Clock, ChevronDown, Wrench, Gauge, Car, FileText, Snowflake, CircleDot, Settings, Disc3, Flame, Cog, Package } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -17,9 +17,18 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [tuningOpen, setTuningOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { name: "MOT", href: "/mot" },
@@ -62,33 +71,39 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50">
       {/* Top Info Bar */}
-      <div className="bg-transparent">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-xs">
-            <div className="flex items-center gap-2">
-              <Clock className="h-3 w-3 flex-shrink-0 text-white" />
-              <span className="text-center sm:text-left text-white font-thin">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="h-3 w-3 flex-shrink-0 text-white" />
-              <a href="tel:+441246233483" className="hover:text-primary transition-colors text-white font-thin">
-                (01246) 233483
-              </a>
+      <div className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${scrolled ? 'h-0 opacity-0 overflow-hidden' : 'h-auto opacity-100'}`}>
+        <div className="bg-transparent">
+          <div className="container mx-auto px-4 py-2">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-xs">
+              <div className="flex items-center gap-2">
+                <Clock className="h-3 w-3 flex-shrink-0 text-white" />
+                <span className="text-center sm:text-left text-white font-thin">Mon-Fri: 9AM-5PM | Closed Sat & Sun</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-3 w-3 flex-shrink-0 text-white" />
+                <a href="tel:+441246233483" className="hover:text-primary transition-colors text-white font-thin">
+                  (01246) 233483
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Navigation */}
-      <div className="bg-white/40 backdrop-blur-sm border-none" style={{ backgroundColor: 'rgba(255, 255, 255, 0.4)' }}>
+      <div className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] border-none ${
+        scrolled 
+          ? 'bg-background/80 backdrop-blur-xl shadow-[0_1px_3px_hsl(0_0%_0%/0.1)]' 
+          : 'bg-white/40 backdrop-blur-sm'
+      }`} style={!scrolled ? { backgroundColor: 'rgba(255, 255, 255, 0.4)' } : undefined}>
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center h-16">
+          <div className={`flex justify-between items-center transition-all duration-500 ${scrolled ? 'h-14' : 'h-16'}`}>
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img 
               src="/lovable-uploads/c3927aa1-9371-4ab3-9c52-b465d6ea5ed5.png" 
               alt="DP Auto Repair & Diagnostics Logo" 
-              className="h-12 sm:h-14 w-auto max-w-[200px] object-contain"
+              className={`w-auto max-w-[200px] object-contain transition-all duration-500 ${scrolled ? 'h-10 sm:h-11' : 'h-12 sm:h-14'}`}
             />
           </Link>
 
@@ -220,7 +235,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Full-Screen Mobile Navigation Overlay - outside backdrop-blur container */}
+      {/* Full-Screen Mobile Navigation Overlay */}
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 top-0 z-[60] bg-gray-950/98 backdrop-blur-xl animate-fade-in overflow-y-auto pt-4">
           <div className="flex justify-end px-6 mb-4">
