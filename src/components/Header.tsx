@@ -94,8 +94,8 @@ const Header = () => {
       <div className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] border-none ${
         scrolled 
           ? 'bg-background/80 backdrop-blur-xl shadow-[0_1px_3px_hsl(0_0%_0%/0.1)]' 
-          : 'bg-white/40 backdrop-blur-sm'
-      }`} style={!scrolled ? { backgroundColor: 'rgba(255, 255, 255, 0.4)' } : undefined}>
+          : 'bg-transparent'
+      }`}>
         <div className="container mx-auto px-4">
           <div className={`flex justify-between items-center transition-all duration-500 ${scrolled ? 'h-14' : 'h-16'}`}>
           {/* Logo */}
