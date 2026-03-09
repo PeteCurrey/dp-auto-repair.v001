@@ -7,6 +7,7 @@ import FAQSection from "@/components/FAQSection";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import Footer from "@/components/Footer";
 import ServiceCategoryNav from "@/components/ServiceCategoryNav";
+import ScrollReveal from "@/components/ScrollReveal";
 import { useSEO } from "@/hooks/useSEO";
 
 const Index = () => {
@@ -91,34 +92,36 @@ const Index = () => {
         <ServicesOverview />
         <AboutSection />
         
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <article className="max-w-4xl">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Local Chesterfield Mechanic & Independent Garage</h2>
-              <h3 className="text-xl font-semibold mb-4 text-primary">Expert Automotive Services in Chesterfield Since 2008</h3>
-              <p className="text-muted-foreground mb-4">
-                Looking for a trusted local mechanic and independent garage in Chesterfield? DP Automotive Repair & Diagnostics provides expert car servicing, MOT preparation, brake repair, clutch replacement, engine diagnostics, exhaust work and performance tuning. As a full-service garage, we maintain all makes and models with transparent pricing and honest advice.
-              </p>
-              <h4 className="text-lg font-medium mb-3">Complete Automotive Solutions in Chesterfield</h4>
-              <p className="text-muted-foreground mb-4">
-                Whether you need routine servicing to keep your vehicle reliable, fast diagnostics to find a fault, or specialist performance tuning, our qualified team is here to help. Visit our workshop or contact us to book your service today.
-              </p>
-              <h5 className="font-medium mb-2">Why Choose DP Automotive in Chesterfield?</h5>
-              <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                <li>15+ years serving the Chesterfield community</li>
-                <li>ASE-certified technicians with proven expertise</li>
-                <li>All makes and models welcome</li>
-                <li>Transparent pricing with no hidden costs</li>
-                <li>12-month warranty on parts and labour</li>
-              </ul>
-            </article>
-          </div>
-        </section>
+        <ScrollReveal>
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <article className="max-w-4xl">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Local Chesterfield Mechanic & Independent Garage</h2>
+                <h3 className="text-xl font-semibold mb-4 text-primary">Expert Automotive Services in Chesterfield Since 2008</h3>
+                <p className="text-muted-foreground mb-4">
+                  Looking for a trusted local mechanic and independent garage in Chesterfield? DP Automotive Repair & Diagnostics provides expert car servicing, MOT preparation, brake repair, clutch replacement, engine diagnostics, exhaust work and performance tuning. As a full-service garage, we maintain all makes and models with transparent pricing and honest advice.
+                </p>
+                <h4 className="text-lg font-medium mb-3">Complete Automotive Solutions in Chesterfield</h4>
+                <p className="text-muted-foreground mb-4">
+                  Whether you need routine servicing to keep your vehicle reliable, fast diagnostics to find a fault, or specialist performance tuning, our qualified team is here to help. Visit our workshop or contact us to book your service today.
+                </p>
+                <h5 className="font-medium mb-2">Why Choose DP Automotive in Chesterfield?</h5>
+                <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                  <li>15+ years serving the Chesterfield community</li>
+                  <li>ASE-certified technicians with proven expertise</li>
+                  <li>All makes and models welcome</li>
+                  <li>Transparent pricing with no hidden costs</li>
+                  <li>12-month warranty on parts and labour</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+        </ScrollReveal>
         
-        {/* Service Category Navigation */}
-        <ServiceCategoryNav />
+        <ScrollReveal>
+          <ServiceCategoryNav />
+        </ScrollReveal>
         
-        {/* Testimonials & Trust Badges */}
         <TestimonialsSection />
         
         <FAQSection faqs={faqs} className="bg-muted/30" />

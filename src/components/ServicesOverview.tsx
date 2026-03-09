@@ -1,7 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Wrench, Zap, Shield, Settings, Gauge, Car, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import ScrollReveal from "@/components/ScrollReveal";
+
 const ServicesOverview = () => {
   const services = [{
     icon: Wrench,
@@ -40,62 +42,74 @@ const ServicesOverview = () => {
     features: ["Dent repair", "Paint restoration", "Frame alignment", "Insurance work"],
     href: "/collision-repair"
   }];
-  return <section className="py-20 bg-muted/30">
+
+  return (
+    <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl mb-6 font-extralight md:text-5xl">
-            Complete Automotive
-            <span className="block text-primary font-extralight text-5xl">Service Solutions</span>
-          </h2>
-          <p className="text-xl text-muted-foreground font-light">
-            From routine maintenance to complex repairs, our certified technicians 
-            provide comprehensive automotive services with precision and care.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl mb-6 font-extralight md:text-5xl">
+              Complete Automotive
+              <span className="block text-primary font-extralight text-5xl">Service Solutions</span>
+            </h2>
+            <p className="text-xl text-muted-foreground font-light">
+              From routine maintenance to complex repairs, our certified technicians 
+              provide comprehensive automotive services with precision and care.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {services.map((service, index) => <Card key={service.title} className="hover-lift shadow-card border-0 bg-card/80 backdrop-blur-sm" style={{
-          animationDelay: `${index * 0.1}s`
-        }}>
-              <CardHeader className="pb-4">
-                <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
-                  <service.icon className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <h3 className="text-xl font-semibold">{service.title}</h3>
-                <h4 className="text-muted-foreground">{service.description}</h4>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <h5 className="font-medium mb-3">Our Services Include:</h5>
-                <ul className="space-y-2 mb-6">
-                  {service.features.map(feature => <li key={feature} className="flex items-center text-sm">
-                      <ArrowRight className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
-                      {feature}
-                    </li>)}
-                </ul>
-                <div className="pt-4 border-t border-border">
-                  <Button asChild variant="outline" size="sm" className="w-full">
-                    <Link to={service.href}>
-                      Learn More
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>)}
+          {services.map((service, index) => (
+            <ScrollReveal key={service.title} delay={index * 100} direction="scale">
+              <Card className="group hover-lift shadow-card border-0 bg-card/80 backdrop-blur-sm h-full transition-all duration-400 hover:shadow-elegant">
+                <CardHeader className="pb-4">
+                  <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
+                    <service.icon className="w-6 h-6 text-primary-foreground icon-hover" />
+                  </div>
+                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                  <h4 className="text-muted-foreground">{service.description}</h4>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <h5 className="font-medium mb-3">Our Services Include:</h5>
+                  <ul className="space-y-2 mb-6">
+                    {service.features.map(feature => (
+                      <li key={feature} className="flex items-center text-sm">
+                        <ArrowRight className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="pt-4 border-t border-border">
+                    <Button asChild variant="outline" size="sm" className="w-full group-hover:border-primary/50 transition-colors">
+                      <Link to={service.href}>
+                        Learn More
+                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+          ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center">
-          <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant">
-            <Link to="/services">
-              View All Services
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-          </Button>
-        </div>
+        <ScrollReveal>
+          <div className="text-center">
+            <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant hover-lift">
+              <Link to="/services">
+                View All Services
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+            </Button>
+          </div>
+        </ScrollReveal>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default ServicesOverview;
