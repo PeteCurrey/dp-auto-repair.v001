@@ -226,7 +226,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden text-foreground hover:bg-black/10"
+            className={`lg:hidden hover:bg-white/10 ${scrolled ? 'text-foreground' : 'text-white'}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
