@@ -1,20 +1,19 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowRight, Gauge, Zap, Search, Sparkles, Info, Fuel, Leaf } from "lucide-react";
+import { ArrowRight, Gauge, Zap, Search, Sparkles, Info, Fuel, Leaf, Download, Share2, TrendingUp, Trophy, ChevronDown, ChevronUp } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { REMAP_DB } from "@/data/remap-db";
 import { toast } from "sonner";
 
-// Economy remap fuel saving estimates by engine type (percentage improvement)
+// Economy remap fuel saving estimates by engine type
 const economySavings: Record<EnginePreset, { mpgGainPct: number; co2ReductionPct: number; annualSavingGbp: number }> = {
   petrol_turbo: { mpgGainPct: 10, co2ReductionPct: 8, annualSavingGbp: 220 },
   diesel_turbo: { mpgGainPct: 15, co2ReductionPct: 12, annualSavingGbp: 340 },
@@ -84,8 +83,6 @@ function computeAiGains(data: AiVehicleData): Gains {
   const s1TorqueGain = data.stage1Nm - data.stockNm;
   const s2PowerGain = data.stage2Hp - data.stockHp;
   const s2TorqueGain = data.stage2Nm - data.stockNm;
-
-  // Extrapolate stage 3 & 4 from the AI stage 2 data with modest increments
   const s3PowerGain = Math.round(s2PowerGain * 1.15);
   const s3TorqueGain = Math.round(s2TorqueGain * 1.12);
   const s4PowerGain = Math.round(s2PowerGain * 1.25);
@@ -109,6 +106,46 @@ function computeAiGains(data: AiVehicleData): Gains {
   };
 }
 
+/* ── Animated circular gauge ── */
+function CircularGauge({ value, max, label, unit, gain, color = "primary" }: {
+  value: number; max: number; label: string; unit: string; gain?: number; color?: "primary" | "accent"
+}) {
+  const radius = 54;
+  const circumference = 2 * Math.PI * radius;
+  const pct = Math.min(value / max, 1);
+  const offset = circumference - pct * circumference;
+  const colorClass = color === "primary" ? "text-primary" : "text-accent-foreground";
+  const strokeClass = color === "primary" ? "stroke-primary" : "stroke-accent-foreground";
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="relative w-28 h-28 sm:w-32 sm:h-32">
+        <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r={radius} fill="none" className="stroke-secondary/30" strokeWidth="10" />
+          <circle
+            cx="60" cy="60" r={radius} fill="none"
+            className={`${strokeClass} transition-all duration-1000 ease-out`}
+            strokeWidth="10" strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className={`text-xl sm:text-2xl font-bold ${colorClass}`}>{value}</span>
+          <span className="text-[10px] text-muted-foreground">{unit}</span>
+        </div>
+      </div>
+      <span className="text-xs font-medium text-muted-foreground">{label}</span>
+      {gain !== undefined && gain > 0 && (
+        <span className="text-xs font-semibold text-primary flex items-center gap-0.5">
+          <TrendingUp className="w-3 h-3" /> +{gain} {unit}
+        </span>
+      )}
+    </div>
+  );
+}
+
+/* ── Animated progress bar ── */
 function ProgressBar({ label, original, final: finalVal, unit, maxVal }: { label: string; original: number; final: number; unit: string; maxVal: number }) {
   const origPct = Math.min((original / maxVal) * 100, 100);
   const finalPct = Math.min((finalVal / maxVal) * 100, 100);
@@ -118,16 +155,27 @@ function ProgressBar({ label, original, final: finalVal, unit, maxVal }: { label
     <div className="space-y-1.5">
       <div className="flex justify-between text-xs">
         <span className="text-muted-foreground">{label}</span>
-        <span className="font-medium">{finalVal} {unit} <span className="text-primary">(+{gain})</span></span>
+        <span className="font-medium">{finalVal} {unit} <span className="text-primary font-semibold">(+{gain})</span></span>
       </div>
-      <div className="relative h-3 w-full rounded-full bg-secondary/40 overflow-hidden">
+      <div className="relative h-3.5 w-full rounded-full bg-secondary/30 overflow-hidden">
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-muted-foreground/30 transition-all duration-700"
+          className="absolute inset-y-0 left-0 rounded-full bg-muted-foreground/20 transition-all duration-700"
           style={{ width: `${origPct}%` }}
         />
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-primary transition-all duration-700"
-          style={{ width: `${finalPct}%` }}
+          className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out"
+          style={{
+            width: `${finalPct}%`,
+            background: `linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))`
+          }}
+        />
+        {/* Animated shine */}
+        <div
+          className="absolute inset-y-0 left-0 rounded-full opacity-30 transition-all duration-1000 ease-out"
+          style={{
+            width: `${finalPct}%`,
+            background: `linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.4) 80%, transparent 100%)`
+          }}
         />
       </div>
       <div className="flex justify-between text-[10px] text-muted-foreground">
@@ -146,17 +194,15 @@ export default function PerformanceGainCalculator({ className }: { className?: s
   const [make, setMake] = useState<string>("");
   const [model, setModel] = useState<string>("");
   const [variant, setVariant] = useState<string>("");
-
-  // Economy remap toggle
+  const [selectedStage, setSelectedStage] = useState<number | null>(null);
   const [economyMode, setEconomyMode] = useState(false);
-
-  // AI search state
   const [aiQuery, setAiQuery] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiGains, setAiGains] = useState<Gains | null>(null);
-
-  // Track the active engine type for economy calculations
   const [aiEngineType, setAiEngineType] = useState<EnginePreset>("diesel_turbo");
+  const [showAllStages, setShowAllStages] = useState(false);
+
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const makes = useMemo(() => Object.keys(REMAP_DB).sort(), []);
   const models = useMemo(() => (make ? (REMAP_DB[make]?.models ?? []).map((m) => m.name) : []), [make]);
@@ -168,16 +214,19 @@ export default function PerformanceGainCalculator({ className }: { className?: s
 
   const localGains = useMemo(() => computeGains(engine, clamp(hp), clamp(nm)), [engine, hp, nm]);
   const gains = aiGains && mode === "ai" ? aiGains : localGains;
+  const activeStage = selectedStage !== null ? gains.stages[selectedStage] : gains.stages[gains.recommendedStage - 1];
 
   const maxPower = Math.max(gains.originalPower, ...gains.stages.map(s => s.power.final)) * 1.15;
   const maxTorque = Math.max(gains.originalTorque, ...gains.stages.map(s => s.torque.final)) * 1.15;
 
   const activeEngineType = mode === "ai" ? aiEngineType : engine;
   const ecoData = economySavings[activeEngineType];
+
   const handleAiSearch = async () => {
     if (!aiQuery.trim()) return;
     setAiLoading(true);
     setAiGains(null);
+    setSelectedStage(null);
 
     try {
       const resp = await fetch(
@@ -205,20 +254,106 @@ export default function PerformanceGainCalculator({ className }: { className?: s
     }
   };
 
+  const vehicleLabel = useMemo(() => {
+    if (gains.vehicleLabel) return gains.vehicleLabel;
+    if (make && model && variant) return `${make} ${model} - ${variant}`;
+    return null;
+  }, [gains.vehicleLabel, make, model, variant]);
+
+  const handleShare = useCallback(async () => {
+    const text = `${vehicleLabel ? vehicleLabel + " — " : ""}Stage ${activeStage.stage} ECU Remap: ${activeStage.power.final}hp (+${activeStage.power.gain}hp) / ${activeStage.torque.final}Nm (+${activeStage.torque.gain}Nm) — DP Auto Repair, Chesterfield`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "ECU Remap Results", text, url: window.location.href });
+      } catch {
+        // User cancelled
+      }
+    } else {
+      await navigator.clipboard.writeText(text);
+      toast.success("Results copied to clipboard!");
+    }
+  }, [vehicleLabel, activeStage]);
+
+  const handleExport = useCallback(() => {
+    const lines = [
+      "═══════════════════════════════════════",
+      "   ECU REMAP PERFORMANCE ESTIMATE",
+      "   DP Auto Repair & Diagnostics",
+      "═══════════════════════════════════════",
+      "",
+      vehicleLabel ? `Vehicle: ${vehicleLabel}` : "",
+      `Engine Type: ${activeEngineType.replace("_", " ").toUpperCase()}`,
+      "",
+      "── STOCK FIGURES ──",
+      `Power:  ${gains.originalPower} hp`,
+      `Torque: ${gains.originalTorque} Nm`,
+      "",
+      "── REMAP STAGES ──",
+    ];
+
+    const stagesToShow = gains.isAiPowered ? gains.stages.slice(0, 2) : gains.stages;
+    stagesToShow.forEach(s => {
+      const rec = s.stage === gains.recommendedStage ? " ★ RECOMMENDED" : "";
+      lines.push(`Stage ${s.stage}${rec}:`);
+      lines.push(`  Power:  ${s.power.final} hp (+${s.power.gain} hp)`);
+      lines.push(`  Torque: ${s.torque.final} Nm (+${s.torque.gain} Nm)`);
+      lines.push("");
+    });
+
+    if (economyMode) {
+      lines.push("── ECONOMY REMAP ──");
+      lines.push(`MPG Improvement: +${ecoData.mpgGainPct}%`);
+      lines.push(`CO₂ Reduction:   -${ecoData.co2ReductionPct}%`);
+      lines.push(`Est. Annual Saving: £${ecoData.annualSavingGbp}`);
+      lines.push("");
+    }
+
+    lines.push("═══════════════════════════════════════");
+    lines.push("Results are indicative. Dyno validation recommended.");
+    lines.push("Book: dpautorepair.co.uk | (01246) 233483");
+    lines.push("═══════════════════════════════════════");
+
+    const blob = new Blob([lines.filter(Boolean).join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `remap-estimate${vehicleLabel ? "-" + vehicleLabel.replace(/\s+/g, "-").toLowerCase() : ""}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Results exported!");
+  }, [gains, vehicleLabel, economyMode, ecoData, activeEngineType]);
+
+  const displayedStages = gains.isAiPowered
+    ? gains.stages.slice(0, 2)
+    : showAllStages
+      ? gains.stages
+      : gains.stages.slice(0, 2);
+
   return (
     <section className={cn("py-10 md:py-16", className)} aria-labelledby="calc-heading">
       <div className="container mx-auto px-4 max-w-5xl">
-        <Card className="shadow-card border-0 overflow-hidden">
-          <CardHeader className="px-4 md:px-6">
-            <CardTitle id="calc-heading" className="text-xl md:text-2xl flex items-center gap-2">
-              <Gauge className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-              Performance Gain Calculator
-            </CardTitle>
+        <Card className="shadow-card border-0 overflow-hidden" ref={resultsRef}>
+          <CardHeader className="px-4 md:px-6 pb-2">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <CardTitle id="calc-heading" className="text-xl md:text-2xl flex items-center gap-2">
+                <Gauge className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                Performance Gain Calculator
+              </CardTitle>
+              <div className="flex items-center gap-1.5">
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-xs gap-1 h-8">
+                  <Share2 className="w-3.5 h-3.5" /> Share
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleExport} className="text-xs gap-1 h-8">
+                  <Download className="w-3.5 h-3.5" /> Export
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-6 md:gap-8 px-4 md:px-6">
             {/* Left: Inputs */}
             <div className="space-y-4">
-              <Tabs value={mode} onValueChange={(v) => { setMode(v as typeof mode); if (v !== "ai") setAiGains(null); }} className="space-y-4">
+              <Tabs value={mode} onValueChange={(v) => { setMode(v as typeof mode); if (v !== "ai") setAiGains(null); setSelectedStage(null); }} className="space-y-4">
                 <TabsList className="grid grid-cols-3 w-full h-auto">
                   <TabsTrigger value="vehicle" className="text-xs sm:text-sm py-2">By Vehicle</TabsTrigger>
                   <TabsTrigger value="ai" className="flex items-center gap-1 text-xs sm:text-sm py-2">
@@ -227,12 +362,12 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                   <TabsTrigger value="manual" className="text-xs sm:text-sm py-2">Manual</TabsTrigger>
                 </TabsList>
 
-                {/* Vehicle tab (unchanged logic) */}
+                {/* Vehicle tab */}
                 <TabsContent value="vehicle" className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="make">Make</Label>
-                      <Select value={make} onValueChange={(v) => { setMake(v); setModel(""); setVariant(""); }}>
+                      <Select value={make} onValueChange={(v) => { setMake(v); setModel(""); setVariant(""); setSelectedStage(null); }}>
                         <SelectTrigger id="make"><SelectValue placeholder="Select make" /></SelectTrigger>
                         <SelectContent>{makes.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
                       </Select>
@@ -248,6 +383,7 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                       <Label htmlFor="variant">Engine/Variant</Label>
                       <Select disabled={!model} value={variant} onValueChange={(v) => {
                         setVariant(v);
+                        setSelectedStage(null);
                         const mod = REMAP_DB[make]?.models.find((mm) => mm.name === model);
                         const vObj = mod?.variants.find((vv) => vv.name === v);
                         if (vObj) { setEngine(vObj.engineType as EnginePreset); setHp(vObj.hp); setNm(vObj.nm); }
@@ -318,7 +454,7 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="engine">Engine type</Label>
-                      <Select value={engine} onValueChange={(v) => setEngine(v as EnginePreset)}>
+                      <Select value={engine} onValueChange={(v) => { setEngine(v as EnginePreset); setSelectedStage(null); }}>
                         <SelectTrigger id="engine"><SelectValue placeholder="Select engine" /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="petrol_turbo">Turbo Petrol</SelectItem>
@@ -339,14 +475,40 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                 </TabsContent>
               </Tabs>
 
-              {/* Recommended stage */}
-              <div className="rounded-md p-4 bg-secondary/10">
+              {/* Stage selector pills */}
+              <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm font-medium">
-                  <Zap className="w-4 h-4 text-primary" />
-                  Recommended stage
+                  <Trophy className="w-4 h-4 text-primary" />
+                  Select Tuning Stage
                 </div>
-                <p className="mt-1 text-2xl font-semibold">Stage {gains.recommendedStage}</p>
-                <p className="text-muted-foreground text-sm">Estimates vary by vehicle condition and hardware. Dyno validation recommended.</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {(gains.isAiPowered ? gains.stages.slice(0, 2) : gains.stages).map((s) => {
+                    const isSelected = (selectedStage !== null ? selectedStage : gains.recommendedStage - 1) === s.stage - 1;
+                    return (
+                      <button
+                        key={s.stage}
+                        onClick={() => setSelectedStage(s.stage - 1)}
+                        className={cn(
+                          "relative rounded-lg border p-2.5 sm:p-3 text-center transition-all duration-200",
+                          isSelected
+                            ? "border-primary bg-primary/10 shadow-sm ring-1 ring-primary/30"
+                            : "border-border hover:border-primary/40 hover:bg-primary/5"
+                        )}
+                      >
+                        <div className="text-[10px] text-muted-foreground mb-0.5">Stage {s.stage}</div>
+                        <div className={cn("text-sm font-bold", isSelected ? "text-primary" : "text-foreground")}>
+                          +{s.power.gain} hp
+                        </div>
+                        <div className="text-[10px] text-muted-foreground">+{s.torque.gain} Nm</div>
+                        {s.stage === gains.recommendedStage && (
+                          <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[8px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap">
+                            Recommended
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Economy remap toggle */}
@@ -362,7 +524,7 @@ export default function PerformanceGainCalculator({ className }: { className?: s
               </div>
 
               {economyMode && (
-                <div className="rounded-md p-3 md:p-4 bg-accent/5 border border-accent/20 space-y-3">
+                <div className="rounded-md p-3 md:p-4 bg-accent/5 border border-accent/20 space-y-3 animate-fade-in">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <Fuel className="w-4 h-4 text-primary" />
                     Estimated Fuel Savings
@@ -397,29 +559,56 @@ export default function PerformanceGainCalculator({ className }: { className?: s
               </div>
             </div>
 
-            {/* Right: Results with progress bars */}
+            {/* Right: Visual Results */}
             <div className="space-y-5 md:space-y-6">
-              {/* Summary cards */}
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                <div className="rounded-lg border p-3 md:p-4">
-                  <div className="text-xs md:text-sm text-muted-foreground">Original</div>
-                  <div className="mt-1 text-xl md:text-2xl font-semibold">{gains.originalPower} hp</div>
-                  <div className="text-xs md:text-sm">{gains.originalTorque} Nm</div>
+              {/* Circular gauges for active stage */}
+              <div className="rounded-xl border bg-gradient-to-br from-background to-secondary/10 p-4 md:p-6">
+                {vehicleLabel && (
+                  <p className="text-xs font-medium text-muted-foreground text-center mb-3">{vehicleLabel}</p>
+                )}
+                <div className="flex justify-center gap-6 sm:gap-10">
+                  <CircularGauge
+                    value={activeStage.power.final}
+                    max={maxPower}
+                    label="Power"
+                    unit="hp"
+                    gain={activeStage.power.gain}
+                  />
+                  <CircularGauge
+                    value={activeStage.torque.final}
+                    max={maxTorque}
+                    label="Torque"
+                    unit="Nm"
+                    gain={activeStage.torque.gain}
+                  />
                 </div>
-                <div className="rounded-lg border p-3 md:p-4 border-primary/30 bg-primary/5">
-                  <div className="text-xs md:text-sm text-muted-foreground flex items-center gap-1 md:gap-2">
-                    <Gauge className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" /> Best result
+                <div className="text-center mt-3">
+                  <span className="text-xs text-muted-foreground">Stage {activeStage.stage}</span>
+                  {activeStage.stage === gains.recommendedStage && (
+                    <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-medium ml-2">Recommended</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Before / After comparison */}
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                <div className="rounded-lg border p-3 md:p-4 bg-secondary/5">
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Stock</div>
+                  <div className="text-xl md:text-2xl font-bold">{gains.originalPower} <span className="text-sm font-normal text-muted-foreground">hp</span></div>
+                  <div className="text-sm text-muted-foreground">{gains.originalTorque} Nm</div>
+                </div>
+                <div className="rounded-lg border border-primary/30 p-3 md:p-4 bg-primary/5">
+                  <div className="text-[10px] uppercase tracking-wider text-primary mb-1 flex items-center gap-1">
+                    <Zap className="w-3 h-3" /> Remapped
                   </div>
-                  <div className="mt-1 text-xl md:text-2xl font-semibold text-primary">
-                    {gains.stages[gains.stages.length - 1].power.final} hp
-                  </div>
-                  <div className="text-xs md:text-sm">{gains.stages[gains.stages.length - 1].torque.final} Nm</div>
+                  <div className="text-xl md:text-2xl font-bold text-primary">{activeStage.power.final} <span className="text-sm font-normal text-primary/70">hp</span></div>
+                  <div className="text-sm text-primary/80">{activeStage.torque.final} Nm</div>
                 </div>
               </div>
 
               {/* Stage-by-stage progress bars */}
               <div className="space-y-5">
-                {gains.stages.slice(0, gains.isAiPowered ? 2 : 4).map((s) => (
+                {displayedStages.map((s) => (
                   <div key={s.stage} className="space-y-2">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-semibold">Stage {s.stage}</span>
@@ -431,6 +620,19 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                     <ProgressBar label="Torque" original={gains.originalTorque} final={s.torque.final} unit="Nm" maxVal={maxTorque} />
                   </div>
                 ))}
+                
+                {/* Show more/less stages toggle (non-AI only) */}
+                {!gains.isAiPowered && gains.stages.length > 2 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowAllStages(!showAllStages)}
+                    className="w-full text-xs text-muted-foreground hover:text-foreground gap-1"
+                  >
+                    {showAllStages ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    {showAllStages ? "Show fewer stages" : `Show all ${gains.stages.length} stages`}
+                  </Button>
+                )}
               </div>
 
               {gains.isAiPowered && (
