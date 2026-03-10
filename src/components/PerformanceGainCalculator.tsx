@@ -83,10 +83,10 @@ function computeAiGains(data: AiVehicleData): Gains {
   const s1TorqueGain = data.stage1Nm - data.stockNm;
   const s2PowerGain = data.stage2Hp - data.stockHp;
   const s2TorqueGain = data.stage2Nm - data.stockNm;
-  const s3PowerGain = Math.round(s2PowerGain * 1.15);
-  const s3TorqueGain = Math.round(s2TorqueGain * 1.12);
-  const s4PowerGain = Math.round(s2PowerGain * 1.25);
-  const s4TorqueGain = Math.round(s2TorqueGain * 1.2);
+  const s3PowerGain = Math.round(s2PowerGain * 1.10);
+  const s3TorqueGain = Math.round(s2TorqueGain * 1.08);
+  const s4PowerGain = Math.round(s2PowerGain * 1.18);
+  const s4TorqueGain = Math.round(s2TorqueGain * 1.15);
 
   const stages: StageResult[] = [
     { stage: 1, power: { final: data.stage1Hp, gain: s1PowerGain }, torque: { final: data.stage1Nm, gain: s1TorqueGain } },
