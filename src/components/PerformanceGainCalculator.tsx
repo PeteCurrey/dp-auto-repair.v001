@@ -357,7 +357,7 @@ export default function PerformanceGainCalculator({ className }: { className?: s
                 <TabsList className="grid grid-cols-3 w-full h-auto">
                   <TabsTrigger value="vehicle" className="text-xs sm:text-sm py-2">By Vehicle</TabsTrigger>
                   <TabsTrigger value="ai" className="flex items-center gap-1 text-xs sm:text-sm py-2">
-                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span>AI Search</span>
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span>Search</span>
                   </TabsTrigger>
                   <TabsTrigger value="manual" className="text-xs sm:text-sm py-2">Manual</TabsTrigger>
                 </TabsList>
