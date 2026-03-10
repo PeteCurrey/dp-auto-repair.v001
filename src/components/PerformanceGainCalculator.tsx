@@ -15,15 +15,15 @@ import { toast } from "sonner";
 
 // Economy remap fuel saving estimates by engine type
 const economySavings: Record<EnginePreset, { mpgGainPct: number; co2ReductionPct: number; annualSavingGbp: number }> = {
-  petrol_turbo: { mpgGainPct: 10, co2ReductionPct: 8, annualSavingGbp: 220 },
-  diesel_turbo: { mpgGainPct: 15, co2ReductionPct: 12, annualSavingGbp: 340 },
-  petrol_na: { mpgGainPct: 5, co2ReductionPct: 4, annualSavingGbp: 110 },
+  petrol_turbo: { mpgGainPct: 8, co2ReductionPct: 6, annualSavingGbp: 180 },
+  diesel_turbo: { mpgGainPct: 12, co2ReductionPct: 10, annualSavingGbp: 280 },
+  petrol_na: { mpgGainPct: 3, co2ReductionPct: 3, annualSavingGbp: 70 },
 };
 
 const presets = {
-  "petrol_turbo": { s1: { p: 0.2, t: 0.25 }, s2: { p: 0.3, t: 0.35 }, s3: { p: 0.35, t: 0.4 }, s4: { p: 0.38, t: 0.45 } },
-  "diesel_turbo": { s1: { p: 0.25, t: 0.35 }, s2: { p: 0.3, t: 0.45 }, s3: { p: 0.35, t: 0.5 }, s4: { p: 0.38, t: 0.55 } },
-  "petrol_na": { s1: { p: 0.08, t: 0.1 }, s2: { p: 0.1, t: 0.12 }, s3: { p: 0.12, t: 0.15 }, s4: { p: 0.12, t: 0.15 } },
+  "petrol_turbo": { s1: { p: 0.15, t: 0.20 }, s2: { p: 0.25, t: 0.30 }, s3: { p: 0.30, t: 0.35 }, s4: { p: 0.35, t: 0.38 } },
+  "diesel_turbo": { s1: { p: 0.20, t: 0.25 }, s2: { p: 0.25, t: 0.35 }, s3: { p: 0.30, t: 0.40 }, s4: { p: 0.35, t: 0.45 } },
+  "petrol_na": { s1: { p: 0.05, t: 0.06 }, s2: { p: 0.08, t: 0.09 }, s3: { p: 0.10, t: 0.12 }, s4: { p: 0.10, t: 0.12 } },
 } as const;
 
 type EnginePreset = keyof typeof presets;
