@@ -1,3 +1,7 @@
+"use client";
+
+"use client";
+
 import React from 'react';
 import { useSEO } from '@/hooks/useSEO';
 import Header from '@/components/Header';
@@ -5,6 +9,7 @@ import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
 import SchemaMarkup from '@/components/SchemaMarkup';
 import FAQSection from '@/components/FAQSection';
+import DVLAMotChecker from '@/components/DVLAMotChecker';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -57,7 +62,6 @@ interface ServiceComparisonTemplateProps {
   
   // Optional DVLA Checker
   showDVLAChecker?: boolean;
-  dvlaCheckerComponent?: React.ReactNode;
 }
 
 const ServiceComparisonTemplate = ({
@@ -73,8 +77,7 @@ const ServiceComparisonTemplate = ({
   service1Details,
   service2Details,
   faqs,
-  showDVLAChecker = false,
-  dvlaCheckerComponent
+  showDVLAChecker = false
 }: ServiceComparisonTemplateProps) => {
   // SEO Configuration
   useSEO({
@@ -184,11 +187,11 @@ const ServiceComparisonTemplate = ({
           </section>
 
           {/* DVLA Checker Component */}
-          {showDVLAChecker && dvlaCheckerComponent && (
+          {showDVLAChecker && (
             <section className="py-12 bg-background">
               <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
-                  {dvlaCheckerComponent}
+                  <DVLAMotChecker />
                 </div>
               </div>
             </section>

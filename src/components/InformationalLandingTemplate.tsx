@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { useSEO } from '@/hooks/useSEO';
 import Header from '@/components/Header';
@@ -8,6 +10,8 @@ import FAQSection from '@/components/FAQSection';
 import RelatedServices from '@/components/RelatedServices';
 import ServiceCategoryNav from '@/components/ServiceCategoryNav';
 import PopularServices from '@/components/PopularServices';
+import PerformanceCalculator from '@/components/tuning/PerformanceCalculator';
+import DVLAMotChecker from '@/components/DVLAMotChecker';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -44,13 +48,11 @@ interface InformationalLandingTemplateProps {
   ctaDescription?: string;
   
   // FAQ
-  faqs: FAQItem[];
+  faqs?: FAQItem[];
   
   // Optional Components
   showCalculator?: boolean;
   showDVLAChecker?: boolean;
-  calculatorComponent?: React.ReactNode;
-  dvlaCheckerComponent?: React.ReactNode;
 }
 
 const InformationalLandingTemplate = ({
@@ -60,15 +62,13 @@ const InformationalLandingTemplate = ({
   keywords,
   h1,
   intro,
-  mainContent,
-  quickFacts,
+  mainContent = [],
+  quickFacts = [],
   ctaTitle = "Need Expert Automotive Service?",
   ctaDescription = "Contact DP Auto Repair for professional automotive services in Chesterfield. Our certified technicians are ready to help.",
-  faqs,
+  faqs = [],
   showCalculator = false,
-  showDVLAChecker = false,
-  calculatorComponent,
-  dvlaCheckerComponent
+  showDVLAChecker = false
 }: InformationalLandingTemplateProps) => {
   // SEO Configuration
   useSEO({
@@ -111,7 +111,7 @@ const InformationalLandingTemplate = ({
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
+    "mainEntity": (faqs || []).map(faq => ({
       "@type": "Question",
       "name": faq.question,
       "acceptedAnswer": {
@@ -173,17 +173,17 @@ const InformationalLandingTemplate = ({
         
         <main>
           {/* Breadcrumb */}
-          <div className="bg-muted/30 border-b">
+          <div className="absolute top-[110px] md:top-[130px] left-0 right-0 z-20">
             <div className="container mx-auto px-4 py-4">
               <Breadcrumb items={breadcrumbItems} />
             </div>
           </div>
 
           {/* Hero Section */}
-          <section className="py-12 bg-gradient-to-r from-secondary via-secondary/95 to-primary/20">
-            <div className="container mx-auto px-4">
+          <section className="relative pt-[160px] pb-24 -mt-[160px] bg-gradient-to-r from-secondary via-secondary/95 to-primary/20">
+            <div className="container mx-auto px-4 relative z-10 pt-16 md:pt-20">
               <div className="max-w-4xl mx-auto text-center">
-                <h1 className="text-4xl lg:text-5xl font-bold text-secondary-foreground mb-6">
+                <h1 className="text-4xl lg:text-5xl font-light text-secondary-foreground mb-6">
                   {h1}
                 </h1>
                 <p className="text-xl text-secondary-foreground/90 mb-8 leading-relaxed">
@@ -212,12 +212,12 @@ const InformationalLandingTemplate = ({
                     <Card key={index} className="text-center hover-lift shadow-card">
                       <CardContent className="p-6">
                         {fact.icon && (
-                          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                          <div className="mx-auto w-12 h-12 bg-transparent border border-primary/20 flex items-center justify-center mb-6" aria-hidden="true">
                             {fact.icon}
                           </div>
                         )}
-                        <h3 className="font-semibold text-foreground mb-2">{fact.title}</h3>
-                        <p className="text-2xl font-bold text-primary">{fact.value}</p>
+                        <h2 className="font-normal text-foreground mb-2">{fact.title}</h2>
+                        <p className="text-2xl font-light text-primary">{fact.value}</p>
                       </CardContent>
                     </Card>
                   ))}
@@ -227,30 +227,32 @@ const InformationalLandingTemplate = ({
           )}
 
           {/* Calculator Component */}
-          {showCalculator && calculatorComponent && (
+          {showCalculator && (
             <section className="py-12 bg-muted/30">
               <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
                   <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-foreground mb-4">
+                    <h2 className="text-3xl font-light text-foreground mb-4">
                       Performance Calculator
                     </h2>
                     <p className="text-muted-foreground">
                       Estimate your vehicle's potential performance gains
                     </p>
                   </div>
-                  {calculatorComponent}
+                  <div className="animate-fade-in">
+                    <PerformanceCalculator />
+                  </div>
                 </div>
               </div>
             </section>
           )}
 
           {/* DVLA Checker Component */}
-          {showDVLAChecker && dvlaCheckerComponent && (
+          {showDVLAChecker && (
             <section className="py-12 bg-background">
               <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
-                  {dvlaCheckerComponent}
+                  <DVLAMotChecker />
                 </div>
               </div>
             </section>
@@ -264,7 +266,7 @@ const InformationalLandingTemplate = ({
                   <div key={index} className="mb-12">
                     <Card className="shadow-card">
                       <CardContent className="p-8">
-                        <h2 className="text-2xl font-bold text-foreground mb-6">
+                        <h2 className="text-2xl font-light text-foreground mb-6">
                           {section.title}
                         </h2>
                         <div className="prose max-w-none">
@@ -294,33 +296,33 @@ const InformationalLandingTemplate = ({
           <section className="py-12 bg-muted/30">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+                <h2 className="text-3xl font-light text-center text-foreground mb-12">
                   Why Choose DP Auto Repair?
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Shield className="w-8 h-8 text-primary" />
+                    <div className="w-16 h-16 bg-transparent border border-primary/20 flex items-center justify-center mx-auto mb-6" aria-hidden="true">
+                      <Shield className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">12 Month Warranty</h3>
+                    <h3 className="text-xl font-normal text-foreground mb-2">12 Month Warranty</h3>
                     <p className="text-muted-foreground">
                       All work comes with our comprehensive 12-month warranty for your peace of mind.
                     </p>
                   </div>
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <MapPin className="w-8 h-8 text-primary" />
+                    <div className="w-16 h-16 bg-transparent border border-primary/20 flex items-center justify-center mx-auto mb-6">
+                      <MapPin className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Chesterfield Location</h3>
+                    <h3 className="text-xl font-normal text-foreground mb-2">Chesterfield Location</h3>
                     <p className="text-muted-foreground">
                       Conveniently located in Chesterfield, serving customers across Derbyshire.
                     </p>
                   </div>
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Clock className="w-8 h-8 text-primary" />
+                    <div className="w-16 h-16 bg-transparent border border-primary/20 flex items-center justify-center mx-auto mb-6" aria-hidden="true">
+                      <Clock className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Quick Turnaround</h3>
+                    <h3 className="text-xl font-normal text-foreground mb-2">Quick Turnaround</h3>
                     <p className="text-muted-foreground">
                       Efficient service with same-day completion available for many services.
                     </p>
@@ -364,7 +366,7 @@ const InformationalLandingTemplate = ({
           <section className="py-16 bg-gradient-to-r from-primary via-primary to-primary-glow">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-6">
+                <h2 className="text-3xl lg:text-4xl font-light text-primary-foreground mb-6">
                   {ctaTitle}
                 </h2>
                 <p className="text-xl text-primary-foreground/90 mb-8">

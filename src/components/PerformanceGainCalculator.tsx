@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo, useState, useRef, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight, Gauge, Zap, Search, Sparkles, Info, Fuel, Leaf, Download, Share2, TrendingUp, Trophy, ChevronDown, ChevronUp } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { REMAP_DB } from "@/data/remap-db";
 import { toast } from "sonner";
@@ -551,10 +553,10 @@ export default function PerformanceGainCalculator({ className }: { className?: s
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button className="gradient-primary text-primary-foreground w-full sm:w-auto" asChild>
-                  <Link to="/contact"><ArrowRight className="w-4 h-4 mr-2" />Get Remap Quote</Link>
+                  <Link href="/contact"><ArrowRight className="w-4 h-4 mr-2" />Get Remap Quote</Link>
                 </Button>
                 <Button variant="outline" className="w-full sm:w-auto" asChild>
-                  <Link to="/contact">Book Consultation</Link>
+                  <Link href="/contact">Book Consultation</Link>
                 </Button>
               </div>
             </div>

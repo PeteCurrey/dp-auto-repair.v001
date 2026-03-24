@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -40,8 +42,13 @@ const API_KEYS_CONFIG = [
   },
   {
     name: 'DVLA API Key',
-    description: 'For vehicle registration lookups',
+    description: 'For vehicle registration lookups (UK Vehicle Data / VES)',
     envVar: 'DVLA_API_KEY',
+  },
+  {
+    name: 'Claude API Key',
+    description: 'Anthropic Claude API for technician-style tuning advice',
+    envVar: 'CLAUDE_API_KEY',
   },
 ];
 
@@ -310,6 +317,15 @@ const ApiKeysTab = () => {
               <li>Apply for API access at <a href="https://dvla.gov.uk" target="_blank" rel="noopener noreferrer" className="text-primary underline">DVLA API services</a></li>
               <li>Once approved, obtain your API key</li>
               <li>Enter the key above</li>
+            </ol>
+          </div>
+
+          <div className="space-y-2">
+            <h4 className="font-medium text-white">Claude AI (Tuning Advice)</h4>
+            <ol className="list-decimal list-inside text-sm text-white/70 space-y-1">
+              <li>Sign up at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">anthropic.com</a></li>
+              <li>Create an API key (Claude 3.5 Sonnet recommended)</li>
+              <li>Paste the key above</li>
             </ol>
           </div>
         </CardContent>

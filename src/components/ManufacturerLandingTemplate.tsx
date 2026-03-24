@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,7 +10,6 @@ import Breadcrumb from '@/components/Breadcrumb';
 import RelatedServices from '@/components/RelatedServices';
 import ServiceCategoryNav from '@/components/ServiceCategoryNav';
 import LocalAreaLinks from '@/components/LocalAreaLinks';
-import { useSEO } from '@/hooks/useSEO';
 import { 
   CheckCircle, 
   Clock, 
@@ -19,7 +20,7 @@ import {
   Phone,
   MapPin
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import SchemaMarkup from '@/components/SchemaMarkup';
 
 interface ManufacturerLandingProps {
@@ -42,14 +43,6 @@ export const ManufacturerLandingTemplate = ({
   commonIssues,
   servicePackages
 }: ManufacturerLandingProps) => {
-  useSEO({
-    title: `${manufacturer} Routine Servicing in Chesterfield | DP Automotive`,
-    description: `Expert ${manufacturer} routine servicing in Chesterfield. Specialist knowledge, genuine parts, competitive prices. Book your ${manufacturer} service today.`,
-    keywords: `${manufacturer} service, ${manufacturer} servicing Chesterfield, ${manufacturer} garage, ${manufacturer} specialist, routine service ${manufacturer.toLowerCase()}`,
-    canonical: `https://dpautorepair.co.uk/${manufacturer.toLowerCase()}-servicing-chesterfield`,
-    ogTitle: `${manufacturer} Servicing Specialists in Chesterfield`,
-    ogDescription: `Trust DP Automotive for your ${manufacturer} routine servicing in Chesterfield. Expert technicians, genuine parts, competitive prices.`
-  });
 
   const benefits = [
     'Specialist knowledge of your vehicle make',
@@ -131,7 +124,7 @@ export const ManufacturerLandingTemplate = ({
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="text-lg px-8">
-                <Link to="/contact">Book Your Service</Link>
+                <Link href="/contact">Book Your Service</Link>
               </Button>
               <Button variant="outline" size="lg" asChild className="text-lg px-8">
                 <a href="tel:+441246233483">
@@ -323,7 +316,7 @@ export const ManufacturerLandingTemplate = ({
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" variant="secondary" className="text-lg px-8">
-                <Link to="/contact">Book Online</Link>
+                <Link href="/contact">Book Online</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
                 <a href="tel:+441246233483">

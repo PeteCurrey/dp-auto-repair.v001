@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
 
 interface BreadcrumbItem {
@@ -12,11 +13,11 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb = ({ items, className = "" }: BreadcrumbProps) => {
-  const location = useLocation();
+  const pathname = usePathname();
   
   // Auto-generate breadcrumbs if not provided
   const generateBreadcrumbs = (): BreadcrumbItem[] => {
-    const pathnames = location.pathname.split('/').filter(x => x);
+    const pathnames = pathname.split('/').filter(x => x);
     
     const breadcrumbs: BreadcrumbItem[] = [
       { label: 'Home', href: '/' }
@@ -62,7 +63,7 @@ const Breadcrumb = ({ items, className = "" }: BreadcrumbProps) => {
             
             {item.href ? (
               <Link 
-                to={item.href}
+                href={item.href}
                 className="hover:text-primary transition-colors"
               >
                 {item.label}

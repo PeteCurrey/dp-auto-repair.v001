@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MessageSquare, Search, Car, Users, TrendingUp, Clock, Wrench, FileText, CreditCard, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import heroImage from "@/assets/hero-garage.jpg";
-import dpLogo from "/lovable-uploads/1eaab9f6-6ddb-41c1-a642-f8a3b7cca707.png";
+const dpLogo = "/lovable-uploads/1eaab9f6-6ddb-41c1-a642-f8a3b7cca707.png";
 import NotificationsPanel from './NotificationsPanel';
 import DailyJobSheet from './DailyJobSheet';
 
@@ -160,7 +162,7 @@ const DashboardWelcome = ({
       {/* Hero Background */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-        style={{ backgroundImage: `url(${heroImage})` }}
+        style={{ backgroundImage: `url(${heroImage.src})` }}
       >
         <div className="absolute inset-0 gradient-hero" />
       </div>

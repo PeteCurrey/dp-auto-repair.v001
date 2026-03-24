@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Star, ArrowRight, Clock, MapPin } from 'lucide-react';
 
 interface PopularServicesProps {
@@ -100,7 +100,7 @@ const PopularServices = ({
               <p className="text-sm text-muted-foreground">Our most requested automotive services</p>
             </div>
             <Button asChild variant="outline" size="sm">
-              <Link to="/services">
+              <Link href="/services">
                 View All Services
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Link>
@@ -135,7 +135,7 @@ const PopularServices = ({
                   </div>
                   
                   <Button asChild size="sm" variant="outline" className="w-full text-xs">
-                    <Link to={service.href}>
+                    <Link href={service.href}>
                       Learn More
                     </Link>
                   </Button>
@@ -200,7 +200,7 @@ const PopularServices = ({
                   </div>
                   
                   <Button asChild className="w-full">
-                    <Link to={service.href}>
+                    <Link href={service.href}>
                       Book Service
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Link>
@@ -212,7 +212,7 @@ const PopularServices = ({
           
           <div className="text-center mt-8">
             <Button asChild variant="outline" size="lg">
-              <Link to="/services">
+              <Link href="/services">
                 View All Services
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Link>

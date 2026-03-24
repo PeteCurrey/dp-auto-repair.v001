@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { CreditCard, DollarSign, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

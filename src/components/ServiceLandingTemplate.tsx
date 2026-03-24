@@ -1,3 +1,7 @@
+"use client";
+
+"use client";
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -8,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Phone, Calendar, Shield, Wrench, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useSEO } from '@/hooks/useSEO';
 import SchemaMarkup from '@/components/SchemaMarkup';
 
@@ -104,7 +108,7 @@ const ServiceLandingTemplate = ({
             <p className="text-lg md:text-xl text-muted-foreground mb-8">{intro}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="px-8">
-                <Link to="/contact">
+                <Link href="/contact">
                   <Calendar className="h-5 w-5 mr-2" />
                   Book Online
                 </Link>
@@ -127,9 +131,9 @@ const ServiceLandingTemplate = ({
             <h2 className="text-3xl font-bold text-primary mb-4">
               Why Choose DP Automotive for {serviceType} in Chesterfield?
             </h2>
-            <h3 className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Your trusted local garage with proven expertise and transparent service
-            </h3>
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {benefits.map((b, i) => (
@@ -151,9 +155,9 @@ const ServiceLandingTemplate = ({
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-4">Our {serviceType} Service Includes</h2>
-            <h3 className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+            <p className="text-lg text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
               Comprehensive service features designed for your peace of mind
-            </h3>
+            </p>
             <div className="grid md:grid-cols-2 gap-6">
               {features.map((f, idx) => (
                 <Card key={idx}>
@@ -177,30 +181,30 @@ const ServiceLandingTemplate = ({
             <h2 className="text-3xl font-bold text-primary mb-4">
               Your Trusted Chesterfield {serviceType} Specialists
             </h2>
-            <h3 className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Quality service backed by comprehensive warranties and local expertise
-            </h3>
+            </p>
           </div>
           <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 text-center">
             <Card>
               <CardHeader>
                 <Shield className="h-10 w-10 text-primary mx-auto mb-2" />
-                <h4 className="text-xl font-semibold">12‑Month Warranty</h4>
-                <h5 className="text-muted-foreground">On parts and labour</h5>
+                <h3 className="text-xl font-semibold">12‑Month Warranty</h3>
+                <p className="text-muted-foreground">On parts and labour</p>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader>
                 <MapPin className="h-10 w-10 text-primary mx-auto mb-2" />
-                <h4 className="text-xl font-semibold">Chesterfield Garage</h4>
-                <h5 className="text-muted-foreground">Easy to reach location</h5>
+                <h3 className="text-xl font-semibold">Chesterfield Garage</h3>
+                <p className="text-muted-foreground">Easy to reach location</p>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader>
                 <Calendar className="h-10 w-10 text-primary mx-auto mb-2" />
-                <h4 className="text-xl font-semibold">Fast Turnaround</h4>
-                <h5 className="text-muted-foreground">Same‑day on many jobs</h5>
+                <h3 className="text-xl font-semibold">Fast Turnaround</h3>
+                <p className="text-muted-foreground">Same‑day on many jobs</p>
               </CardHeader>
             </Card>
           </div>
@@ -212,17 +216,17 @@ const ServiceLandingTemplate = ({
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-4">{serviceType} Questions Answered</h2>
-            <h3 className="text-lg text-muted-foreground text-center mb-8 max-w-3xl mx-auto">
+            <p className="text-lg text-muted-foreground text-center mb-8 max-w-3xl mx-auto">
               Common questions about {serviceType.toLowerCase()} services in Chesterfield
-            </h3>
+            </p>
             <div className="grid gap-4">
               {faqs.map((faq, i) => (
                 <Card key={i}>
                   <CardHeader>
-                    <h4 className="text-lg font-semibold">{faq.question}</h4>
+                    <h3 className="text-lg font-semibold">{faq.question}</h3>
                   </CardHeader>
                   <CardContent>
-                    <h5 className="text-muted-foreground">{faq.answer}</h5>
+                    <p className="text-muted-foreground">{faq.answer}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -251,7 +255,7 @@ const ServiceLandingTemplate = ({
           <p className="text-lg mb-8 opacity-90">Get a quick quote or schedule your visit today.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" variant="secondary" className="px-8">
-              <Link to="/contact">Book Online</Link>
+              <Link href="/contact">Book Online</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
               <a href="tel:+441246233483" className="flex items-center">

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -233,8 +235,46 @@ function EnquiriesInbox({ profile }: { profile: Profile }) {
                 
                 {submission.message && (
                   <div>
-                    <h4 className="font-medium text-white mb-1">Message</h4>
-                    <p className="text-white/80">{submission.message}</p>
+                    <h4 className="font-medium text-white mb-2">Message</h4>
+                    {submission.source_page === "Performance Calculator" ? (
+                      <div className="bg-white/5 rounded-2xl p-6 border border-white/10 space-y-4">
+                        <div className="flex flex-wrap gap-2">
+                          {submission.message.split('\n').map((line, i) => {
+                            if (line.startsWith('Goal:')) {
+                              return <Badge key={i} className="gradient-primary text-black border-none uppercase text-[10px] font-bold">{line}</Badge>;
+                            }
+                            if (line.startsWith('Scenario:')) {
+                              const scenario = line.split(': ')[1];
+                              return <Badge key={i} variant="outline" className="border-primary/50 text-primary uppercase text-[10px] font-bold">{scenario.replace('_', ' ')}</Badge>;
+                            }
+                            return null;
+                          })}
+                        </div>
+                        <div className="space-y-3">
+                          {submission.message.split('\n').map((line, i) => {
+                            if (line.startsWith('Notes:')) {
+                              return (
+                                <div key={i}>
+                                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Customer Notes</p>
+                                  <p className="text-sm text-white/80">{line.split(': ')[1] || "No notes provided"}</p>
+                                </div>
+                              );
+                            }
+                            if (line.startsWith('AI Summary:')) {
+                              return (
+                                <div key={i} className="pt-3 border-t border-white/5">
+                                  <p className="text-[10px] font-bold uppercase tracking-widest text-primary/50 mb-1">Technician AI Insight</p>
+                                  <p className="text-sm italic text-white/60">"{line.split(': ')[1]}"</p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          })}
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-white/80">{submission.message}</p>
+                    )}
                   </div>
                 )}
 

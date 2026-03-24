@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { 
   Car, 
   Wrench, 
@@ -137,7 +137,7 @@ const ServiceCategoryNav = ({ currentCategory, className = "" }: ServiceCategory
                     {category.links.map((link, index) => (
                       <Link 
                         key={index}
-                        to={link.href}
+                        href={link.href}
                         className="block text-xs text-primary hover:text-primary/80 transition-colors"
                       >
                         • {link.title}

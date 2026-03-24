@@ -7,7 +7,7 @@ import {
   Facebook, 
   Instagram, 
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const Footer = () => {
@@ -69,7 +69,7 @@ const Footer = () => {
                 ].map(item => (
                   <li key={item.name}>
                     <Link 
-                      to={item.href}
+                      href={item.href}
                       className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors link-underline inline-block"
                     >
                       {item.name}
@@ -88,7 +88,7 @@ const Footer = () => {
                 {quickLinks.map((link) => (
                   <li key={link.name}>
                     <Link 
-                      to={link.href}
+                      href={link.href}
                       className="text-sm opacity-80 hover:opacity-100 hover:text-primary transition-colors link-underline inline-block"
                     >
                       {link.name}
@@ -138,17 +138,10 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-            <p className="text-sm opacity-80">
-              © 2025 DP Automotive Repair & Diagnostics. All rights reserved.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
-              <p className="text-xs opacity-60 flex items-center gap-2">
-                <img src="/lovable-uploads/a40ce8a0-f5e2-429f-9811-0318072bfe29.png" alt="Peter A Currey Signature" className="h-6 w-auto transform rotate-[-1deg]" /> <span className="font-montserrat font-extralight">Signature Build by</span> <a href="https://avorria.com" target="_blank" rel="noopener noreferrer" className="font-montserrat font-extralight tracking-wider hover:text-primary transition-colors">AVORRIA</a>
-              </p>
-            </div>
-          </div>
+        <div className="container mx-auto px-4 py-6 text-center">
+          <p className="text-sm opacity-80">
+            © 2025 DP Automotive Repair & Diagnostics. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

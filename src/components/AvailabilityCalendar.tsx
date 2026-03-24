@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from 'react';
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isBefore, startOfDay, isSameDay } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Wrench, Zap, Shield, Settings, Gauge, Car, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const ServicesOverview = () => {
@@ -84,7 +84,7 @@ const ServicesOverview = () => {
                   </ul>
                   <div className="pt-4 border-t border-border">
                     <Button asChild variant="outline" size="sm" className="w-full group-hover:border-primary/50 transition-colors">
-                      <Link to={service.href}>
+                      <Link href={service.href}>
                         Learn More
                         <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                       </Link>
@@ -100,7 +100,7 @@ const ServicesOverview = () => {
         <ScrollReveal>
           <div className="text-center">
             <Button asChild size="lg" className="gradient-primary text-primary-foreground shadow-elegant hover-lift">
-              <Link to="/services">
+              <Link href="/services">
                 View All Services
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>

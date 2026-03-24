@@ -1,9 +1,11 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 interface Message {
@@ -11,7 +13,7 @@ interface Message {
   content: string;
 }
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
+const CHAT_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/ai-chat`;
 
 const quickReplies = [
   "What services do you offer?",
@@ -31,7 +33,7 @@ const AIChatWidget = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -40,7 +42,7 @@ const AIChatWidget = () => {
   }, [messages]);
 
   const getPageContext = () => {
-    const path = location.pathname;
+    const path = pathname;
     if (path === "/") return "homepage";
     if (path.includes("mot")) return "MOT services";
     if (path.includes("service")) return "servicing";
@@ -61,7 +63,7 @@ const AIChatWidget = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({
           messages: [...messages, userMsg].map((m) => ({

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Wrench, Car, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 interface RelatedService {
   title: string;
@@ -145,7 +145,7 @@ const RelatedServices = ({
                     {service.description}
                   </p>
                   <Button asChild variant="outline" size="sm" className="w-full group">
-                    <Link to={service.link}>
+                    <Link href={service.link}>
                       Learn More
                       <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>

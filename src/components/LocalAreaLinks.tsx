@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { MapPin, Navigation, Phone } from 'lucide-react';
 
 interface LocalAreaLinksProps {
@@ -111,7 +111,7 @@ const LocalAreaLinks = ({ serviceType = "automotive services", className = "" }:
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button asChild size="sm">
-                  <Link to="/contact">
+                  <Link href="/contact">
                     <MapPin className="h-4 w-4 mr-2" />
                     Get Directions
                   </Link>

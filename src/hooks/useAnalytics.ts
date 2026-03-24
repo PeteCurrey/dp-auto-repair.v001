@@ -1,6 +1,5 @@
-
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { usePathname } from "next/navigation";
 import { trackPageview } from "@/lib/analytics";
 
 /**
@@ -8,11 +7,14 @@ import { trackPageview } from "@/lib/analytics";
  * Safe to call with undefined profileId (it will be stored as null).
  */
 export const useAnalytics = (profileId?: string | null) => {
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
-    console.log("[Analytics] Tracking pageview for", location.pathname);
-    trackPageview({ profileId: profileId ?? null });
+    if (pathname) {
+      console.log("[Analytics] Tracking pageview for", pathname);
+      trackPageview({ profileId: profileId ?? null });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [pathname, profileId]);
 };
+
